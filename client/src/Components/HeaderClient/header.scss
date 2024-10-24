@@ -1,0 +1,399 @@
+@import '../../Styles/responsive.scss';
+
+.wrapper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+  z-index: 99;
+  // position: fixed;
+  top: 0px;
+  transition: top 0.5s ease;
+  width: 100%;
+  position: sticky;
+  // background-color: #fff;
+  &:hover {
+    background-color: #fff;
+  }
+  @media (max-width: $xs-max-width) {
+    height: 100px;
+    position: sticky;
+    background-color: #fff;
+  }
+  .menu-icon {
+    display: none;
+    color: #000;
+    &:hover {
+      color: #000 !important;
+    }
+    @media (max-width: $xs-max-width) {
+      margin-left: 10px;
+      display: block;
+    }
+  }
+  .nav {
+    width: 30%;
+    margin-left: 20px;
+    @media (max-width: $xs-max-width) {
+      display: none;
+    }
+    ul {
+      display: flex;
+      column-gap: 20px;
+      li {
+        text-transform: uppercase;
+        &:hover {
+          .modal-shop {
+            display: block;
+          }
+        }
+        a {
+          color: #777777;
+          text-decoration: none;
+          &:hover {
+            border-bottom: 1px solid #000000;
+            color: #6f4a32;
+          }
+        }
+      }
+      .modal-shop {
+        position: absolute;
+        display: none;
+        background-color: #fff;
+        box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+        animation: animationSearchShow 1s ease forwards;
+        z-index: 999;
+        .flex {
+          display: flex;
+          column-gap: 50px;
+          .form-modal {
+            padding: 30px;
+            h3 {
+              font-size: 1rem;
+              font-weight: 500;
+            }
+            ul {
+              display: block;
+              li {
+                font-weight: 300;
+                margin: 15px 0;
+                font-size: 0.9rem;
+                a {
+                  &:hover {
+                    color: #6f4a32;
+                    border-bottom: none;
+                  }
+                }
+              }
+            }
+          }
+          .form-modal-image {
+            img {
+              height: 350px;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+  .logo {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    img {
+      @media (max-width: $xs-max-width) {
+        width: 160px;
+      }
+    }
+  }
+  .action {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    @media (max-width: $xs-max-width) {
+      width: 0;
+    }
+    ul {
+      display: flex;
+      column-gap: 20px;
+      li {
+        cursor: pointer;
+      }
+      .search-icon {
+        @media (max-width: $xs-max-width) {
+          position: absolute;
+          left: 15%;
+        }
+      }
+      .show-modal {
+        @media (max-width: $xs-max-width) {
+          display: none;
+        }
+        .modal-user {
+          display: none;
+          position: absolute;
+          right: 50px;
+          width: 300px;
+          padding: 20px 30px;
+          background-color: #fff;
+          box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+          animation: animationSearchShow 1s ease forwards;
+          h1 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            text-align: center;
+          }
+          .ant-divider {
+            margin: 10px 0;
+          }
+          p {
+            margin: 10px 0;
+            a {
+              text-decoration: none;
+              color: #333;
+              &:hover {
+                color: #6f4a32;
+              }
+            }
+          }
+          button {
+            width: 100%;
+            height: 40px;
+            &:hover {
+              background-color: #e0e0e0;
+              color: #000;
+              border: none;
+            }
+          }
+        }
+        .modal-login {
+          display: none;
+          position: absolute;
+          right: 50px;
+          background: #fff;
+          padding: 10px 20px;
+          border-radius: 5px;
+          box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+          animation: animationSearchShow 1s ease forwards;
+          button {
+            display: block;
+            width: 200px;
+            height: 40px;
+            margin: 10px 0;
+            text-transform: uppercase;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #4d4d4d;
+            }
+            &:last-child {
+              background-color: #ffffff;
+              color: black;
+              border: 1px solid #bdbdbd;
+              &:hover {
+                background-color: #e0e0e0;
+              }
+            }
+          }
+        }
+        &:hover {
+          .modal-login {
+            display: block;
+          }
+          .modal-user {
+            display: block;
+          }
+        }
+      }
+      .favorites {
+        @media (max-width: $xs-max-width) {
+          position: absolute;
+          right: 15%;
+        }
+      }
+    }
+  }
+}
+@keyframes slideUpAnimation {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.slideUp {
+  animation: slideUpAnimation 0.5s ease forwards;
+}
+
+@keyframes slideDownAnimation {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.slideDown {
+  animation: slideDownAnimation 0.5s ease forwards;
+}
+
+// Form Search----------------------------------------------
+
+.modal-search {
+  background-color: #efe8e0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  animation: animationSearchShow 1s ease forwards;
+  .header-search {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px;
+    animation: animationSearchShow 2s ease forwards;
+    @media (max-width: $xs-max-width) {
+      margin: 20px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 300;
+      @media (max-width: $xs-max-width) {
+        font-size: 1.5rem;
+      }
+    }
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.5;
+      @media (max-width: $xs-max-width) {
+        font-size: 1.5rem;
+      }
+      &:hover {
+        scale: 1.1;
+        opacity: 1;
+      }
+    }
+  }
+  .form-search {
+    text-align: center;
+    animation: animationInputSearchShow 2s ease forwards;
+    .input-search {
+      margin: 0 auto;
+      width: 80%;
+      border-bottom: 1px solid #000000;
+      .ant-input-group-wrapper {
+        width: 100%;
+        .ant-input-wrapper {
+          display: flex;
+          align-items: center;
+          .ant-input-affix-wrapper {
+            position: relative;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            font-size: 1.2rem;
+            @media (max-width: $xs-max-width) {
+              font-size: 1rem;
+            }
+          }
+          .ant-input-group-addon {
+            position: absolute;
+            right: 0;
+            .ant-btn {
+              position: absolute;
+              top: -13px;
+              right: 0;
+              border-radius: 0;
+              background-color: transparent;
+              border: none;
+              &:hover {
+                color: #000;
+              }
+            }
+          }
+          .ant-input-clear-icon {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes animationSearchShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes animationInputSearchShow {
+  from {
+    transform: translateY(200%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+// Form Drawer Responsive Menu ----------------------------------------------
+
+.ant-drawer {
+  .ant-drawer-content-wrapper {
+    width: 80% !important;
+    .ant-drawer-header {
+      display: none;
+    }
+    .logo-mobile {
+      text-align: center;
+      img {
+        width: 170px;
+      }
+    }
+    .nav-mobile {
+      ul {
+        li {
+          font-size: 1rem;
+          text-transform: capitalize;
+          margin: 5px 0;
+          padding: 10px 0;
+          border-bottom: 1px solid #e7e7e7;
+          a {
+            color: #333;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+    .btn-auth-mobile {
+      position: absolute;
+      bottom: 15px;
+      width: 85%;
+      button {
+        width: 100%;
+        height: 40px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        outline: none;
+        &:hover {
+          background-color: #4d4d4d;
+        }
+      }
+    }
+  }
+}

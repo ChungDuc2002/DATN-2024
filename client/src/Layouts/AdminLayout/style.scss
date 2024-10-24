@@ -1,0 +1,51 @@
+.wrapper-admin-layout {
+  display: flex;
+  column-gap: 20px;
+
+  .menu-admin-layout {
+    width: 20%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  // ẩn thanh cuộn mặc định của trình duyệt
+  .menu-admin-layout::-webkit-scrollbar {
+    width: 0.5em; /* Độ rộng của thanh cuộn */
+  }
+
+  .menu-admin-layout::-webkit-scrollbar-track {
+    background: transparent; /* Màu nền của thanh cuộn */
+  }
+
+  .menu-admin-layout::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Màu của thanh cuộn */
+    border-radius: 0.25em; /* Độ cong của thanh cuộn */
+  }
+  .content {
+    width: 80%;
+    height: 100vh; //! fix 10/10 can be delete
+    margin-top: 20px;
+    .breadcrumb {
+      border-bottom: 1px solid #e9e9e9;
+      padding-bottom: 10px;
+      .admin-layout-nav {
+        .admin-layout-title {
+          &-left {
+            h1 {
+              font-size: 1.6rem;
+              font-weight: 500;
+            }
+            p {
+              font-size: 1.2rem;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+    .children {
+      margin-top: 20px;
+    }
+  }
+}

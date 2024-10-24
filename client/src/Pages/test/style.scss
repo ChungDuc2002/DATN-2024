@@ -1,0 +1,44 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  .row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.5s ease-in-out;
+      &.active {
+        opacity: 1;
+      }
+      img {
+        width: 100%;
+        height: 500px;
+      }
+      p {
+        position: absolute;
+        top: 10px;
+        color: #fff;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      }
+      &.active p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}

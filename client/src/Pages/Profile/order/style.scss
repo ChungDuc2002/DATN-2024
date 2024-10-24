@@ -1,0 +1,22 @@
+@import '../../../Styles/responsive.scss';
+
+.wrapper-order {
+  height: auto;
+  .empty-order {
+    text-align: center;
+    h3 {
+      padding: 10px 0;
+      font-weight: 400;
+      font-size: 1.2rem;
+    }
+    p {
+      font-size: 1rem;
+      text-transform: uppercase;
+      a {
+        color: #000;
+        font-weight: 300;
+        text-decoration: underline;
+      }
+    }
+  }
+}

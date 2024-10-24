@@ -1,0 +1,135 @@
+// @import '../../Styles/responsive.scss';
+
+// .wrapper-auth {
+//   .image-background {
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     height: 100vh;
+//     filter: brightness(40%);
+//     background-position: center;
+//   }
+//   .ant-image {
+//     width: 100%;
+//   }
+//   // position: relative;
+//   &-form {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     z-index: 999;
+//     width: 1000px;
+//     @media (max-width: $xs-max-width) {
+//       width: 100%;
+//       top: 0;
+//       left: 0;
+//       transform: translate(0, 0);
+//     }
+//     .title {
+//       text-align: center;
+//       padding: 20px 0;
+//       font-size: 3rem;
+//       font-weight: 300;
+//       color: #ffffff;
+//       @media (max-width: $xs-max-width) {
+//         font-size: 2rem;
+//       }
+//     }
+//     .container {
+//       display: flex;
+//       // box-shadow: 0 0 30px 1px rgb(155, 146, 146);
+//       box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+
+//       border-radius: 10px;
+//       height: 500px;
+//       @media (max-width: $xs-max-width) {
+//         box-shadow: none;
+//       }
+
+//       .image {
+//         width: 50%;
+//         @media (max-width: $xs-max-width) {
+//           display: none;
+//         }
+//         img {
+//           width: 500px;
+//           height: 500px;
+//           margin: 0 auto;
+//           display: block;
+//           border-radius: 10px 0 0 10px;
+//         }
+//       }
+//       .form-input {
+//         width: 50%;
+//         height: 500px;
+//         background-color: #202123;
+//         position: relative;
+//         border-radius: 0 10px 10px 0;
+//         @media (max-width: $xs-max-width) {
+//           width: 100%;
+//           background-color: transparent;
+//         }
+//         .form {
+//           width: 400px;
+//           position: absolute;
+//           top: 50%;
+//           left: 55%;
+//           transform: translate(-50%, -50%);
+//           @media (max-width: $xs-max-width) {
+//             width: 100%;
+//             top: 50px;
+//             left: 15px;
+//             transform: translate(0, 0);
+//           }
+//         }
+//         input,
+//         .ant-input-affix-wrapper {
+//           font-size: 1rem;
+//           color: #ffffff;
+//           width: 90%;
+//           border-radius: 2px;
+//           border: none !important;
+//           outline: none !important;
+//           background-color: transparent;
+//           border-bottom: 1px solid #ffffff !important;
+//           box-shadow: none;
+
+//           &::placeholder {
+//             color: #ffffff;
+//           }
+//           &:focus {
+//             border: none !important;
+//             outline: none !important;
+//             box-shadow: none;
+//             border-bottom: 1px solid #ffffff !important;
+//             background-color: transparent;
+//           }
+//           &:hover {
+//             background-color: transparent;
+//           }
+//           .ant-input {
+//             width: 100%;
+//             border: none !important;
+//           }
+//           .anticon-eye,
+//           .anticon-eye-invisible {
+//             color: #ffffff;
+//           }
+//         }
+
+//         button {
+//           width: 90%;
+//           height: 35px;
+//         }
+//         p {
+//           color: #ffffff;
+//           margin-top: 10px;
+//           font-size: 0.9rem;
+//           span {
+//             color: blue;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

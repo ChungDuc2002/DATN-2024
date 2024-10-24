@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
+@import './Styles/responsive.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  user-select: none;
+}
+body {
+  overflow: auto;
+  background-color: #f5f5f5;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
+  height: auto;
+  background-color: #ffffff;
+}
+ul {
+  list-style: none;
+}
+
+//* Title Header Admin Update Modal
+
+.title-admin {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1.5rem;
+  padding: 10px 0;
+}
+
+.title-page-user {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  @media (max-width: $xs-max-width) {
+    font-size: 2.5rem;
+  }
+}
+//* Button edit và xóa trong bảng quản lý
+.btn-action {
+  color: #ffff;
+  // background-color: rgb(61, 61, 218);
+  background-color: #15b392;
+
+  &:last-child {
+    background-color: #ee4e4e;
+    &:hover {
+      background-color: #ee4e4e !important;
+      color: #ffff !important;
+      scale: 1.1;
+      border: none !important;
+    }
+  }
+  &:hover {
+    background-color: #15b392 !important;
+    color: #ffff !important;
+    scale: 1.1;
+    border: none !important;
+  }
+}
+//* border của button backtop homepage
+.ant-float-btn {
+  border: 1px solid #333 !important;
+}

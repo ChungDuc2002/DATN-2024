@@ -1,0 +1,141 @@
+.wrapper-manager-products {
+  &-group-btn {
+    display: flex;
+    justify-content: end;
+    .btn-add-product {
+      background-color: blue !important;
+      border: none;
+      color: #fff;
+      &:hover {
+        color: #fff !important;
+        scale: 1.1 !important;
+      }
+    }
+  }
+  h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 2rem;
+  }
+  &-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .form-body {
+      border: 1px solid #333;
+      border-radius: 10px;
+      margin-top: 30px;
+      img {
+        width: 400px;
+        border-radius: 10px;
+        height: 400px;
+        background-size: cover;
+        image-rendering: crisp-edges;
+        image-rendering: optimizeQuality;
+      }
+      h1 {
+        text-align: center;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        margin: 10px 0;
+        font-weight: 500;
+      }
+      button {
+        background-color: blue;
+        color: #fff;
+        border: none;
+        width: 80%;
+        border-radius: 5px;
+        margin: 0 auto;
+        display: block;
+        height: 35px;
+        &:hover {
+          scale: 1.1 !important;
+          color: #fff !important;
+          background-color: blue !important;
+        }
+      }
+    }
+  }
+}
+
+.ant-radio-group {
+  display: flex;
+  column-gap: 20px;
+  .ant-radio-button-wrapper {
+    border-radius: 5px;
+    border: 1px solid gray;
+    span {
+      font-size: 0.9rem;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+}
+.wrapper-add-new-product {
+  .group-select-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    h3 {
+      font-weight: 400;
+    }
+    .ant-select {
+      width: 150px;
+    }
+  }
+  &-fashion,
+  &-electronics,
+  &-book {
+    form {
+      display: flex;
+      width: 100%;
+      .group-form-input,
+      .group-form-select {
+        width: 50%;
+      }
+      .form {
+        margin: 10px 0;
+        .form-image {
+          display: inline-block;
+          .render_add-new-product {
+            width: 100px;
+            height: 100px;
+            margin: 0 5px;
+          }
+          p {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+          }
+        }
+        label {
+          font-size: 0.9rem;
+          display: block;
+        }
+        input,
+        select,
+        textarea {
+          width: 90%;
+          height: 30px;
+          border-radius: 5px;
+          border: 1px dotted #9b9898;
+          display: block;
+          padding: 0 5px;
+          &:focus {
+            outline: 1px solid blue;
+            border: none;
+          }
+        }
+        textarea {
+          height: 100px;
+          resize: none; /* Ngăn chặn người dùng thay đổi kích thước */
+        }
+      }
+    }
+  }
+}
