@@ -1,13 +1,13 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import NotCartIcon from '../../../Components/Icons/NotCartIcon';
+import { Link } from 'react-router-dom';
+import NotCartIcon from '../../../Components/Icons/NotCartIcon';
 import './style.scss';
 
-// const mockdata = [];
+const mockdata = [];
 const OrderPage = () => {
   return (
     <div className="wrapper-order">
-      {/* {mockdata.length === 0 && (
+      {mockdata.length === 0 && (
         <div className="empty-order">
           <p>
             <NotCartIcon />
@@ -18,10 +18,10 @@ const OrderPage = () => {
           </p>
         </div>
       )}
-      {mockdata.length > 0 &&
+      {/* {mockdata.length > 0 &&
         mockdata.map((item, index) => {
           return <div>Order</div>;
-        })} */}
+        })}{' '} */}
     </div>
   );
 };

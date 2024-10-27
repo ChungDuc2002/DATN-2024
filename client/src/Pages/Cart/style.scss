@@ -1,0 +1,169 @@
+.container {
+  padding: 0 20px;
+}
+.wrapper-cart {
+  margin-top: 50px;
+  .title-page-user {
+    margin-top: 50px;
+  }
+  &-layout {
+    margin: 50px 0;
+    display: flex;
+    width: 100%;
+    column-gap: 10%;
+    &-flex {
+      width: 60%;
+      &-products {
+        display: flex;
+        column-gap: 20px;
+        height: auto;
+        padding-bottom: 10px;
+        margin: 10px 0;
+        border-bottom: 1px solid rgb(150, 147, 147);
+
+        .image {
+          width: 150px;
+          height: 150px;
+          img {
+            width: 140px !important;
+            height: 150px !important;
+            // object-fit: cover;
+          }
+        }
+        .information_product {
+          width: 100%;
+          .title_product {
+            text-transform: capitalize;
+            font-size: 1rem;
+            font-weight: 400;
+          }
+          .size_product {
+            font-size: 0.8rem;
+            font-weight: 400;
+            padding: 5px 0;
+          }
+          .price_product {
+            font-size: 0.8rem;
+            display: flex;
+            column-gap: 10px;
+          }
+          .group-action {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .state-btn {
+              width: 25px;
+              height: 25px;
+              background-color: transparent;
+              border: 1px solid #777777;
+              border-radius: 5px;
+              cursor: pointer;
+            }
+            input {
+              width: 60px;
+              height: 25px;
+              text-align: center;
+              border: 1px solid #777777;
+              border-radius: 5px;
+              // hiden arrow number input
+              &::-webkit-inner-spin-button,
+              &::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+
+              &:focus {
+                outline: none;
+              }
+            }
+            .group-btn {
+              display: flex;
+              column-gap: 10px;
+              .btn-action {
+                padding: 0px 10px;
+                height: 25px;
+                border: 1px solid #777777;
+                border-radius: 5px;
+                cursor: pointer;
+                border-radius: 5px;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                color: #000;
+                outline: none;
+                &:hover {
+                  background-color: transparent !important;
+                  color: #000 !important;
+                  border: 1px solid #777777 !important;
+                  scale: 1.1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &-payment {
+      width: 30%;
+      &-body {
+        background-color: #f6f0e8;
+        border-radius: 10px;
+        padding: 20px;
+        h2 {
+          font-size: 1.3rem;
+          font-weight: 400;
+          margin-bottom: 10px;
+          text-transform: capitalize;
+        }
+        p {
+          display: flex;
+          justify-content: space-between;
+          font-size: 1rem;
+          text-transform: capitalize;
+          padding: 5px 0;
+        }
+        button {
+          margin: 10px auto;
+          font-size: 0.9rem;
+          display: block;
+          width: 70%;
+          padding: 7px 0;
+          border-radius: 50px;
+          background-color: #000;
+          color: #fff;
+          border: none;
+          outline: none;
+          text-transform: capitalize;
+          &:hover {
+            cursor: pointer;
+            scale: 1.1;
+          }
+        }
+        .estimated_time {
+          display: block;
+          width: 100%;
+          text-align: center;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+.wrapper-not-favorite {
+  text-align: center;
+  margin: 50px 0;
+  p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 10px 0;
+  }
+  a {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: underline;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+  }
+}

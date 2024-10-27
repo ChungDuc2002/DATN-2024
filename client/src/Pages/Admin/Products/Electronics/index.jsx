@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Modal, Pagination, Radio, Table } from 'antd';
+import { Button, Checkbox, Modal, Pagination, Radio, Table } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import axios from 'axios';
@@ -11,13 +11,14 @@ const ElectronicsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productPage = 4;
   useEffect(() => {
+    document.title = 'Electronics Page';
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/products/getProductByCategory',
+          'http://localhost:5000/products/getProductByType',
           {
             params: {
-              category: 'Đồ Điện Tử',
+              type: 'electronics',
             },
           }
         );
@@ -179,8 +180,8 @@ function ModalEditProduct({ id, onCancel }) {
   const [imageUpdate, setImageUpdate] = useState([]);
   //! --------------------
   const [selectedValueColor, setSelectedValueColor] = useState('');
+  const [selectedValueTypeProduct, setSelectedValueTypeProduct] = useState('');
   const [selectedValueCategory, setSelectedValueCategory] = useState('');
-  const [selectedValueSize, setSelectedValueSize] = useState('');
 
   // State để theo dõi việc có chọn hình ảnh hay không
   const [isImageSelected, setIsImageSelected] = useState(false);
@@ -207,10 +208,10 @@ function ModalEditProduct({ id, onCancel }) {
       setSelectedValueColor(productId.color);
     }
     if (productId.category) {
-      setSelectedValueCategory(productId.category);
+      setSelectedValueTypeProduct(productId.type);
     }
-    if (productId.sizes) {
-      setSelectedValueSize(productId.sizes);
+    if (productId.category) {
+      setSelectedValueCategory(productId.category);
     }
   }, [productId]);
 
@@ -249,8 +250,8 @@ function ModalEditProduct({ id, onCancel }) {
     formData.append('brand', productId.brand);
     formData.append('material', productId.material);
     formData.append('color', selectedValueColor);
+    formData.append('type', selectedValueTypeProduct);
     formData.append('category', selectedValueCategory);
-    formData.append('sizes', selectedValueSize);
 
     try {
       const result = await axios.put(
@@ -281,39 +282,58 @@ function ModalEditProduct({ id, onCancel }) {
       value: 'Gray',
     },
   ];
-  const optionsCategory = [
+  const optionsType = [
     {
       label: 'Thời Trang',
-      value: 'Thời Trang',
+      value: 'fashion',
     },
     {
       label: 'Đồ Điện Tử',
-      value: 'Đồ Điện Tử',
+      value: 'electronics',
     },
     {
       label: 'Sách',
-      value: 'Sách',
+      value: 'book',
     },
   ];
-  const optionsSize = [
+  const optionsChecked = [
     {
-      label: 'S',
-      value: 'S',
+      label: 'Thiết bị điện tử',
+      value: 'Thiết bị điện tử',
     },
     {
-      label: 'M',
-      value: 'M',
+      label: 'TV & Home Appliances',
+      value: 'TV & Home Appliances',
     },
     {
-      label: 'L',
-      value: 'L',
+      label: 'Fashion & Clothing',
+      value: 'Fashion & Clothing',
     },
     {
-      label: 'XL',
-      value: 'XL',
+      label: 'Book & Audible',
+      value: 'Book & Audible',
+    },
+    {
+      label: 'Accessories',
+      value: 'Accessories',
+    },
+    {
+      label: 'Babies & Toys',
+      value: 'Babies & Toys',
+    },
+    {
+      label: 'Home & Kitchen',
+      value: 'Home & Kitchen',
+    },
+    {
+      label: 'Sport & Travel',
+      value: 'Sport & Travel',
+    },
+    {
+      label: 'Home Audio',
+      value: 'Home Audio',
     },
   ];
-
   return (
     <div className="wrapper-modal-edit-product">
       <form action="" onSubmit={handleSubmit}>
@@ -395,7 +415,9 @@ function ModalEditProduct({ id, onCancel }) {
           </div>
           <div className="group-form-select">
             <div className="form">
-              <label htmlFor="">Image</label>
+              <label htmlFor="" style={{ display: 'block' }}>
+                Image
+              </label>
               {imageUpdate.length > 0
                 ? imageUpdate.map((imageUrl, index) => (
                     <div key={index} className="image-item">
@@ -439,25 +461,25 @@ function ModalEditProduct({ id, onCancel }) {
               />
             </div>
             <div className="form">
-              <label htmlFor="">Category</label>
+              <label htmlFor="">Type Product</label>
               <Radio.Group
                 block
-                options={optionsCategory}
+                options={optionsType}
                 optionType="button"
                 buttonStyle="solid"
-                value={selectedValueCategory}
-                onChange={(e) => setSelectedValueCategory(e.target.value)}
+                value={selectedValueTypeProduct}
+                onChange={(e) => setSelectedValueTypeProduct(e.target.value)}
               />
             </div>
             <div className="form">
-              <label htmlFor="">Size</label>
-              <Radio.Group
-                block
-                options={optionsSize}
-                optionType="button"
-                buttonStyle="solid"
-                value={selectedValueSize}
-                onChange={(e) => setSelectedValueSize(e.target.value)}
+              <label htmlFor="">Category</label>
+              <Checkbox.Group
+                options={optionsChecked}
+                defaultValue={['Thiết bị điện tử']}
+                value={selectedValueCategory}
+                onChange={(checkedValues) =>
+                  setSelectedValueCategory(checkedValues)
+                }
               />
             </div>
           </div>

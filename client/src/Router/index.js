@@ -9,6 +9,8 @@ import ManagerBanner from '../Pages/Admin/Trang-Chu/ManagerBanner';
 import Login from '../Pages/Login';
 import ContactPage from '../Pages/Contact';
 import AboutPage from '../Pages/About';
+import FavoritePage from '../Pages/Favorite';
+import CartPage from '../Pages/Cart';
 import ProfilePage from '../Pages/Profile';
 import InformationProfile from '../Pages/Profile/information';
 import OrderPage from '../Pages/Profile/order';
@@ -53,6 +55,14 @@ const InitRouter = [
       {
         path: '/profile',
         element: <OrderPage />,
+      },
+      {
+        path: '/favorite',
+        element: <FavoritePage />,
+      },
+      {
+        path: '/cart',
+        element: <CartPage />,
       },
     ],
   },

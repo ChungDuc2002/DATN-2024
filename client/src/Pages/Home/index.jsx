@@ -23,14 +23,20 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 
 import Card from '../../Components/Card';
+import Ribbon from 'antd/es/badge/Ribbon';
 
 const HomePage = () => {
+  //* Banner
   const [listBanner, setListBanner] = useState([]);
-  const [productDiscounted, setProductsDiscounted] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  //* Products
+  const [productDiscounted, setProductsDiscounted] = useState([]);
+  const [productFashion, setProductsFashion] = useState([]);
+  const [productElectronics, setProductsElectronics] = useState([]);
+
   useEffect(() => {
-    document.title = 'Trang chủ';
+    document.title = 'Chungduc_MO';
     const getAllBanner = async () => {
       const res = await axios.get('http://localhost:5000/slides/getSlides');
       setListBanner(res.data);
@@ -49,8 +55,41 @@ const HomePage = () => {
         }
       );
       setProductsDiscounted(result.data);
+      console.log(result.data);
     };
     getProductDiscounted();
+  }, []);
+
+  useEffect(() => {
+    const getProductFashion = async () => {
+      const result = await axios.get(
+        'http://localhost:5000/products/getProductByType',
+        {
+          params: {
+            type: 'fashion',
+          },
+        }
+      );
+      setProductsFashion(result.data);
+      console.log(result.data);
+    };
+    getProductFashion();
+  }, []);
+
+  useEffect(() => {
+    const getProductElectronics = async () => {
+      const result = await axios.get(
+        'http://localhost:5000/products/getProductByType',
+        {
+          params: {
+            type: 'electronics',
+          },
+        }
+      );
+      setProductsElectronics(result.data);
+      console.log(result.data);
+    };
+    getProductElectronics();
   }, []);
 
   useEffect(() => {
@@ -230,7 +269,98 @@ const HomePage = () => {
         <h2 className="title-preferential">sản phẩm giảm giá</h2>
         <Swiper
           modules={[Pagination]}
-          // pagination={{ clickable: true }}
+          breakpoints={{
+            375: {
+              slidesPerView: 1,
+              spaceBetween: 2,
+            },
+            425: {
+              slidesPerView: 2,
+              spaceBetween: 12,
+            },
+            575: {
+              slidesPerView: 3,
+              spaceBetween: 12,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 32,
+            },
+          }}
+        >
+          {productDiscounted?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <Ribbon text={`-${item.discount}%`} color="volcano">
+                <Card product={item} />
+              </Ribbon>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="container wrapper-home-fashion-products">
+        <h2 className="title-fashion">Sản phẩm thời trang</h2>
+        <Swiper
+          modules={[Pagination]}
+          breakpoints={{
+            375: {
+              slidesPerView: 1,
+              spaceBetween: 2,
+            },
+            425: {
+              slidesPerView: 2,
+              spaceBetween: 12,
+            },
+            575: {
+              slidesPerView: 3,
+              spaceBetween: 12,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 32,
+            },
+          }}
+        >
+          {productFashion?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <Card product={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="container wrapper-home-electronics-products">
+        <h2 className="title-electronics">Thiết bị điện tử</h2>
+        <Swiper
+          modules={[Pagination]}
+          breakpoints={{
+            375: {
+              slidesPerView: 1,
+              spaceBetween: 2,
+            },
+            425: {
+              slidesPerView: 2,
+              spaceBetween: 12,
+            },
+            575: {
+              slidesPerView: 3,
+              spaceBetween: 12,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 32,
+            },
+          }}
+        >
+          {productElectronics?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <Card product={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="container wrapper-home-book-products">
+        <h2 className="title-book">Sách & Âm thanh</h2>
+        <Swiper
+          modules={[Pagination]}
           breakpoints={{
             375: {
               slidesPerView: 1,

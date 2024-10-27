@@ -25,7 +25,6 @@ const Test = () => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % data.length);
     }, 1000);
-    console.log(data.length);
     return () => {
       clearInterval(interval);
     };

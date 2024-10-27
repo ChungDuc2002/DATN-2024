@@ -1,5 +1,5 @@
-import { Button, Image, Modal, Radio, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Checkbox, Image, Modal, Radio, Select } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import './style.scss';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -64,11 +64,12 @@ const ManagerProduct = () => {
 
 function AddNewProduct({ onCancel }) {
   const [selectedValue, setSelectedValue] = useState('Thời Trang');
-  const [selectedValueCategory, setSelectedValueCategory] =
-    useState('Thời Trang');
+  const [selectedValueType, setSelectedValueType] = useState('fashion');
+  const [selectedValueCategory, setSelectedValueCategory] = useState('');
   const [selectedValueColor, setSelectedValueColor] = useState('Black');
   const [selectedValueSize, setSelectedValueSize] = useState('S');
-  const [selectedValueType, setSelectedValueType] = useState('textbook');
+  const [selectedValueTypeBook, setSelectedValueTypeBook] =
+    useState('textbook');
   const [images, setImages] = useState([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -77,9 +78,14 @@ function AddNewProduct({ onCancel }) {
   const [brand, setBrand] = useState('');
   const [material, setMaterial] = useState('');
 
+  const inputRef = useRef();
+
   const handleCancel = () => {
     onCancel();
     setImages([]);
+    if (inputRef.current) {
+      inputRef.current.value = null;
+    }
   };
 
   const handleChange = (value) => {
@@ -98,10 +104,11 @@ function AddNewProduct({ onCancel }) {
     formData.append('inventory_quantity', inventory_quantity);
     formData.append('brand', brand);
     formData.append('material', material);
+    formData.append('type', selectedValueType);
     formData.append('category', selectedValueCategory);
     formData.append('color', selectedValueColor);
     formData.append('sizes', selectedValueSize);
-    formData.append('type', selectedValueType);
+    formData.append('book_category', selectedValueTypeBook);
 
     try {
       await axios.post(
@@ -133,18 +140,18 @@ function AddNewProduct({ onCancel }) {
       value: 'Gray',
     },
   ];
-  const optionsCategory = [
+  const optionsType = [
     {
       label: 'Thời Trang',
-      value: 'Thời Trang',
+      value: 'fashion',
     },
     {
       label: 'Đồ Điện Tử',
-      value: 'Đồ Điện Tử',
+      value: 'electronics',
     },
     {
       label: 'Sách',
-      value: 'Sách',
+      value: 'book',
     },
   ];
   const optionsSize = [
@@ -179,6 +186,45 @@ function AddNewProduct({ onCancel }) {
       value: 'comic',
     },
   ];
+  const optionsChecked = [
+    {
+      label: 'Thiết bị điện tử',
+      value: 'Thiết bị điện tử',
+    },
+    {
+      label: 'TV & Home Appliances',
+      value: 'TV & Home Appliances',
+    },
+    {
+      label: 'Fashion & Clothing',
+      value: 'Fashion & Clothing',
+    },
+    {
+      label: 'Book & Audible',
+      value: 'Book & Audible',
+    },
+    {
+      label: 'Accessories',
+      value: 'Accessories',
+    },
+    {
+      label: 'Babies & Toys',
+      value: 'Babies & Toys',
+    },
+    {
+      label: 'Home & Kitchen',
+      value: 'Home & Kitchen',
+    },
+    {
+      label: 'Sport & Travel',
+      value: 'Sport & Travel',
+    },
+    {
+      label: 'Home Audio',
+      value: 'Home Audio',
+    },
+  ];
+
   return (
     <div className="wrapper-add-new-product">
       <form action="" onSubmit={handleSubmit}>
@@ -262,7 +308,9 @@ function AddNewProduct({ onCancel }) {
               </div>
               <div className="group-form-select">
                 <div className="form">
-                  <label htmlFor="">Images</label>
+                  <label htmlFor="" style={{ display: 'block' }}>
+                    Images
+                  </label>
                   {images.length > 0 &&
                     Array.from(images).map((image, index) => (
                       <>
@@ -280,6 +328,7 @@ function AddNewProduct({ onCancel }) {
                   <br />
                   <input
                     type="file"
+                    ref={inputRef}
                     style={{ border: 'none', outline: 'none' }}
                     multiple
                     onChange={(e) => setImages(e.target.files)}
@@ -299,19 +348,19 @@ function AddNewProduct({ onCancel }) {
                   />
                 </div>
                 <div className="form">
-                  <label htmlFor="">Category</label>
+                  <label htmlFor="">Type Product</label>
                   <Radio.Group
                     block
-                    options={optionsCategory}
-                    defaultValue="Thời Trang"
+                    options={optionsType}
+                    defaultValue="fashion"
                     optionType="button"
                     buttonStyle="solid"
-                    value={selectedValueCategory}
-                    onChange={(e) => setSelectedValueCategory(e.target.value)}
+                    value={selectedValueType}
+                    onChange={(e) => setSelectedValueType(e.target.value)}
                   />
                 </div>
                 <div className="form">
-                  <label htmlFor="">Kích thước</label>
+                  <label htmlFor="">Sizes</label>
                   <Radio.Group
                     block
                     options={optionsSize}
@@ -320,6 +369,16 @@ function AddNewProduct({ onCancel }) {
                     buttonStyle="solid"
                     value={selectedValueSize}
                     onChange={(e) => setSelectedValueSize(e.target.value)}
+                  />
+                </div>
+                <div className="form">
+                  <label htmlFor="">Category</label>
+                  <Checkbox.Group
+                    options={optionsChecked}
+                    value={selectedValueCategory}
+                    onChange={(checkedValues) =>
+                      setSelectedValueCategory(checkedValues)
+                    }
                   />
                 </div>
               </div>
@@ -383,7 +442,9 @@ function AddNewProduct({ onCancel }) {
               </div>
               <div className="group-form-select">
                 <div className="form">
-                  <label htmlFor="">Images</label>
+                  <label htmlFor="" style={{ display: 'block' }}>
+                    Images
+                  </label>
                   {images.length > 0 &&
                     Array.from(images).map((image, index) => (
                       <>
@@ -401,6 +462,7 @@ function AddNewProduct({ onCancel }) {
                   <br />
                   <input
                     type="file"
+                    ref={inputRef}
                     style={{ border: 'none', outline: 'none' }}
                     multiple
                     onChange={(e) => setImages(e.target.files)}
@@ -420,15 +482,25 @@ function AddNewProduct({ onCancel }) {
                   />
                 </div>
                 <div className="form">
-                  <label htmlFor="">Category</label>
+                  <label htmlFor="">Type Product</label>
                   <Radio.Group
                     block
-                    options={optionsCategory}
-                    defaultValue="Đồ Điện Tử"
+                    options={optionsType}
+                    defaultValue="electronics"
                     optionType="button"
                     buttonStyle="solid"
+                    value={selectedValueType}
+                    onChange={(e) => setSelectedValueType(e.target.value)}
+                  />
+                </div>
+                <div className="form">
+                  <label htmlFor="">Category</label>
+                  <Checkbox.Group
+                    options={optionsChecked}
                     value={selectedValueCategory}
-                    onChange={(e) => setSelectedValueCategory(e.target.value)}
+                    onChange={(checkedValues) =>
+                      setSelectedValueCategory(checkedValues)
+                    }
                   />
                 </div>
               </div>
@@ -492,7 +564,9 @@ function AddNewProduct({ onCancel }) {
               </div>
               <div className="group-form-select">
                 <div className="form">
-                  <label htmlFor="">Images</label>
+                  <label htmlFor="" style={{ display: 'block' }}>
+                    Images
+                  </label>
                   {images.length > 0 &&
                     Array.from(images).map((image, index) => (
                       <>
@@ -510,6 +584,7 @@ function AddNewProduct({ onCancel }) {
                   <br />
                   <input
                     type="file"
+                    ref={inputRef}
                     style={{ border: 'none', outline: 'none' }}
                     multiple
                     onChange={(e) => setImages(e.target.files)}
@@ -517,27 +592,37 @@ function AddNewProduct({ onCancel }) {
                   />
                 </div>
                 <div className="form">
-                  <label htmlFor="">Category</label>
+                  <label htmlFor="">Type Product</label>
                   <Radio.Group
                     block
-                    options={optionsCategory}
-                    defaultValue="Sách"
+                    options={optionsType}
+                    defaultValue="book"
                     optionType="button"
                     buttonStyle="solid"
-                    value={selectedValueCategory}
-                    onChange={(e) => setSelectedValueCategory(e.target.value)}
+                    value={selectedValueType}
+                    onChange={(e) => setSelectedValueType(e.target.value)}
                   />
                 </div>
                 <div className="form">
-                  <label htmlFor="">Type</label>
+                  <label htmlFor="">Type Book</label>
                   <Radio.Group
                     block
                     options={optionsTypeBook}
                     defaultValue="textbook"
                     optionType="button"
                     buttonStyle="solid"
-                    value={selectedValueType}
-                    onChange={(e) => setSelectedValueType(e.target.value)}
+                    value={selectedValueTypeBook}
+                    onChange={(e) => setSelectedValueTypeBook(e.target.value)}
+                  />
+                </div>
+                <div className="form">
+                  <label htmlFor="">Category</label>
+                  <Checkbox.Group
+                    options={optionsChecked}
+                    value={selectedValueCategory}
+                    onChange={(checkedValues) =>
+                      setSelectedValueCategory(checkedValues)
+                    }
                   />
                 </div>
               </div>

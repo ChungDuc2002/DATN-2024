@@ -1,0 +1,60 @@
+.wrapper-modal-edit-product {
+  .body {
+    display: flex;
+    width: 100%;
+    .group-form-input,
+    .group-form-select {
+      width: 50%;
+    }
+    .form {
+      margin: 10px 0;
+      .image-item {
+        display: inline-block;
+        .render_add-new-product {
+          width: 100px;
+          height: 100px;
+          margin: 0 5px;
+        }
+      }
+      label {
+        font-size: 0.9rem;
+        font-weight: 400;
+        margin: 5px 0;
+      }
+      .ant-checkbox-group {
+        display: block;
+      }
+      input,
+      select,
+      textarea {
+        width: 90%;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px dotted #9b9898;
+        display: block;
+        padding: 0 5px;
+        &:focus {
+          outline: 1px solid blue;
+          border: none;
+        }
+      }
+      textarea {
+        height: 150px;
+        resize: none; /* Ngăn chặn người dùng thay đổi kích thước */
+      }
+    }
+    &-group-btn {
+      display: flex;
+      justify-content: end;
+      .btn-add-product {
+        background-color: blue !important;
+        border: none;
+        color: #fff;
+        &:hover {
+          color: #fff !important;
+          scale: 1.1 !important;
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Modal, Pagination, Radio, Table } from 'antd';
+import { Button, Checkbox, Modal, Pagination, Radio, Table } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import axios from 'axios';
@@ -10,19 +10,20 @@ const FashionPage = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productPage = 4;
+
   useEffect(() => {
+    document.title = 'Fashion Page';
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/products/getProductByCategory',
+          'http://localhost:5000/products/getProductByType',
           {
             params: {
-              category: 'Thời Trang',
+              type: 'fashion',
             },
           }
         );
         setProducts(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -132,7 +133,6 @@ const FashionPage = () => {
 
   const handleEditProduct = (record) => {
     setOpen(true);
-    console.log(record);
     setItem(record._id);
   };
 
@@ -145,10 +145,10 @@ const FashionPage = () => {
         if (result.status === 200) {
           const newBanner = products.filter((item) => item._id !== record._id);
           setProducts(newBanner);
-          toast.success('Delete banner success');
+          toast.success('Delete Fashion Product success');
         }
       } catch (error) {
-        toast.error('Delete banner fail');
+        toast.error('Delete Fashion Product fail');
       }
     }
   };
@@ -162,13 +162,7 @@ const FashionPage = () => {
         total={products.length}
         onChange={handlePageChange}
       />
-      <Modal
-        open={open}
-        // onCancel={handleCancel}
-        closeIcon={false}
-        footer={false}
-        width={950}
-      >
+      <Modal open={open} closeIcon={false} footer={false} width={950}>
         {item && <ModalEditProduct id={item} onCancel={handleCancel} />}
       </Modal>
     </div>
@@ -181,8 +175,9 @@ function ModalEditProduct({ id, onCancel }) {
   const [imageUpdate, setImageUpdate] = useState([]);
   //! --------------------
   const [selectedValueColor, setSelectedValueColor] = useState('');
-  const [selectedValueCategory, setSelectedValueCategory] = useState('');
+  const [selectedValueTypeProduct, setSelectedValueTypeProduct] = useState('');
   const [selectedValueSize, setSelectedValueSize] = useState('');
+  const [selectedValueCategory, setSelectedValueCategory] = useState('');
 
   // State để theo dõi việc có chọn hình ảnh hay không
   const [isImageSelected, setIsImageSelected] = useState(false);
@@ -207,11 +202,14 @@ function ModalEditProduct({ id, onCancel }) {
     if (productId.color) {
       setSelectedValueColor(productId.color);
     }
-    if (productId.category) {
-      setSelectedValueCategory(productId.category);
+    if (productId.type) {
+      setSelectedValueTypeProduct(productId.type);
     }
     if (productId.sizes) {
       setSelectedValueSize(productId.sizes);
+    }
+    if (productId.category) {
+      setSelectedValueCategory(productId.category);
     }
   }, [productId]);
 
@@ -251,6 +249,7 @@ function ModalEditProduct({ id, onCancel }) {
     formData.append('brand', productId.brand);
     formData.append('material', productId.material);
     formData.append('color', selectedValueColor);
+    formData.append('type', selectedValueTypeProduct);
     formData.append('category', selectedValueCategory);
     formData.append('sizes', selectedValueSize);
 
@@ -259,7 +258,6 @@ function ModalEditProduct({ id, onCancel }) {
         `http://localhost:5000/products/updateProduct/${id}`,
         formData
       );
-      console.log(result);
       if (result.status === 200) {
         toast.success('Update product success');
         onCancel();
@@ -283,18 +281,18 @@ function ModalEditProduct({ id, onCancel }) {
       value: 'Gray',
     },
   ];
-  const optionsCategory = [
+  const optionsType = [
     {
       label: 'Thời Trang',
-      value: 'Thời Trang',
+      value: 'fashion',
     },
     {
       label: 'Đồ Điện Tử',
-      value: 'Đồ Điện Tử',
+      value: 'electronics',
     },
     {
       label: 'Sách',
-      value: 'Sách',
+      value: 'book',
     },
   ];
   const optionsSize = [
@@ -315,7 +313,44 @@ function ModalEditProduct({ id, onCancel }) {
       value: 'XL',
     },
   ];
-
+  const optionsChecked = [
+    {
+      label: 'Thiết bị điện tử',
+      value: 'Thiết bị điện tử',
+    },
+    {
+      label: 'TV & Home Appliances',
+      value: 'TV & Home Appliances',
+    },
+    {
+      label: 'Fashion & Clothing',
+      value: 'Fashion & Clothing',
+    },
+    {
+      label: 'Book & Audible',
+      value: 'Book & Audible',
+    },
+    {
+      label: 'Accessories',
+      value: 'Accessories',
+    },
+    {
+      label: 'Babies & Toys',
+      value: 'Babies & Toys',
+    },
+    {
+      label: 'Home & Kitchen',
+      value: 'Home & Kitchen',
+    },
+    {
+      label: 'Sport & Travel',
+      value: 'Sport & Travel',
+    },
+    {
+      label: 'Home Audio',
+      value: 'Home Audio',
+    },
+  ];
   return (
     <div className="wrapper-modal-edit-product">
       <form action="" onSubmit={handleSubmit}>
@@ -397,7 +432,9 @@ function ModalEditProduct({ id, onCancel }) {
           </div>
           <div className="group-form-select">
             <div className="form">
-              <label htmlFor="">Image</label>
+              <label htmlFor="" style={{ display: 'block' }}>
+                Image
+              </label>
 
               {imageUpdate.length > 0
                 ? imageUpdate.map((imageUrl, index) => (
@@ -442,14 +479,14 @@ function ModalEditProduct({ id, onCancel }) {
               />
             </div>
             <div className="form">
-              <label htmlFor="">Category</label>
+              <label htmlFor="">Type Product</label>
               <Radio.Group
                 block
-                options={optionsCategory}
+                options={optionsType}
                 optionType="button"
                 buttonStyle="solid"
-                value={selectedValueCategory}
-                onChange={(e) => setSelectedValueCategory(e.target.value)}
+                value={selectedValueTypeProduct}
+                onChange={(e) => setSelectedValueTypeProduct(e.target.value)}
               />
             </div>
             <div className="form">
@@ -461,6 +498,17 @@ function ModalEditProduct({ id, onCancel }) {
                 buttonStyle="solid"
                 value={selectedValueSize}
                 onChange={(e) => setSelectedValueSize(e.target.value)}
+              />
+            </div>
+            <div className="form">
+              <label htmlFor="">Category</label>
+              <Checkbox.Group
+                options={optionsChecked}
+                defaultValue={['Thiết bị điện tử']}
+                value={selectedValueCategory}
+                onChange={(checkedValues) =>
+                  setSelectedValueCategory(checkedValues)
+                }
               />
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
-import { Image, Button, Divider, Input, Drawer } from 'antd';
+import { Image, Button, Divider, Input, Drawer, Badge } from 'antd';
 import image_modal from '../../Assets/image_shop.png';
 import axios from 'axios';
 import logo from '../../Assets/logo.png';
@@ -17,7 +17,6 @@ const HeaderClient = () => {
 
   const navigate = useNavigate();
 
-  // const [scrollDirection, setScrollDirection] = useState('down');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -49,30 +48,46 @@ const HeaderClient = () => {
     resName();
   }, []);
 
-  // * LOGIC - Thay đổi header khi cuộn trang
-  // useEffect(() => {
-  //   let prevScrollPos = window.pageYOffset;
+  const [products, setProducts] = useState([]);
+  const [userId, setUserId] = useState('');
 
-  //   const handleScroll = () => {
-  //     const currentScrollPos = window.pageYOffset;
-  //     if (currentScrollPos > 0) {
-  //       if (currentScrollPos < prevScrollPos) {
-  //         setScrollDirection('down');
-  //       } else {
-  //         setScrollDirection('up');
-  //       }
-  //       prevScrollPos = currentScrollPos;
-  //     } else if (currentScrollPos === 0) {
-  //       setScrollDirection('down');
-  //     }
-  //   };
+  useEffect(() => {
+    const getIdUser = async () => {
+      const token = JSON.parse(localStorage.getItem('auth'));
+      try {
+        const result = await axios.get('http://localhost:5000/info', {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        });
+        if (result.status === 200) {
+          setUserId(result.data._id);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getIdUser();
+  }, [userId]);
 
-  //   window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    document.title = 'Cart Page';
+    if (userId) {
+      const resultCart = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/carts/getCart/${userId}`
+          );
+          setProducts(response.data.products);
+          console.log(response.data);
+        } catch (error) {
+          console.log('error', error);
+        }
+      };
 
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
+      resultCart();
+    }
+  }, [userId]);
 
   //* LOGIC - Kiểm tra thời gian để chào hỏi
   const [greeting, setGreeting] = useState('');
@@ -201,7 +216,11 @@ const HeaderClient = () => {
               <SearchIcon />
             </li>
             <li className="favorites">
-              <HeartIcon />
+              <Link to="/favorite">
+                <Badge count={1}>
+                  <HeartIcon />
+                </Badge>
+              </Link>
             </li>
             <li className="show-modal">
               <UserIcon />
@@ -251,7 +270,11 @@ const HeaderClient = () => {
               )}
             </li>
             <li>
-              <CartIcon />
+              <Link to="/cart">
+                <Badge count={products.length > 0 ? products.length : 0}>
+                  <CartIcon />
+                </Badge>
+              </Link>
             </li>
           </ul>
         </div>

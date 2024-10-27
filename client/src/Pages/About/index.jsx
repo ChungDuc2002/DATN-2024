@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.scss';
 import { Image } from 'antd';
 import CountUp from 'react-countup';
@@ -34,6 +34,9 @@ const mockdata = [
   },
 ];
 const AboutPage = () => {
+  useEffect(() => {
+    document.title = 'Về chúng tôi - Chungduc_MO';
+  }, []);
   return (
     <div className="wrapper-about">
       <div className="wrapper-about-banner">

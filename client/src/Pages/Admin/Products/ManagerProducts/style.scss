@@ -115,6 +115,10 @@
         }
         label {
           font-size: 0.9rem;
+          font-weight: 400;
+          margin: 5px 0;
+        }
+        .ant-checkbox-group {
           display: block;
         }
         input,
@@ -132,7 +136,7 @@
           }
         }
         textarea {
-          height: 100px;
+          height: 150px;
           resize: none; /* Ngăn chặn người dùng thay đổi kích thước */
         }
       }

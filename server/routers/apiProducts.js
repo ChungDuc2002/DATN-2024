@@ -22,10 +22,7 @@ const upload = multer({ storage: storage });
 
 apiProducts.get('/getAllProduct', productsController.getAllProduct);
 
-apiProducts.get(
-  '/getProductByCategory',
-  productsController.getProductByCategory
-);
+apiProducts.get('/getProductByType', productsController.getProductByType);
 
 apiProducts.get(
   '/getProductByDiscount',

@@ -19,9 +19,14 @@ const productSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    category: {
+    category: [
+      {
+        type: String,
+      },
+    ],
+    type: {
       type: String,
-      required: true,
+      enum: ['fashion', 'electronics', 'book'],
     },
     description: {
       type: String,
@@ -65,7 +70,7 @@ const productSchema = mongoose.Schema(
     // *Model Product Electronics
 
     // *Model Product Book
-    type: {
+    book_category: {
       type: String,
       enum: ['textbook', 'reference_books', 'comic'],
     },

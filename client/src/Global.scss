@@ -16,7 +16,8 @@ body {
   width: 80%;
   margin: 0 auto;
   height: auto;
-  background-color: #ffffff;
+  background-color: #ffffff !important;
+  border-radius: 5px;
 }
 ul {
   list-style: none;

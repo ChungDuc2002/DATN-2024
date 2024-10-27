@@ -1,10 +1,10 @@
 import Products from '../models/products.js';
 
-//* LOGIC GET PRODUCT BY CATEGORY
+//* LOGIC GET PRODUCT BY TYPE
 
-export async function getProductByCategory(req, res) {
+export async function getProductByType(req, res) {
   try {
-    const products = await Products.find({ category: req.query.category });
+    const products = await Products.find({ type: req.query.type });
     return res.status(200).json(products);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -44,12 +44,15 @@ export async function getProductById(req, res) {
 //* LOGIC CREATE PRODUCT
 export async function createProduct(req, res) {
   const images = req.files.map((file) => file.filename);
+  const selectedCategoriesData = req.body.category.split(',');
+
   try {
     const newProduct = new Products({
       name: req.body.name,
       images: images,
       price: req.body.price,
-      category: req.body.category,
+      type: req.body.type,
+      category: selectedCategoriesData,
       description: req.body.description,
       inventory_quantity: req.body.inventory_quantity,
       brand: req.body.brand,
@@ -57,7 +60,7 @@ export async function createProduct(req, res) {
       comments: req.body.comments,
       sizes: req.body.sizes,
       material: req.body.material,
-      type: req.body.type,
+      book_category: req.body.book_category,
     });
     await newProduct.save();
     return res.status(200).json(newProduct);
@@ -80,6 +83,8 @@ export async function deleteProduct(req, res) {
 
 export async function updateProduct(req, res) {
   const images = req.files.map((file) => file.filename);
+  const selectedCategoriesData = req.body.category.split(',');
+
   try {
     const id = req.params.id;
     const result = await Products.findByIdAndUpdate(
@@ -92,7 +97,8 @@ export async function updateProduct(req, res) {
           images: images,
           price: req.body.price,
           discount: req.body.discount,
-          category: req.body.category,
+          type: req.body.type,
+          category: selectedCategoriesData,
           description: req.body.description,
           inventory_quantity: req.body.inventory_quantity,
           brand: req.body.brand,
@@ -100,7 +106,7 @@ export async function updateProduct(req, res) {
           comments: req.body.comments,
           sizes: req.body.sizes,
           material: req.body.material,
-          type: req.body.type,
+          book_category: req.body.book_category,
         },
       },
       { new: true }

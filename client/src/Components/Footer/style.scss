@@ -2,11 +2,13 @@
 
 .wrapper-footer {
   background-color: #f2f2f2;
+
   padding: 20px;
   @media (max-width: $xs-max-width) {
     padding: 0;
   }
   .container {
+    background-color: #f2f2f2 !important;
     @media (max-width: $xs-max-width) {
       width: 90%;
     }

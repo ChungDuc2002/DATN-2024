@@ -1,7 +1,6 @@
 @import '../../Styles/responsive.scss';
 
 .wrapper-home {
-  height: 2000px;
   &-header {
     display: flex;
     &-menu {
@@ -171,6 +170,30 @@
     padding: 20px;
 
     .title-preferential {
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+  }
+  &-fashion-products {
+    padding: 20px;
+    .title-fashion {
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+  }
+  &-electronics-products {
+    padding: 20px;
+    .title-electronics {
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+  }
+  &-book-products {
+    padding: 20px;
+    .title-book {
       text-transform: uppercase;
       font-weight: 400;
       margin-bottom: 25px;
