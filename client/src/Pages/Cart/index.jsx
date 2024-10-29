@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Divider, Image } from 'antd';
+import { Badge, Divider, Image, Modal } from 'antd';
 import { DeleteOutlined, ProfileOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
 import NotCartIcon from './../../Components/Icons/NotCartIcon';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css';
 import './style.scss';
 
 const CartPage = () => {
   const [products, setProducts] = useState([]);
+  const [productId, setProductId] = useState(null);
   const [userId, setUserId] = useState('');
   const [quantity, setQuantity] = useState({});
+  const [showProductModal, setShowProductModal] = useState(false);
+
+  const [price, setPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const currentDate = moment();
   const futureDate = currentDate.add(3, 'days');
@@ -59,10 +70,42 @@ const CartPage = () => {
     }
   }, [userId]);
 
+  useEffect(() => {
+    let newPrice = 0;
+    let newDiscount = 0;
+    let newTotal = 0;
+
+    // Giải thích:
+    // Tính toán Price, Discount, và Total:
+
+    // Sử dụng useEffect để tính toán lại các giá trị này mỗi khi quantity hoặc products thay đổi.
+    // newPrice : là tổng giá trị của tất cả các sản phẩm trong giỏ hàng trước khi giảm giá.
+    // newDiscount :  là tổng số tiền đã được giảm giá cho tất cả các sản phẩm.
+    // newTotal :  là tổng giá trị của tất cả các sản phẩm trong giỏ hàng sau khi giảm giá.
+    // Cập nhật Price, Discount, và Total trong JSX:
+
+    // Hiển thị các giá trị này trong phần order summary.
+    // Cập nhật quantity khi click vào các button - hoặc +:
+
+    // Đảm bảo rằng các giá trị Price, Discount, và Total được cập nhật khi số lượng sản phẩm thay đổi.
+
+    products.forEach((product) => {
+      const qty = quantity[product._id] || 1;
+      newPrice += product.price * qty;
+      newDiscount += product.price * (product.discount / 100) * qty;
+      newTotal += product.price * (1 - product.discount / 100) * qty;
+    });
+
+    setPrice(newPrice);
+    setDiscount(newDiscount);
+    setTotal(newTotal);
+  }, [quantity, products]);
+
   const increaseQuantity = (productId) => {
     setQuantity((prevQuantities) => ({
       ...prevQuantities,
-      [productId]: prevQuantities[productId] + 1,
+      // [productId]: prevQuantities[productId] + 1,
+      [productId]: (prevQuantities[productId] || 1) + 1,
     }));
   };
 
@@ -87,6 +130,15 @@ const CartPage = () => {
     } catch (error) {
       toast.error('Delete product failed !');
     }
+  };
+
+  const handleShowProduct = (productId) => {
+    setShowProductModal(true);
+    setProductId(productId);
+  };
+
+  const handleCancel = () => {
+    setShowProductModal(false);
   };
   return (
     <div className="container wrapper-cart">
@@ -171,13 +223,17 @@ const CartPage = () => {
                       </button>
                     </span>
                     <div className="group-btn">
-                      <button className="btn-action">
+                      <button
+                        className="btn-action"
+                        onClick={() => handleShowProduct(product._id)}
+                      >
                         <ProfileOutlined />
                       </button>
-                      <button className="btn-action">
-                        <DeleteOutlined
-                          onClick={() => handleDeleteFromCart(product._id)}
-                        />
+                      <button
+                        className="btn-action"
+                        onClick={() => handleDeleteFromCart(product._id)}
+                      >
+                        <DeleteOutlined />
                       </button>
                     </div>
                   </div>
@@ -189,13 +245,15 @@ const CartPage = () => {
             <div className="wrapper-cart-layout-payment-body">
               <h2>order summary</h2>
               <p>
-                Price <span>200</span>
+                Original Price
+                <span>{new Intl.NumberFormat().format(price)}đ</span>
               </p>
               <p>
-                Discount <span>30</span>
+                Discount{' '}
+                <span>{new Intl.NumberFormat().format(discount)}đ</span>
               </p>
               <p>
-                Total <span>170</span>
+                Total <span>{new Intl.NumberFormat().format(total)}đ</span>
               </p>
               <button>proceed to checkout</button>
               <Divider />
@@ -212,8 +270,106 @@ const CartPage = () => {
           <Link to="/">Mua sắm ngay</Link>
         </div>
       )}
+      <Modal
+        open={showProductModal}
+        onCancel={handleCancel}
+        closeIcon={true}
+        footer={false}
+        centered
+        width={1100}
+      >
+        <ShowProduct id={productId} />
+      </Modal>
     </div>
   );
 };
+
+function ShowProduct({ id }) {
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    const callApiProductById = async () => {
+      const response = await axios.get(
+        `http://localhost:5000/products/getProductById/${id}`
+      );
+      setProduct(response.data);
+    };
+    callApiProductById();
+  }, [id]);
+
+  return (
+    <div className="wrapper-show-product">
+      <Swiper
+        modules={[Pagination]}
+        breakpoints={{
+          375: {
+            slidesPerView: 1,
+            spaceBetween: 2,
+          },
+          425: {
+            slidesPerView: 1,
+            spaceBetween: 12,
+          },
+          575: {
+            slidesPerView: 1,
+            spaceBetween: 12,
+          },
+          1024: {
+            slidesPerView: 1,
+            spaceBetween: 32,
+          },
+        }}
+      >
+        {product.images?.map((item, index) => (
+          <SwiperSlide key={index}>
+            <Image
+              src={require(`../../../../server/uploads/${item}`)}
+              preview={false}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {product.discount ? (
+        <div className="tag-discount">
+          <Badge.Ribbon
+            text={`-${product.discount}%`}
+            color="volcano"
+          ></Badge.Ribbon>
+        </div>
+      ) : null}
+
+      <div className="wrapper-show-product-information">
+        <h1 className="title-product">
+          <Link to="/contact">{product.name}</Link>
+        </h1>
+        <p className="trademark">Chungduc_MO</p>
+        <div className="price">
+          <span className="price_basic">
+            {new Intl.NumberFormat().format(product.price)}đ
+          </span>
+          <span className="price_discount">
+            {new Intl.NumberFormat().format(
+              (product.price * (1 - product.discount / 100)).toFixed(2)
+            )}
+            đ{' '}
+          </span>
+        </div>
+        <p className="description-product">{product.description}</p>
+        <Divider />
+        <p className="category">
+          <span>
+            Danh mục :{' '}
+            {product.category?.map((item, index) => (
+              <span key={index}>
+                {item}
+                {index !== product.category.length - 1 && ', '}
+              </span>
+            ))}
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default CartPage;

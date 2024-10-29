@@ -194,7 +194,10 @@ function ShowProduct({ id }) {
         </h1>
         <p className="trademark">Chungduc_MO</p>
         <div className="price">
-          <span className="price_basic">{product.price}đ</span>
+          <span className="price_basic">
+            {' '}
+            {new Intl.NumberFormat().format(product.price)}đ
+          </span>
           <span className="price_discount">
             {new Intl.NumberFormat().format(
               (product.price * (1 - product.discount / 100)).toFixed(2)

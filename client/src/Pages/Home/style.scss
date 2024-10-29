@@ -3,6 +3,7 @@
 .wrapper-home {
   &-header {
     display: flex;
+    padding: 0 !important;
     &-menu {
       width: 23%;
       background-color: #ffffff;

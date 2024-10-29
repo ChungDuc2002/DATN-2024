@@ -55,7 +55,6 @@ const HomePage = () => {
         }
       );
       setProductsDiscounted(result.data);
-      console.log(result.data);
     };
     getProductDiscounted();
   }, []);
@@ -71,7 +70,6 @@ const HomePage = () => {
         }
       );
       setProductsFashion(result.data);
-      console.log(result.data);
     };
     getProductFashion();
   }, []);
@@ -87,7 +85,6 @@ const HomePage = () => {
         }
       );
       setProductsElectronics(result.data);
-      console.log(result.data);
     };
     getProductElectronics();
   }, []);

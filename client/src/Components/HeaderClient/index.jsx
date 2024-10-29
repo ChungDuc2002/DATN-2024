@@ -28,6 +28,8 @@ const HeaderClient = () => {
   //* LOGIC - Call api get name
 
   useEffect(() => {
+    document.title = 'Cart Page';
+
     const resName = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
       if (token) {
@@ -39,6 +41,7 @@ const HeaderClient = () => {
           });
           if (result.status === 200) {
             localStorage.setItem('fullName', result.data.fullName);
+            setUserId(result.data._id);
           }
         } catch (err) {
           console.log(err);
@@ -51,42 +54,27 @@ const HeaderClient = () => {
   const [products, setProducts] = useState([]);
   const [userId, setUserId] = useState('');
 
-  useEffect(() => {
-    const getIdUser = async () => {
-      const token = JSON.parse(localStorage.getItem('auth'));
-      try {
-        const result = await axios.get('http://localhost:5000/info', {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        });
-        if (result.status === 200) {
-          setUserId(result.data._id);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getIdUser();
-  }, [userId]);
-
-  useEffect(() => {
-    document.title = 'Cart Page';
+  const fetchCart = async () => {
     if (userId) {
-      const resultCart = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:5000/carts/getCart/${userId}`
-          );
-          setProducts(response.data.products);
-          console.log(response.data);
-        } catch (error) {
-          console.log('error', error);
-        }
-      };
-
-      resultCart();
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/carts/getCart/${userId}`
+        );
+        setProducts(response.data.products);
+      } catch (error) {
+        console.log('error', error);
+      }
     }
+  };
+
+  useEffect(() => {
+    fetchCart();
+
+    const interval = setInterval(() => {
+      fetchCart();
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [userId]);
 
   //* LOGIC - Kiểm tra thời gian để chào hỏi
@@ -115,12 +103,7 @@ const HeaderClient = () => {
   };
   return (
     <>
-      <header
-        // className={`wrapper-header ${
-        //   scrollDirection === 'up' ? 'slideUp' : 'slideDown'
-        // }`}
-        className="wrapper-header"
-      >
+      <header className="wrapper-header">
         <Button
           className="menu-icon"
           type="link"
