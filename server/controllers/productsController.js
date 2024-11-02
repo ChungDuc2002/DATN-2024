@@ -1,5 +1,35 @@
 import Products from '../models/products.js';
 
+//* LOGIC ADD COMMENT TO PRODUCT
+
+export const addCommentToProduct = async (req, res) => {
+  const { productId } = req.params;
+  const { userId, text, rate } = req.body;
+  const images = req.files.map((file) => file.filename);
+
+  try {
+    const product = await Products.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    const newComment = {
+      user: userId,
+      text,
+      rate,
+      image_comment: images,
+      createdAt: new Date(),
+    };
+
+    product.comments.push(newComment);
+    await product.save();
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 //* LOGIC GET PRODUCT BY TYPE
 
 export async function getProductByType(req, res) {

@@ -179,7 +179,7 @@ function ModalEditProduct({ id, onCancel }) {
   const [selectedValueSize, setSelectedValueSize] = useState('');
   const [selectedValueCategory, setSelectedValueCategory] = useState('');
 
-  // State để theo dõi việc có chọn hình ảnh hay không
+  //! State để theo dõi việc có chọn hình ảnh hay không
   const [isImageSelected, setIsImageSelected] = useState(false);
 
   const inputRef = useRef();

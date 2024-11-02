@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Badge, Divider, Image, Modal } from 'antd';
 import { DeleteOutlined, ProfileOutlined } from '@ant-design/icons';
-import toast from 'react-hot-toast';
 import NotCartIcon from './../../Components/Icons/NotCartIcon';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -27,6 +26,10 @@ const CartPage = () => {
   const currentDate = moment();
   const futureDate = currentDate.add(3, 'days');
   const formattedFutureDate = futureDate.format('DD/MM/YYYY');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const getIdUser = async () => {
@@ -75,20 +78,6 @@ const CartPage = () => {
     let newDiscount = 0;
     let newTotal = 0;
 
-    // Giải thích:
-    // Tính toán Price, Discount, và Total:
-
-    // Sử dụng useEffect để tính toán lại các giá trị này mỗi khi quantity hoặc products thay đổi.
-    // newPrice : là tổng giá trị của tất cả các sản phẩm trong giỏ hàng trước khi giảm giá.
-    // newDiscount :  là tổng số tiền đã được giảm giá cho tất cả các sản phẩm.
-    // newTotal :  là tổng giá trị của tất cả các sản phẩm trong giỏ hàng sau khi giảm giá.
-    // Cập nhật Price, Discount, và Total trong JSX:
-
-    // Hiển thị các giá trị này trong phần order summary.
-    // Cập nhật quantity khi click vào các button - hoặc +:
-
-    // Đảm bảo rằng các giá trị Price, Discount, và Total được cập nhật khi số lượng sản phẩm thay đổi.
-
     products.forEach((product) => {
       const qty = quantity[product._id] || 1;
       newPrice += product.price * qty;
@@ -104,7 +93,6 @@ const CartPage = () => {
   const increaseQuantity = (productId) => {
     setQuantity((prevQuantities) => ({
       ...prevQuantities,
-      // [productId]: prevQuantities[productId] + 1,
       [productId]: (prevQuantities[productId] || 1) + 1,
     }));
   };
@@ -126,9 +114,8 @@ const CartPage = () => {
         (product) => product._id !== productId
       );
       setProducts(newProducts);
-      toast.success('Delete product successfully !');
     } catch (error) {
-      toast.error('Delete product failed !');
+      console.log('error', error);
     }
   };
 
@@ -143,7 +130,6 @@ const CartPage = () => {
   return (
     <div className="container wrapper-cart">
       <h1 className="title-page-user">Giỏ hàng của bạn</h1>
-
       {products.length > 0 ? (
         <div className="wrapper-cart-layout">
           <div className="wrapper-cart-layout-flex">

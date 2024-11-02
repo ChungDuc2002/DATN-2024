@@ -28,24 +28,21 @@ const HeaderClient = () => {
   //* LOGIC - Call api get name
 
   useEffect(() => {
-    document.title = 'Cart Page';
-
     const resName = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
-      if (token) {
-        try {
-          const result = await axios.get('http://localhost:5000/info', {
-            headers: {
-              token: `Bearer ${token}`,
-            },
-          });
-          if (result.status === 200) {
-            localStorage.setItem('fullName', result.data.fullName);
-            setUserId(result.data._id);
-          }
-        } catch (err) {
-          console.log(err);
+
+      try {
+        const result = await axios.get('http://localhost:5000/info', {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        });
+        if (result.status === 200) {
+          localStorage.setItem('fullName', result.data.fullName);
+          setUserId(result.data._id);
         }
+      } catch (err) {
+        console.log(err);
       }
     };
     resName();

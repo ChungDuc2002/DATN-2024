@@ -22,6 +22,7 @@ import BookPage from './../Pages/Admin/Products/Books';
 import FashionPage from './../Pages/Admin/Products/Fashion';
 import ElectronicsPage from './../Pages/Admin/Products/Electronics';
 import ManagerContact from '../Pages/Admin/Trang-Chu/ManagerContact';
+import ProductDetail from '../Pages/ProductDetail';
 
 const InitRouter = [
   {
@@ -63,6 +64,10 @@ const InitRouter = [
       {
         path: '/cart',
         element: <CartPage />,
+      },
+      {
+        path: '/product/:id',
+        element: <ProductDetail />,
       },
     ],
   },

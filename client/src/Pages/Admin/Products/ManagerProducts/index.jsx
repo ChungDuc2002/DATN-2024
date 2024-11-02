@@ -69,7 +69,7 @@ function AddNewProduct({ onCancel }) {
   const [selectedValueColor, setSelectedValueColor] = useState('Black');
   const [selectedValueSize, setSelectedValueSize] = useState('S');
   const [selectedValueTypeBook, setSelectedValueTypeBook] =
-    useState('textbook');
+    useState('Sách giáo khoa');
   const [images, setImages] = useState([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -79,6 +79,10 @@ function AddNewProduct({ onCancel }) {
   const [material, setMaterial] = useState('');
 
   const inputRef = useRef();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleCancel = () => {
     onCancel();
@@ -90,6 +94,10 @@ function AddNewProduct({ onCancel }) {
 
   const handleChange = (value) => {
     setSelectedValue(value);
+  };
+
+  const handleImageChange = (e) => {
+    setImages(e.target.files);
   };
 
   const handleSubmit = async () => {
@@ -175,15 +183,15 @@ function AddNewProduct({ onCancel }) {
   const optionsTypeBook = [
     {
       label: 'Sách giáo khoa',
-      value: 'textbook',
+      value: 'Sách giáo khoa',
     },
     {
       label: 'Sách tham khảo',
-      value: 'reference_books',
+      value: 'Sách tham khảo',
     },
     {
       label: 'Truyện',
-      value: 'comic',
+      value: 'Truyện',
     },
   ];
   const optionsChecked = [
@@ -331,7 +339,7 @@ function AddNewProduct({ onCancel }) {
                     ref={inputRef}
                     style={{ border: 'none', outline: 'none' }}
                     multiple
-                    onChange={(e) => setImages(e.target.files)}
+                    onChange={handleImageChange}
                     onFocus={(e) => (e.target.style.outline = 'none')}
                   />
                 </div>
@@ -608,7 +616,7 @@ function AddNewProduct({ onCancel }) {
                   <Radio.Group
                     block
                     options={optionsTypeBook}
-                    defaultValue="textbook"
+                    defaultValue="Sách giáo khoa"
                     optionType="button"
                     buttonStyle="solid"
                     value={selectedValueTypeBook}

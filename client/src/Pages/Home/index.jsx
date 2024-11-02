@@ -34,6 +34,7 @@ const HomePage = () => {
   const [productDiscounted, setProductsDiscounted] = useState([]);
   const [productFashion, setProductsFashion] = useState([]);
   const [productElectronics, setProductsElectronics] = useState([]);
+  const [productBook, setProductsBook] = useState([]);
 
   useEffect(() => {
     document.title = 'Chungduc_MO';
@@ -87,6 +88,21 @@ const HomePage = () => {
       setProductsElectronics(result.data);
     };
     getProductElectronics();
+  }, []);
+
+  useEffect(() => {
+    const getProductBook = async () => {
+      const result = await axios.get(
+        'http://localhost:5000/products/getProductByType',
+        {
+          params: {
+            type: 'book',
+          },
+        }
+      );
+      setProductsBook(result.data);
+    };
+    getProductBook();
   }, []);
 
   useEffect(() => {
@@ -377,7 +393,7 @@ const HomePage = () => {
             },
           }}
         >
-          {productDiscounted?.map((item, index) => (
+          {productBook?.map((item, index) => (
             <SwiperSlide key={index}>
               <Card product={item} />
             </SwiperSlide>

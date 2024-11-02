@@ -13,7 +13,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css';
 import './style.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const CardComponent = ({ product }) => {
@@ -22,6 +22,8 @@ const CardComponent = ({ product }) => {
   const [userId, setUserId] = useState('');
 
   const auth = localStorage.getItem('auth');
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getIdUser = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
@@ -40,35 +42,37 @@ const CardComponent = ({ product }) => {
     };
     getIdUser();
   }, []);
+
   const handleShowProduct = () => {
     setShowProductModal(true);
     setProductId(product._id);
   };
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault();
     if (!auth) {
       toast.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
     }
-    const data = {
-      userId,
-      productId: product._id,
-      quantity: 1,
-    };
-    axios
-      .post('http://localhost:5000/carts/addToCart', data)
-      .then((res) => {
-        console.log(res);
-        toast.success('Add to cart successfully !');
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Add to cart failed !');
-      });
+
+    try {
+      const data = {
+        userId,
+        productId: product._id,
+        quantity: 1,
+      };
+      await axios.post('http://localhost:5000/carts/addToCart', data);
+      toast.success('Thêm vào giỏ hàng thành công !');
+    } catch (err) {
+      toast.error('Bạn đã thêm quá số lượng tồn kho của mặt hàng !');
+    }
   };
 
   const handleCancel = () => {
     setShowProductModal(false);
+  };
+
+  const handleNavigateToProduct = () => {
+    navigate(`/product/${product._id}`);
   };
 
   return (
@@ -84,7 +88,7 @@ const CardComponent = ({ product }) => {
           </>
         }
       >
-        <Meta title={product.name} />
+        <Meta title={product.name} onClick={handleNavigateToProduct} />
         <Space wrap>
           <div className="group-icon">
             <div className="icon">
@@ -95,17 +99,29 @@ const CardComponent = ({ product }) => {
           </div>
         </Space>
         <Space wrap>
-          <p>
-            <span style={{ textDecoration: 'line-through', opacity: '0.7' }}>
-              {new Intl.NumberFormat().format(product.price)}đ
-            </span>
-          </p>
-          <p style={{ color: 'red' }}>
-            {new Intl.NumberFormat().format(
-              (product.price * (1 - product.discount / 100)).toFixed(2)
-            )}
-            đ
-          </p>
+          {product.discount ? (
+            <>
+              <p>
+                <span
+                  style={{ textDecoration: 'line-through', opacity: '0.7' }}
+                >
+                  {new Intl.NumberFormat().format(product.price)}đ
+                </span>
+              </p>
+              <p style={{ color: 'red' }}>
+                {new Intl.NumberFormat().format(
+                  (product.price * (1 - product.discount / 100)).toFixed(2)
+                )}
+                đ
+              </p>
+            </>
+          ) : (
+            <p>
+              <span style={{ color: '#e4003a' }}>
+                {new Intl.NumberFormat().format(product.price)}đ
+              </span>
+            </p>
+          )}
         </Space>
       </Card>
 
@@ -117,13 +133,13 @@ const CardComponent = ({ product }) => {
         centered
         width={1100}
       >
-        <ShowProduct id={productId} />
+        <ShowProduct id={productId} userId={userId} />
       </Modal>
     </div>
   );
 };
 
-function ShowProduct({ id }) {
+function ShowProduct({ id, userId }) {
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
@@ -138,11 +154,33 @@ function ShowProduct({ id }) {
   }, [id]);
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    if (quantity < product.inventory_quantity) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error('Bạn đã chọn số lượng vượt quá số lượng hàng trong kho');
+    }
   };
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+    }
+  };
+
+  const handleAddCart = async () => {
+    if (quantity > product.inventory_quantity) {
+      toast.error('Bạn đã chọn số lượng vượt quá số lượng hàng trong kho');
+      return;
+    }
+
+    try {
+      await axios.post('http://localhost:5000/carts/addToCart', {
+        userId,
+        productId: product._id,
+        quantity,
+      });
+      toast.success('Sản phẩm đã được thêm vào giỏ hàng');
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
     }
   };
 
@@ -226,7 +264,9 @@ function ShowProduct({ id }) {
               +
             </button>
           </span>
-          <button className="btn-action">Add To Cart</button>
+          <button className="btn-action" onClick={handleAddCart}>
+            Add To Cart
+          </button>
           <button className="btn-action">Mua Ngay</button>
         </div>
         <Divider />

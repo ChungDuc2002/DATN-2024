@@ -38,6 +38,12 @@ apiProducts.post(
   productsController.createProduct
 );
 
+apiProducts.post(
+  '/addComment/:productId',
+  upload.array('image_comment', 10),
+  productsController.addCommentToProduct
+);
+
 //! Put API ---------------
 
 apiProducts.put(

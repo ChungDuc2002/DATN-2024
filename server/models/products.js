@@ -46,12 +46,22 @@ const productSchema = mongoose.Schema(
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          // ref: 'User', // Tham chiếu đến schema của người dùng nếu cần
+          ref: 'User',
         },
         text: {
           type: String,
-          // required: true,
         },
+        rate: {
+          type: Number,
+          min: 1,
+          max: 5,
+          required: true,
+        },
+        image_comment: [
+          {
+            type: String, // Đường dẫn đến hình ảnh
+          },
+        ],
         createdAt: {
           type: Date,
           default: Date.now,
@@ -72,7 +82,7 @@ const productSchema = mongoose.Schema(
     // *Model Product Book
     book_category: {
       type: String,
-      enum: ['textbook', 'reference_books', 'comic'],
+      enum: ['Sách giáo khoa', 'Sách tham khảo', 'Truyện'],
     },
   },
   {

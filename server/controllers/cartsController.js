@@ -39,6 +39,17 @@ export async function getCart(req, res) {
 export async function addToCart(req, res) {
   const { userId, productId, quantity } = req.body;
   try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+    }
+
+    if (quantity > product.inventory_quantity) {
+      return res
+        .status(400)
+        .json({ message: 'Số lượng hàng trong kho không đủ' });
+    }
+
     const cart = await Cart.findOne({ userId });
 
     if (cart) {
@@ -46,12 +57,29 @@ export async function addToCart(req, res) {
         (product) => product.productId === productId
       );
       if (productIndex >= 0) {
-        cart.products[productIndex].quantity += quantity;
+        const newQuantity = cart.products[productIndex].quantity + quantity;
+        if (newQuantity > product.inventory_quantity) {
+          return res
+            .status(400)
+            .json({ message: 'Số lượng hàng trong kho không đủ' });
+        }
+        cart.products[productIndex].quantity = newQuantity;
       } else {
+        if (quantity > product.inventory_quantity) {
+          return res
+            .status(400)
+            .json({ message: 'Số lượng hàng trong kho không đủ' });
+        }
         cart.products.push({ productId, quantity });
       }
       await cart.save();
       return res.status(200).json(cart);
+    }
+
+    if (quantity > product.inventory_quantity) {
+      return res
+        .status(400)
+        .json({ message: 'Số lượng hàng trong kho không đủ' });
     }
     const newCart = new Cart({
       userId,

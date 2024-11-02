@@ -1,0 +1,212 @@
+.wrapper-product-detail-header {
+  display: flex;
+  width: 100%;
+  column-gap: 20px;
+  padding: 20px;
+  .image-gallery {
+    display: flex;
+    .thumbnail-images {
+      display: flex;
+      flex-direction: column;
+      .thumbnail-image {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      .selected {
+        border: 1px solid red;
+      }
+    }
+    .main-image {
+      margin-left: 20px;
+      .large-image {
+        width: 400px;
+        height: 400px;
+      }
+    }
+  }
+  .tag-discount {
+    z-index: 999;
+  }
+  &-information {
+    width: 55%;
+    p {
+      margin: 5px 0;
+    }
+    .title-product {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      a {
+        color: #000;
+        text-transform: capitalize;
+        text-decoration: none;
+        list-style: none;
+      }
+    }
+    .trademark {
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      .price_basic {
+        text-decoration: line-through;
+        list-style: none;
+        opacity: 0.7;
+      }
+      .price_discount {
+        font-weight: 500;
+        color: #e4003a;
+      }
+      .price_initial {
+        font-weight: 500;
+        color: #e4003a;
+      }
+    }
+    .ant-divider {
+      margin: 10px 0;
+    }
+    .description-product {
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+    .quantity {
+      font-size: 1rem;
+      font-weight: 300;
+    }
+    .group-action {
+      display: flex;
+      column-gap: 10px;
+      .state-btn {
+        width: 35px;
+        height: 35px;
+        background-color: transparent;
+        border: 1px solid #777777;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input {
+        width: 60px;
+        height: 35px;
+        text-align: center;
+        border: 1px solid #777777;
+        border-radius: 5px;
+        // hiden arrow number input
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+      .btn-action {
+        padding: 0px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+.wrapper-product-detail-body {
+  margin-top: 25px !important;
+  .title-product {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 20px 0;
+    a {
+      color: #000;
+      text-transform: capitalize;
+      text-decoration: none;
+      list-style: none;
+    }
+  }
+  .group-image {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    .image {
+      width: 100%;
+      height: 300px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .des {
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 20px 0;
+  }
+  .product-reviews {
+    .des-rate {
+      font-style: italic;
+    }
+    .form {
+      margin: 10px 0;
+      .form-image {
+        display: inline-block;
+        margin: 10px 0;
+        .render_add-new-product {
+          width: 100px;
+          height: 100px;
+          margin: 0 10px;
+        }
+      }
+      input {
+        width: 90%;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px dotted #9b9898;
+        display: block;
+        margin: 5px 0;
+        &:focus {
+          outline: 1px solid blue;
+          border: none;
+        }
+      }
+    }
+    .rate {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      border: 1px solid #777777;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+      resize: vertical;
+    }
+    .btn-comment {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      color: #fff;
+      background-color: blue;
+      &:hover {
+        scale: 1.1;
+      }
+    }
+  }
+}
