@@ -3,6 +3,18 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
+//! Logic - Search user ----------------------------
+export async function searchUserByName(req, res) {
+  try {
+    const nameUser = await users.find({
+      fullName: { $regex: req.query.fullName, $options: 'i' },
+    });
+    return res.status(200).json(nameUser);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 //! Logic - Forget password -----------------------
 
 export async function forgotPassword(req, res) {

@@ -17,18 +17,15 @@ import OrderPage from '../Pages/Profile/order';
 import Register from '../Pages/Register';
 import HomePage from '../Pages/Home';
 import NotFound from '../Pages/NotFound';
-import Test from '../Pages/test';
 import BookPage from './../Pages/Admin/Products/Books';
 import FashionPage from './../Pages/Admin/Products/Fashion';
 import ElectronicsPage from './../Pages/Admin/Products/Electronics';
 import ManagerContact from '../Pages/Admin/Trang-Chu/ManagerContact';
 import ProductDetail from '../Pages/ProductDetail';
+import ManagerComments from '../Pages/Admin/Trang-Chu/ManagerComments';
+import ProductsPage from '../Pages/Products';
 
 const InitRouter = [
-  {
-    path: '/test',
-    element: <Test />,
-  },
   {
     path: '/',
     element: <DefaultLayout />,
@@ -69,6 +66,10 @@ const InitRouter = [
         path: '/product/:id',
         element: <ProductDetail />,
       },
+      {
+        path: '/products',
+        element: <ProductsPage />,
+      },
     ],
   },
   {
@@ -106,6 +107,10 @@ const InitRouter = [
       {
         path: '/admin/manager-contact',
         element: <ManagerContact />,
+      },
+      {
+        path: '/admin/manager-comments',
+        element: <ManagerComments />,
       },
     ],
   },

@@ -48,6 +48,10 @@ const AdminPage = () => {
           key: '/admin/manager-contact',
           label: 'Quản lý liên hệ',
         },
+        {
+          key: '/admin/manager-comments',
+          label: 'Quản lý phản hồi',
+        },
       ],
     },
     {

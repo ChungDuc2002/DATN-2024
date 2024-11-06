@@ -1,6 +1,31 @@
 @import '../../Styles/responsive.scss';
 
 .wrapper-home {
+  .title {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title-products {
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    button {
+      height: 30px;
+      padding: 0px 20px;
+      border: none;
+      background-color: transparent;
+      font-size: 1rem;
+      display: flex;
+      column-gap: 5px;
+      align-items: center;
+      opacity: 0.8;
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+  }
   &-header {
     display: flex;
     padding: 0 !important;
@@ -169,32 +194,7 @@
   }
   &-preferential-products {
     padding: 20px;
-
     .title-preferential {
-      text-transform: uppercase;
-      font-weight: 400;
-      margin-bottom: 25px;
-    }
-  }
-  &-fashion-products {
-    padding: 20px;
-    .title-fashion {
-      text-transform: uppercase;
-      font-weight: 400;
-      margin-bottom: 25px;
-    }
-  }
-  &-electronics-products {
-    padding: 20px;
-    .title-electronics {
-      text-transform: uppercase;
-      font-weight: 400;
-      margin-bottom: 25px;
-    }
-  }
-  &-book-products {
-    padding: 20px;
-    .title-book {
       text-transform: uppercase;
       font-weight: 400;
       margin-bottom: 25px;

@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 
 //!  Get API ---------------
 
-apiProducts.get('/getAllProduct', productsController.getAllProduct);
+apiProducts.get('/getAllProducts', productsController.getAllProduct);
 
 apiProducts.get('/getProductByType', productsController.getProductByType);
 
@@ -30,6 +30,12 @@ apiProducts.get(
 );
 apiProducts.get('/getProductById/:id', productsController.getProductById);
 
+apiProducts.get(
+  '/getProductByCategory/:category',
+  productsController.getProductByCategory
+);
+
+apiProducts.get('/searchProductByName', productsController.searchProductByName);
 //! Post API ---------------
 
 apiProducts.post(

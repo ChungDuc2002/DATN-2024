@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
+  MenuOutlined,
+} from '@ant-design/icons';
 import { Image, Button, Divider, Input, Drawer, Badge } from 'antd';
 import image_modal from '../../Assets/image_shop.png';
 import axios from 'axios';
@@ -9,6 +14,7 @@ import UserIcon from '../Icons/UserIcon';
 import CartIcon from '../Icons/CartIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import HeartIcon from '../Icons/HeartIcon';
+import { debounce } from 'lodash';
 import './header.scss';
 
 const HeaderClient = () => {
@@ -19,6 +25,7 @@ const HeaderClient = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [searchResults, setSearchResults] = useState([]); // State để lưu trữ kết quả tìm kiếm
 
   // !  get last name from full name
   const userName = localStorage.getItem('fullName');
@@ -30,19 +37,20 @@ const HeaderClient = () => {
   useEffect(() => {
     const resName = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
-
-      try {
-        const result = await axios.get('http://localhost:5000/info', {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        });
-        if (result.status === 200) {
-          localStorage.setItem('fullName', result.data.fullName);
-          setUserId(result.data._id);
+      if (token) {
+        try {
+          const result = await axios.get('http://localhost:5000/info', {
+            headers: {
+              token: `Bearer ${token}`,
+            },
+          });
+          if (result.status === 200) {
+            localStorage.setItem('fullName', result.data.fullName);
+            setUserId(result.data._id);
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
       }
     };
     resName();
@@ -91,8 +99,31 @@ const HeaderClient = () => {
 
   //* LOGIC - Tìm kiếm
 
-  const onSearch = (value) => {
-    console.log(value);
+  const onSearch = useCallback(
+    debounce(async (value) => {
+      if (value.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/products/searchProductByName`,
+          {
+            params: { name: value },
+          }
+        );
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error('Error searching products:', error);
+      }
+    }, 300),
+    []
+  );
+
+  const handleNavigateProductById = (id) => () => {
+    navigate(`/product/${id}`);
+    setIsModalOpen(false);
+    setSearchResults([]);
   };
 
   const onClose = () => {
@@ -106,7 +137,6 @@ const HeaderClient = () => {
           type="link"
           aria-label="Bar icon"
           icon={<MenuOutlined style={{ fontSize: '20px' }} />}
-          // onClick={() => setIsSideMenuMobile(!isSideMenuMobile)}
           onClick={() => setOpenDrawer(true)}
         />
         <div className="nav">
@@ -118,7 +148,7 @@ const HeaderClient = () => {
               <Link>tin tức</Link>
             </li>
             <li className="show-modal">
-              <Link to="/">cửa hàng</Link>
+              <Link to="/products">cửa hàng</Link>
               <div className="modal-shop">
                 <div className="flex">
                   <div className="form-modal">
@@ -278,10 +308,66 @@ const HeaderClient = () => {
               <Search
                 placeholder="Search"
                 allowClear
-                onSearch={onSearch}
+                onChange={(e) => onSearch(e.target.value)}
                 autoFocus
               />
             </div>
+          </div>
+          <div className="content-search">
+            {searchResults.slice(0, 4).map((product) => (
+              <div key={product._id} className="search-result-item">
+                <Image
+                  src={require(`../../../../server/uploads/${product.images[0]}`)}
+                  alt={product.name}
+                  preview={false}
+                />
+                <div className="info-product-search">
+                  <h3
+                    className="name-product"
+                    onClick={handleNavigateProductById(product._id)}
+                  >
+                    {product.name}
+                  </h3>
+                  <p>
+                    {product.discount ? (
+                      <div className="price-discount">
+                        <p>
+                          <span
+                            style={{
+                              textDecoration: 'line-through',
+                              opacity: '0.7',
+                            }}
+                          >
+                            {new Intl.NumberFormat().format(product.price)}đ
+                          </span>
+                        </p>
+                        <p style={{ color: 'red' }}>
+                          {new Intl.NumberFormat().format(
+                            (
+                              product.price *
+                              (1 - product.discount / 100)
+                            ).toFixed(2)
+                          )}
+                          đ
+                        </p>
+                      </div>
+                    ) : (
+                      <p>
+                        <span style={{ color: '#e4003a' }}>
+                          {new Intl.NumberFormat().format(product.price)}đ
+                        </span>
+                      </p>
+                    )}
+                  </p>
+                  <p className="trademark">Chungduc_MO</p>
+                </div>
+              </div>
+            ))}
+            {searchResults.length > 4 && (
+              <p className="view-all">
+                <DoubleLeftOutlined /> -Xem tất cả- <DoubleRightOutlined />
+              </p>
+            )}
           </div>
         </div>
       )}

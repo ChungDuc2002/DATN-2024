@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button, Image } from 'antd';
 import {
+  ArrowRightOutlined,
   BookOutlined,
   CiCircleOutlined,
   CrownOutlined,
@@ -160,73 +161,143 @@ const HomePage = () => {
   return (
     <div className="wrapper-home">
       <div className="container wrapper-home-header">
-        <div className="wrapper-home-header-menu">
+        {/* <div className="wrapper-home-header-menu">
           <ul>
             <li>
-              <Link to="/contact">
+              <Link to="/products">
                 <MobileOutlined />
                 Thiết bị điện tử
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <CiCircleOutlined />
                 Fashion & Clothing
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <BookOutlined />
                 Book & Audible
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <CustomerServiceOutlined />
                 Accessories
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <VideoCameraAddOutlined />
                 TV & Home Appliances
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <CrownOutlined />
                 Heath & Beauty
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <RedditOutlined />
                 Babies & Toys
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <HomeOutlined />
                 Home & Kitchen
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <DribbbleSquareOutlined />
                 Sport & Travel
               </Link>
             </li>
 
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <GiftOutlined />
                 Garden
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/products">
                 <PlayCircleOutlined />
                 Home Audio
+              </Link>
+            </li>
+          </ul>
+        </div> */}
+        <div className="wrapper-home-header-menu">
+          <ul>
+            <li>
+              <Link to="/products?category=Thiết bị điện tử">
+                <MobileOutlined />
+                Thiết bị điện tử
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Fashion Clothing">
+                <CiCircleOutlined />
+                Fashion & Clothing
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Book Audible">
+                <BookOutlined />
+                Book & Audible
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Accessories">
+                <CustomerServiceOutlined />
+                Accessories
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=TV Home Appliances">
+                <VideoCameraAddOutlined />
+                TV & Home Appliances
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Babies Toys">
+                <RedditOutlined />
+                Babies & Toys
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Home Kitchen">
+                <HomeOutlined />
+                Home & Kitchen
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Sport Travel">
+                <DribbbleSquareOutlined />
+                Sport & Travel
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=Home Audio">
+                <PlayCircleOutlined />
+                Home Audio
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=garden">
+                <GiftOutlined />
+                Garden
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?category=health-beauty">
+                <CrownOutlined />
+                Heath & Beauty
               </Link>
             </li>
           </ul>
@@ -311,7 +382,12 @@ const HomePage = () => {
         </Swiper>
       </div>
       <div className="container wrapper-home-fashion-products">
-        <h2 className="title-fashion">Sản phẩm thời trang</h2>
+        <div className="title">
+          <h2 className="title-products">Sản phẩm thời trang</h2>
+          <button>
+            Xem tất cả <ArrowRightOutlined />
+          </button>
+        </div>
         <Swiper
           modules={[Pagination]}
           breakpoints={{
@@ -341,7 +417,12 @@ const HomePage = () => {
         </Swiper>
       </div>
       <div className="container wrapper-home-electronics-products">
-        <h2 className="title-electronics">Thiết bị điện tử</h2>
+        <div className="title">
+          <h2 className="title-products">Thiết bị điện tử</h2>
+          <button>
+            Xem tất cả <ArrowRightOutlined />
+          </button>
+        </div>
         <Swiper
           modules={[Pagination]}
           breakpoints={{
@@ -371,7 +452,12 @@ const HomePage = () => {
         </Swiper>
       </div>
       <div className="container wrapper-home-book-products">
-        <h2 className="title-book">Sách & Âm thanh</h2>
+        <div className="title">
+          <h2 className="title-products">Sách & Âm thanh</h2>
+          <button>
+            Xem tất cả <ArrowRightOutlined />
+          </button>
+        </div>
         <Swiper
           modules={[Pagination]}
           breakpoints={{

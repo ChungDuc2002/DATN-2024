@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Card, Divider, Image, Modal, Space } from 'antd';
+import { Badge, Card, Divider, Image, Modal, Rate, Space } from 'antd';
 const { Meta } = Card;
 import {
   FullscreenOutlined,
@@ -20,6 +20,7 @@ const CardComponent = ({ product }) => {
   const [showProductModal, setShowProductModal] = useState(false);
   const [productId, setProductId] = useState(null);
   const [userId, setUserId] = useState('');
+  const [averageRating, setAverageRating] = useState(0);
 
   const auth = localStorage.getItem('auth');
   const navigate = useNavigate();
@@ -27,21 +28,35 @@ const CardComponent = ({ product }) => {
   useEffect(() => {
     const getIdUser = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
-      try {
-        const result = await axios.get('http://localhost:5000/info', {
-          headers: {
-            token: `Bearer ${token}`,
-          },
-        });
-        if (result.status === 200) {
-          setUserId(result.data._id);
+      if (token) {
+        try {
+          const result = await axios.get('http://localhost:5000/info', {
+            headers: {
+              token: `Bearer ${token}`,
+            },
+          });
+          if (result.status === 200) {
+            setUserId(result.data._id);
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
       }
     };
     getIdUser();
   }, []);
+
+  useEffect(() => {
+    // Tính toán giá trị trung bình của các đánh giá
+    if (product.comments.length > 0) {
+      const totalRating = product.comments.reduce(
+        (acc, comment) => acc + comment.rate,
+        0
+      );
+      const avgRating = totalRating / product.comments.length;
+      setAverageRating(avgRating);
+    }
+  }, [product.comments]);
 
   const handleShowProduct = () => {
     setShowProductModal(true);
@@ -84,11 +99,15 @@ const CardComponent = ({ product }) => {
             <img
               alt="example"
               src={require(`../../../../server/uploads/${product.images[0]}`)}
+              // src={`http://localhost:5000/uploads/${product.images[0]}`}
             />
           </>
         }
       >
         <Meta title={product.name} onClick={handleNavigateToProduct} />
+        <Space wrap>
+          <Rate className="rate-product" disabled value={averageRating} />
+        </Space>
         <Space wrap>
           <div className="group-icon">
             <div className="icon">
@@ -100,7 +119,7 @@ const CardComponent = ({ product }) => {
         </Space>
         <Space wrap>
           {product.discount ? (
-            <>
+            <div className="price-discount">
               <p>
                 <span
                   style={{ textDecoration: 'line-through', opacity: '0.7' }}
@@ -114,7 +133,7 @@ const CardComponent = ({ product }) => {
                 )}
                 đ
               </p>
-            </>
+            </div>
           ) : (
             <p>
               <span style={{ color: '#e4003a' }}>
@@ -122,6 +141,9 @@ const CardComponent = ({ product }) => {
               </span>
             </p>
           )}
+        </Space>
+        <Space wrap>
+          <p className="trademark">Chungduc_MO</p>
         </Space>
       </Card>
 
@@ -142,6 +164,7 @@ const CardComponent = ({ product }) => {
 function ShowProduct({ id, userId }) {
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     const callApiProductById = async () => {
@@ -152,6 +175,18 @@ function ShowProduct({ id, userId }) {
     };
     callApiProductById();
   }, [id]);
+
+  useEffect(() => {
+    if (product.comments && product.comments.length > 0) {
+      const totalRating = product.comments.reduce(
+        (acc, comment) => acc + comment.rate,
+        0
+      );
+      const avgRating = totalRating / product.comments.length;
+      console.log(avgRating);
+      setAverageRating(avgRating);
+    }
+  }, [product.comments]);
 
   const increaseQuantity = () => {
     if (quantity < product.inventory_quantity) {
@@ -231,6 +266,10 @@ function ShowProduct({ id, userId }) {
           <Link to="/contact">{product.name}</Link>
         </h1>
         <p className="trademark">Chungduc_MO</p>
+        <div className="rating">
+          <Rate disabled value={averageRating} />
+          <p> {product.comments?.length || 0} khách hàng đánh giá</p>
+        </div>
         <div className="price">
           <span className="price_basic">
             {' '}

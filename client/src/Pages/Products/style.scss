@@ -1,0 +1,93 @@
+.wrapper-products {
+  background-color: #f2f2f2 !important;
+  .container {
+    padding: 0;
+  }
+  &-body {
+    display: flex;
+    width: 100%;
+    margin-top: 50px !important;
+    &-menu {
+      width: 20%;
+      border-right: 1px solid #e0e0e0;
+      padding-top: 20px;
+      ul {
+        li {
+          a {
+            list-style: none;
+            text-decoration: none;
+            display: flex;
+            column-gap: 10px;
+            padding: 10px 20px;
+            color: #777777;
+            font-size: 1rem;
+            font-weight: 300;
+            &:hover {
+              color: #6f4a32;
+              cursor: pointer;
+            }
+          }
+          &.active {
+            a {
+              color: #6f4a32;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+    &-content {
+      width: 80%;
+      padding: 10px 20px;
+      padding-top: 20px;
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .group-information {
+          h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            text-transform: uppercase;
+          }
+          p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #777777;
+          }
+        }
+        .group-select {
+          display: flex;
+          align-items: center;
+          column-gap: 10px;
+          p {
+            font-size: 1.1rem;
+            font-weight: 400;
+          }
+          select {
+            padding: 5px 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 400;
+            &:focus {
+              outline: none;
+            }
+            option {
+              font-size: 1rem;
+              font-weight: 300;
+              color: #333;
+            }
+          }
+        }
+      }
+      .body-content {
+        margin-top: 25px;
+        .not-found-product {
+          text-align: center;
+          margin-top: 100px;
+        }
+      }
+    }
+  }
+}

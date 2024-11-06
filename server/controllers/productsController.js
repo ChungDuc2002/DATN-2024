@@ -1,5 +1,63 @@
 import Products from '../models/products.js';
 
+//* LOGIC SEARCH PRODUCT BY NAME
+export async function searchProductByName(req, res) {
+  try {
+    const products = await Products.find({
+      name: { $regex: req.query.name, $options: 'i' },
+    });
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+//* LOGIC DELETE COMMENT FROM PRODUCT - ADMIN
+
+export const deleteCommentFromProduct = async (req, res) => {
+  const { productId, commentId } = req.params;
+
+  try {
+    const product = await Products.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    const commentIndex = product.comments.findIndex(
+      (comment) => comment._id.toString() === commentId
+    );
+
+    if (commentIndex === -1) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    product.comments.splice(commentIndex, 1);
+    await product.save();
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+//* LOGIC GET PRODUCT BY CATEGORY
+
+export const getProductByCategory = async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    const products = await Products.find({ category: { $in: [category] } });
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'No products found in this category' });
+    }
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 //* LOGIC ADD COMMENT TO PRODUCT
 
 export const addCommentToProduct = async (req, res) => {
@@ -64,7 +122,11 @@ export async function getAllProduct(req, res) {
 //* LOGIC GET PRODUCT BY ID
 export async function getProductById(req, res) {
   try {
-    const product = await Products.findById(req.params.id);
+    // * Populate comments.user để lấy thông tin của user đã comment
+    const product = await Products.findById(req.params.id).populate(
+      'comments.user',
+      'fullName '
+    );
     return res.status(200).json(product);
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -288,15 +288,15 @@ function ModalEditProduct({ id, onCancel }) {
     },
     {
       label: 'TV & Home Appliances',
-      value: 'TV & Home Appliances',
+      value: 'TV Home Appliances',
     },
     {
       label: 'Fashion & Clothing',
-      value: 'Fashion & Clothing',
+      value: 'Fashion Clothing',
     },
     {
       label: 'Book & Audible',
-      value: 'Book & Audible',
+      value: 'Book Audible',
     },
     {
       label: 'Accessories',
@@ -304,15 +304,15 @@ function ModalEditProduct({ id, onCancel }) {
     },
     {
       label: 'Babies & Toys',
-      value: 'Babies & Toys',
+      value: 'Babies Toys',
     },
     {
       label: 'Home & Kitchen',
-      value: 'Home & Kitchen',
+      value: 'Home Kitchen',
     },
     {
       label: 'Sport & Travel',
-      value: 'Sport & Travel',
+      value: 'Sport Travel',
     },
     {
       label: 'Home Audio',

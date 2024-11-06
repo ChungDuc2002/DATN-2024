@@ -19,7 +19,7 @@ const ProductDetail = () => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-
+  const [averageRating, setAverageRating] = useState(0);
   useEffect(() => {
     const getIdUser = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
@@ -46,8 +46,6 @@ const ProductDetail = () => {
           `http://localhost:5000/products/getProductById/${id}`
         );
         setProduct(response.data);
-        console.log(response.data);
-
         setSelectedImage(response.data.images[0]);
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -57,10 +55,23 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0); // auto scroll to top when change product
-  // }, []);
+  useEffect(() => {
+    if (product.comments && product.comments.length > 0) {
+      const totalRating = product.comments.reduce(
+        (acc, comment) => acc + comment.rate,
+        0
+      );
+      const avgRating = totalRating / product.comments.length;
+      console.log(avgRating);
+      setAverageRating(avgRating);
+    }
+  }, [product.comments]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // !Quantity
   const increaseQuantity = () => {
     if (quantity < product.inventory_quantity) {
       setQuantity(quantity + 1);
@@ -74,6 +85,7 @@ const ProductDetail = () => {
     }
   };
 
+  // !Add to cart
   const handleAddToCart = async () => {
     try {
       const response = await axios.get(
@@ -105,12 +117,15 @@ const ProductDetail = () => {
     }
   };
 
+  // !Comment and rating
+
   const handleImageChange = (e) => {
     setImages(e.target.files);
   };
 
-  const handleAddComment = async () => {
+  const handleAddComment = async (e) => {
     if (!userId) {
+      e.preventDefault();
       toast.error('Vui lòng đăng nhập để thêm đánh giá');
       return;
     }
@@ -141,9 +156,10 @@ const ProductDetail = () => {
       );
 
       if (response.status === 200) {
-        toast.success('Đánh giá của bạn đã được thêm');
+        // toast.success('Đánh giá của bạn đã được thêm');
         setComment('');
         setRating(0);
+        setProduct(response.data);
       }
     } catch (error) {
       toast.error('Có lỗi xảy ra khi thêm đánh giá');
@@ -192,6 +208,10 @@ const ProductDetail = () => {
             <Link to="/contact">{product.name}</Link>
           </h1>
           <p className="trademark">Chungduc_MO</p>
+          <div className="rating">
+            <Rate disabled value={averageRating} />
+            <p> {product.comments?.length || 0} khách hàng đánh giá</p>
+          </div>
           <div className="price">
             {product.discount ? (
               <>
@@ -267,7 +287,9 @@ const ProductDetail = () => {
         </div>
       </div>
       <div className="container wrapper-product-detail-body">
-        <h1 className="title-product">Mô tả sản phẩm</h1>
+        <h1 className="title-product" style={{ fontSize: '1.2rem' }}>
+          Mô tả sản phẩm
+        </h1>
         <div className="group-image">
           {product.images?.map((item, index) => (
             <Image
@@ -291,23 +313,57 @@ const ProductDetail = () => {
           </span>
         </p>
         <Divider />
-        {/* <div className="reviewed">
-          <h1 className="title-product">3 đánh giá cho sản phẩm abc</h1>
-        </div> */}
+        <div className="reviewed">
+          {product.comments?.length > 0 ? (
+            <h1 className="title-product">
+              {product.comments?.length || 0} đánh giá cho sản phẩm{' '}
+              {product.name}
+            </h1>
+          ) : null}
+          {product.comments?.map((comment, index) => (
+            <div className="form-comment" key={index}>
+              <div className="avatar">
+                <img
+                  src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                  alt="Avatar"
+                />
+              </div>
+              <div className="information-user">
+                <div className="title">
+                  <p className="name">
+                    {comment?.user?.fullName || 'Unknown User'}
+                  </p>
+                  <p className="date">
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="rate-reviewed">
+                  <Rate disabled value={comment.rate} />
+                </div>
+                <p className="comment">{comment.text}</p>
+                {comment.image_comment?.map((image, idx) => (
+                  <Image
+                    src={`http://localhost:5000/uploads/${image}`}
+                    className="image-comment"
+                    key={idx}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
         <div className="product-reviews">
           <h1 className="title-product">Thêm đánh giá</h1>
           <p className="des-rate">
             Đánh giá sản phẩm là cách tuyệt vời để chia sẻ trải nghiệm của bạn
             với cộng đồng. Chúng tôi rất mong nhận được ý kiến của bạn về sản
-            phẩm này. Hãy chia sẻ những suy nghĩ, cảm nhận và nhận xét của bạn
-            để giúp người mua khác có cái nhìn tổng quan trước khi quyết định
-            mua hàng. Ý kiến của bạn quý giá đối với chúng tôi và sẽ giúp cải
+            phẩm này. Ý kiến của bạn quý giá đối với chúng tôi và sẽ giúp cải
             thiện dịch vụ của chúng tôi hơn nữa. Cảm ơn bạn đã dành thời gian để
             đánh giá sản phẩm này.
           </p>
           <Divider />
           <form action="" onSubmit={handleAddComment}>
-            <div className="form">
+            <div className="form-image">
               <label htmlFor="" style={{ display: 'block' }}>
                 Hình ảnh
               </label>

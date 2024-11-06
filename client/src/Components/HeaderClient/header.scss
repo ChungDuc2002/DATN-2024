@@ -11,8 +11,8 @@
   transition: top 0.5s ease;
   width: 100%;
   position: sticky;
+  background-color: #fff;
   &:hover {
-    background-color: #fff;
   }
   @media (max-width: $xs-max-width) {
     height: 100px;
@@ -254,6 +254,9 @@
   position: fixed;
   top: 0;
   animation: animationSearchShow 1s ease forwards;
+  @media (max-width: $xs-max-width) {
+    height: 200vh;
+  }
   .header-search {
     display: flex;
     justify-content: space-between;
@@ -326,6 +329,52 @@
             font-size: 20px;
           }
         }
+      }
+    }
+  }
+  .content-search {
+    width: 80%;
+    margin: 20px auto;
+    .search-result-item {
+      display: flex;
+      column-gap: 20px;
+      border-bottom: 1px solid gray;
+      margin: 5px 0;
+      padding: 5px;
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+      }
+      .info-product-search {
+        .name-product {
+          font-weight: 400;
+          @media (max-width: $xs-max-width) {
+            font-size: 1.1rem;
+          }
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .price-discount {
+          display: flex;
+          align-items: center;
+          column-gap: 10px;
+        }
+        .trademark {
+          opacity: 0.7;
+        }
+      }
+    }
+    .view-all {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px 0;
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
       }
     }
   }

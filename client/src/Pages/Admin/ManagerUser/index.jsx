@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Table, Button, Pagination, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import './style.scss';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { debounce } from 'lodash';
 
 const ManagerUsers = () => {
   const [users, setUsers] = useState([]);
@@ -138,16 +139,29 @@ const ManagerUsers = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [search, setSearch] = useState('');
 
-  const handleSearch = () => {
-    if (search === '') {
-      return setSearchResult([]);
-    } else {
-      const filteredUsers = currentUsers.filter((user) =>
-        user.fullName.toLowerCase().includes(search.toLowerCase())
-      );
-      setSearchResult(filteredUsers);
-    }
+  const handleSearch = useCallback(
+    debounce(async (value) => {
+      setSearch(value);
+      if (value.trim() === '') {
+        return setSearchResult([]);
+      }
+      try {
+        const response = await axios.get('http://localhost:5000/searchUser', {
+          params: { fullName: value },
+        });
+        setSearchResult(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 300),
+    []
+  );
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    handleSearch(value);
   };
+
   return (
     <div className="wrapper-manager-user">
       <div className="group-btn">
@@ -157,11 +171,8 @@ const ManagerUsers = () => {
           type="text"
           placeholder="Tìm kiếm tại đây . . ."
           value={search}
-          onChange={(e) => {
-            handleSearch();
-            setSearch(e.target.value);
-          }}
-          onBlur={handleSearch}
+          onChange={handleInputChange}
+          onBlur={() => handleSearch(search)}
         />
         <Button
           className="btn-add-user"
@@ -215,7 +226,6 @@ function ModalEditUser({ id, onCancel }) {
           `http://localhost:5000/getUserById/${id._id}`
         );
         setUserUpdate(res.data);
-        console.log(id);
       } catch (error) {
         console.log(error);
       }
