@@ -3,15 +3,15 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import nodemailer from 'nodemailer';
 import { InitRouters } from './routers/index.js';
 import cookieParser from 'cookie-parser';
 import { sendData } from './utils/data.js';
+
+dotenv.config();
+
 const app = express();
 
 const port = 5000;
-
-dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser());

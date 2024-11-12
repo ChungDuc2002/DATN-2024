@@ -24,6 +24,10 @@ import ManagerContact from '../Pages/Admin/Trang-Chu/ManagerContact';
 import ProductDetail from '../Pages/ProductDetail';
 import ManagerComments from '../Pages/Admin/Trang-Chu/ManagerComments';
 import ProductsPage from '../Pages/Products';
+import SearchPage from '../Pages/Search';
+import StatisticalManager from '../Pages/Admin/Statistical';
+import PaymentPage from '../Pages/Payment';
+import PaymentSuccess from '../Pages/Payment-Success';
 
 const InitRouter = [
   {
@@ -70,12 +74,24 @@ const InitRouter = [
         path: '/products',
         element: <ProductsPage />,
       },
+      {
+        path: '/search',
+        element: <SearchPage />,
+      },
+      {
+        path: '/payment',
+        element: <PaymentPage />,
+      },
     ],
   },
   {
-    path: 'admin',
+    path: '/admin',
     element: <AdminLayout />,
     children: [
+      {
+        path: '/admin',
+        element: <StatisticalManager />,
+      },
       {
         path: '/admin/manager-users',
         element: <ManagerUsers />,
@@ -121,6 +137,10 @@ const InitRouter = [
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/payment-success',
+    element: <PaymentSuccess />,
   },
   {
     path: '/forgot-password',

@@ -11,11 +11,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css';
 import './style.scss';
+import { toast } from 'react-hot-toast';
 
 const CartPage = () => {
   const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState(null);
   const [userId, setUserId] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPhone, setUserPhone] = useState('');
   const [quantity, setQuantity] = useState({});
   const [showProductModal, setShowProductModal] = useState(false);
 
@@ -42,6 +45,8 @@ const CartPage = () => {
         });
         if (result.status === 200) {
           setUserId(result.data._id);
+          setUserEmail(result.data.email);
+          setUserPhone(result.data.phone);
         }
       } catch (err) {
         console.log(err);
@@ -59,6 +64,8 @@ const CartPage = () => {
             `http://localhost:5000/carts/getCart/${userId}`
           );
           setProducts(response.data.products);
+          console.log('response.data.products', response.data.products);
+
           const quantities = {};
           response.data.products.forEach((item) => {
             quantities[item._id] = item.quantity;
@@ -72,6 +79,10 @@ const CartPage = () => {
       resultCart();
     }
   }, [userId]);
+
+  useEffect(() => {
+    console.log(' products', products);
+  }, [products]);
 
   useEffect(() => {
     let newPrice = 0;
@@ -91,10 +102,21 @@ const CartPage = () => {
   }, [quantity, products]);
 
   const increaseQuantity = (productId) => {
-    setQuantity((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: (prevQuantities[productId] || 1) + 1,
-    }));
+    setProducts((prevProducts) => {
+      const product = prevProducts.find((p) => p._id === productId);
+      if (product) {
+        const currentQuantity = quantity[productId] || 1;
+        if (currentQuantity < product.inventory_quantity) {
+          setQuantity((prevQuantities) => ({
+            ...prevQuantities,
+            [productId]: currentQuantity + 1,
+          }));
+        } else {
+          toast.error('Số lượng sản phẩm vượt quá số lượng tồn kho');
+        }
+      }
+      return prevProducts;
+    });
   };
 
   const decreaseQuantity = (productId) => {
@@ -127,6 +149,56 @@ const CartPage = () => {
   const handleCancel = () => {
     setShowProductModal(false);
   };
+
+  // const generateOrderId = () => {
+  //   return Math.floor(Math.random() * 9000000000000) + 1000000000000; // Tạo số ngẫu nhiên từ 1000000000000 đến 9999999999999
+  // };
+
+  const handleCheckout = async () => {
+    try {
+      const productsData = products.map((product) => ({
+        productId: product._id,
+        quantity: quantity[product._id] || 1,
+        price: product.price,
+      }));
+      console.log('Products Data:', productsData); // Log dữ liệu products
+
+      // Lưu trữ dữ liệu products vào localStorage
+      localStorage.setItem('cartProducts', JSON.stringify(productsData));
+      localStorage.setItem('userId', userId);
+
+      // const orderId = generateOrderId();
+
+      const response = await axios.post(
+        'http://localhost:5000/api/payos/create-payment',
+        {
+          amount: total,
+          currency: 'USD',
+          // orderId,
+          description: 'Thanh toán đơn hàng',
+          customerEmail: userEmail,
+          customerPhone: userPhone,
+          userId,
+          products: productsData,
+        }
+      );
+      const { checkoutUrl, orderId } = response.data;
+      console.log('Payment URL:', checkoutUrl); // Log URL trả về
+      console.log('Order ID:', orderId); // Log Order ID
+
+      // Lưu trữ orderId vào localStorage
+      localStorage.setItem('orderId', orderId);
+
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        throw new Error('Payment URL is not defined');
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi tạo thanh toán');
+    }
+  };
+
   return (
     <div className="container wrapper-cart">
       <h1 className="title-page-user">Giỏ hàng của bạn</h1>
@@ -241,7 +313,7 @@ const CartPage = () => {
               <p>
                 Total <span>{new Intl.NumberFormat().format(total)}đ</span>
               </p>
-              <button>proceed to checkout</button>
+              <button onClick={handleCheckout}>proceed to checkout</button>
               <Divider />
               <p className="estimated_time">
                 estimated delivery by {formattedFutureDate}
@@ -325,8 +397,13 @@ function ShowProduct({ id }) {
       ) : null}
 
       <div className="wrapper-show-product-information">
-        <h1 className="title-product">
-          <Link to="/contact">{product.name}</Link>
+        <h1
+          className="title-product"
+          onClick={() => {
+            window.location.href = `/product/${product._id}`;
+          }}
+        >
+          {product.name}
         </h1>
         <p className="trademark">Chungduc_MO</p>
         <div className="price">

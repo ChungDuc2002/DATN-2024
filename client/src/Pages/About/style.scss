@@ -2,7 +2,7 @@
 
 .wrapper-about {
   .container {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5 !important;
     @media (max-width: $xs-max-width) {
       width: 90%;
     }

@@ -1,11 +1,91 @@
 import Products from '../models/products.js';
 
+export async function getProductCountByCategory(req, res) {
+  try {
+    // Lấy dữ liệu số lượng sản phẩm theo danh mục
+    const products = await Products.aggregate([
+      {
+        $unwind: '$category',
+      },
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } }, // Sắp xếp theo danh mục tăng dần
+    ]);
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+//* LOGIC GET PRODUCT COUNT OVER TIME
+export async function getProductCountOverTime(req, res) {
+  try {
+    // Giả sử bạn muốn lấy dữ liệu số lượng sản phẩm theo ngày
+    const products = await Products.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } }, // Sắp xếp theo ngày tăng dần
+    ]);
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+//* LOGIC GET PRODUCT BY COMMENTS
+export async function getProductByComments(req, res) {
+  try {
+    const products = await Products.find({ 'comments.0': { $exists: true } })
+      .populate('comments.user', 'fullName') // Populate thông tin người dùng trong bình luận
+      .exec();
+
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'No products with comments found' });
+    }
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 //* LOGIC SEARCH PRODUCT BY NAME
 export async function searchProductByName(req, res) {
   try {
+    const { name, sort } = req.query;
+    let sortOption = {};
+
+    switch (sort) {
+      case 'price-asc':
+        sortOption = { price: 1 };
+        break;
+      case 'price-desc':
+        sortOption = { price: -1 };
+        break;
+      case 'newest':
+        sortOption = { createdAt: -1 };
+        break;
+      default:
+        sortOption = {};
+    }
+    const searchName = typeof name === 'string' ? name : '';
+
     const products = await Products.find({
-      name: { $regex: req.query.name, $options: 'i' },
-    });
+      name: { $regex: searchName, $options: 'i' },
+    }).sort(sortOption);
+
     return res.status(200).json(products);
   } catch (error) {
     return res.status(500).json({ message: error.message });

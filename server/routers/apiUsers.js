@@ -14,6 +14,7 @@ apiUsers.get('/reset-password/:id/:token', userController.resetPassword);
 apiUsers.get('/getUserById/:id', userController.getUserById);
 apiUsers.get('/info', middlewareController.verifyToken, userController.info);
 apiUsers.get('/searchUser', userController.searchUserByName);
+apiUsers.get('/user-count-over-time', userController.getUserCountOverTime);
 
 // post a user
 apiUsers.post('/refreshToken', userController.requestRefreshToken);

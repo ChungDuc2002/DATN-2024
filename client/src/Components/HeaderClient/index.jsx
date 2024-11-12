@@ -7,7 +7,6 @@ import {
   MenuOutlined,
 } from '@ant-design/icons';
 import { Image, Button, Divider, Input, Drawer, Badge } from 'antd';
-import image_modal from '../../Assets/image_shop.png';
 import axios from 'axios';
 import logo from '../../Assets/logo.png';
 import UserIcon from '../Icons/UserIcon';
@@ -126,6 +125,13 @@ const HeaderClient = () => {
     setSearchResults([]);
   };
 
+  const handleViewAllSearch = () => {
+    const searchQuery = document.querySelector('.ant-input').value;
+    navigate(`/search?query=${searchQuery}`);
+    setIsModalOpen(false);
+    setSearchResults([]);
+  };
+
   const onClose = () => {
     setOpenDrawer(false);
   };
@@ -149,61 +155,6 @@ const HeaderClient = () => {
             </li>
             <li className="show-modal">
               <Link to="/products">cửa hàng</Link>
-              <div className="modal-shop">
-                <div className="flex">
-                  <div className="form-modal">
-                    <h3>thời trang</h3>
-                    <ul>
-                      <li>
-                        <Link>women</Link>
-                      </li>
-                      <li>
-                        <Link>man</Link>
-                      </li>
-                      <li>
-                        <Link>bags</Link>
-                      </li>
-                      <li>
-                        <Link>footwear</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="form-modal">
-                    <h3>bộ sưu tập</h3>
-                    <ul>
-                      <li>
-                        <Link>thu / đông</Link>
-                      </li>
-                      <li>
-                        <Link>black rose</Link>
-                      </li>
-                      <li>
-                        <Link>romantic</Link>
-                      </li>
-                      <li>
-                        <Link>sky</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="form-modal">
-                    <h3>ưu đãi</h3>
-                    <ul>
-                      <li>
-                        <Link>sale</Link>
-                      </li>
-                      <li>
-                        <Link>new arrival</Link>
-                      </li>
-                      <li>
-                        <Link> best seller</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="form-modal-image">
-                    <Image preview={false} src={image_modal} />
-                  </div>
-                </div>
-              </div>
             </li>
             <li>
               <Link to="/contact">liên hệ</Link>
@@ -253,7 +204,6 @@ const HeaderClient = () => {
                   <Button
                     onClick={() => {
                       localStorage.removeItem('auth');
-                      // localStorage.removeItem('fullName');
                       navigate('/login');
                     }}
                   >
@@ -364,7 +314,7 @@ const HeaderClient = () => {
               </div>
             ))}
             {searchResults.length > 4 && (
-              <p className="view-all">
+              <p className="view-all" onClick={handleViewAllSearch}>
                 <DoubleLeftOutlined /> -Xem tất cả- <DoubleRightOutlined />
               </p>
             )}

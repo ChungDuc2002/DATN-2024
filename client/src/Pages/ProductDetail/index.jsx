@@ -156,7 +156,6 @@ const ProductDetail = () => {
       );
 
       if (response.status === 200) {
-        // toast.success('Đánh giá của bạn đã được thêm');
         setComment('');
         setRating(0);
         setProduct(response.data);

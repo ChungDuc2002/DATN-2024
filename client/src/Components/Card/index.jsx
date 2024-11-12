@@ -13,7 +13,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css';
 import './style.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const CardComponent = ({ product }) => {
@@ -82,6 +82,23 @@ const CardComponent = ({ product }) => {
     }
   };
 
+  const handleAddFavorite = async () => {
+    if (!auth) {
+      toast.error('Vui lòng đăng nhập để thêm sản phẩm vào yêu thích');
+    }
+
+    try {
+      const data = {
+        userId,
+        productId: product._id,
+      };
+      await axios.post('http://localhost:5000/favorites/addToFavorite', data);
+      toast.success('Thêm vào yêu thích thành công !');
+    } catch (err) {
+      toast.error('Sản phẩm đã có trong danh sách yêu thích !');
+    }
+  };
+
   const handleCancel = () => {
     setShowProductModal(false);
   };
@@ -112,7 +129,7 @@ const CardComponent = ({ product }) => {
           <div className="group-icon">
             <div className="icon">
               <ShoppingCartOutlined onClick={handleAddToCart} />
-              <HeartOutlined />
+              <HeartOutlined onClick={handleAddFavorite} />
               <FullscreenOutlined onClick={handleShowProduct} />
             </div>
           </div>
@@ -262,8 +279,13 @@ function ShowProduct({ id, userId }) {
       ) : null}
 
       <div className="wrapper-show-product-information">
-        <h1 className="title-product">
-          <Link to="/contact">{product.name}</Link>
+        <h1
+          className="title-product"
+          onClick={() => {
+            window.location.href = `/product/${product._id}`;
+          }}
+        >
+          {product.name}
         </h1>
         <p className="trademark">Chungduc_MO</p>
         <div className="rating">

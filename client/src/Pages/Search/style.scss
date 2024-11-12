@@ -1,0 +1,52 @@
+@import '../../Styles/responsive.scss';
+
+.wrapper-search {
+  .container {
+    background-color: #f5f5f5 !important;
+    @media (max-width: $xs-max-width) {
+      width: 90%;
+    }
+  }
+  .search-results {
+    margin-top: 50px;
+    @media (max-width: $xs-max-width) {
+      margin-top: 25px;
+    }
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      @media (max-width: $xs-max-width) {
+        display: block;
+      }
+      h1 {
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin-bottom: 20px;
+      }
+      .group-select {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        p {
+          font-size: 1rem;
+          font-weight: 400;
+        }
+        select {
+          padding: 5px 10px;
+          border: 1px solid #e0e0e0;
+          border-radius: 5px;
+          font-size: 0.9rem;
+          font-weight: 400;
+          &:focus {
+            outline: none;
+          }
+          option {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+}

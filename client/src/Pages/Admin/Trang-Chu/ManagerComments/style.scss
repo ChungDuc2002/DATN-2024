@@ -1,0 +1,107 @@
+.wrapper-manager-comments {
+  &-product {
+    .manager-comments-product-content {
+      &-item {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        column-gap: 15px;
+        width: 100%;
+        border: 1px solid #f0f0f0;
+        padding: 10px;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        &-img {
+          img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+          }
+        }
+        &-info {
+          display: flex;
+          width: 100%;
+          justify-content: space-around;
+          column-gap: 20px;
+          align-items: center;
+          .product-info {
+            p {
+              font-size: 1rem;
+              font-weight: 400;
+              padding: 3px 0;
+              color: #333;
+            }
+          }
+          .product-action {
+            .anticon {
+              font-size: 25px;
+              opacity: 0.7;
+              &:hover {
+                cursor: pointer;
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.wrapper-info-product {
+  h1 {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #333;
+  }
+  .select-reviewed {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    select {
+      padding: 5px 10px;
+      border: 1px solid #c4c1c1;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+  }
+  .manager-reviewed {
+    .reviewed {
+      &-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        margin: 10px 0;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+        padding: 5px 10px;
+        &-info {
+          p {
+            font-size: 0.9rem;
+            padding: 5px 0;
+          }
+          .reviewed-item-img {
+            img {
+              width: 70px;
+              height: 70px;
+            }
+          }
+        }
+        &-action {
+          .anticon {
+            font-size: 18px;
+            opacity: 0.7;
+            &:hover {
+              cursor: pointer;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

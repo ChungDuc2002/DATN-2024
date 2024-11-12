@@ -36,6 +36,17 @@ const AdminPage = () => {
       },
     },
     {
+      key: 'sub5',
+      label: 'Thống kê',
+      icon: <StockOutlined />,
+      children: [
+        {
+          key: '/admin/statistical',
+          label: 'Thống kê tổng quan',
+        },
+      ],
+    },
+    {
       key: 'sub1',
       label: 'Trang chủ',
       icon: <HomeOutlined />,
@@ -107,29 +118,7 @@ const AdminPage = () => {
     {
       type: 'divider',
     },
-    {
-      key: 'sub5',
-      label: 'Thống kê',
-      icon: <StockOutlined />,
-      children: [
-        {
-          key: '9',
-          label: 'Option 9',
-        },
-        {
-          key: '10',
-          label: 'Option 10',
-        },
-        {
-          key: '11',
-          label: 'Option 11',
-        },
-        {
-          key: '12',
-          label: 'Option 12',
-        },
-      ],
-    },
+
     {
       disabled: true,
       label: 'Công cụ khác',

@@ -3,6 +3,37 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
+export async function getUserCountOverTime(req, res) {
+  try {
+    const user = await users.aggregate([
+      {
+        $project: {
+          date: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$createdAt',
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$date',
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 //! Logic - Search user ----------------------------
 export async function searchUserByName(req, res) {
   try {

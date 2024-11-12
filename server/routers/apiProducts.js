@@ -36,6 +36,21 @@ apiProducts.get(
 );
 
 apiProducts.get('/searchProductByName', productsController.searchProductByName);
+
+apiProducts.get(
+  '/getProductByComments',
+  productsController.getProductByComments
+);
+
+apiProducts.get(
+  '/product-count-over-time',
+  productsController.getProductCountOverTime
+);
+
+apiProducts.get(
+  '/product-count-by-category',
+  productsController.getProductCountByCategory
+);
 //! Post API ---------------
 
 apiProducts.post(
@@ -62,4 +77,8 @@ apiProducts.put(
 //! Delete API ------------
 
 apiProducts.delete('/deleteProduct/:id', productsController.deleteProduct);
+apiProducts.delete(
+  '/deleteComment/:productId/:commentId',
+  productsController.deleteCommentFromProduct
+);
 export default apiProducts;

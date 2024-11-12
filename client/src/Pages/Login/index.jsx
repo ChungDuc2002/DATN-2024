@@ -43,9 +43,6 @@ const LoginPage = () => {
     <div className="wrapper-auth">
       <div className="header-login">
         <h1>My Account</h1>
-        <div className="logo">
-          <Image preview={false} src={logo_school} />
-        </div>
       </div>
       <div className="wrapper-auth-form">
         <Form
@@ -54,7 +51,12 @@ const LoginPage = () => {
           name="basic"
           autoComplete="off"
         >
-          <h2>Đăng nhập</h2>
+          <div className="header-logo">
+            <div className="logo">
+              <Image preview={false} src={logo_school} />
+            </div>
+            <h2>Đăng nhập</h2>
+          </div>
           {showErrorMessage && (
             <>
               <div className="error-message">
