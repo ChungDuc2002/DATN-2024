@@ -16,6 +16,7 @@ import { toast } from 'react-hot-toast';
 const CartPage = () => {
   const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
   const [userId, setUserId] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPhone, setUserPhone] = useState('');
@@ -44,6 +45,7 @@ const CartPage = () => {
           },
         });
         if (result.status === 200) {
+          setUserInfo(result.data);
           setUserId(result.data._id);
           setUserEmail(result.data.email);
           setUserPhone(result.data.phone);
@@ -150,9 +152,9 @@ const CartPage = () => {
     setShowProductModal(false);
   };
 
-  // const generateOrderId = () => {
-  //   return Math.floor(Math.random() * 9000000000000) + 1000000000000; // Tạo số ngẫu nhiên từ 1000000000000 đến 9999999999999
-  // };
+  useEffect(() => {
+    console.log('prd', products);
+  }, [products]);
 
   const handleCheckout = async () => {
     try {
@@ -174,11 +176,11 @@ const CartPage = () => {
         {
           amount: total,
           currency: 'USD',
-          // orderId,
           description: 'Thanh toán đơn hàng',
           customerEmail: userEmail,
           customerPhone: userPhone,
           userId,
+          userInfo,
           products: productsData,
         }
       );
@@ -198,12 +200,19 @@ const CartPage = () => {
       toast.error('Có lỗi xảy ra khi tạo thanh toán');
     }
   };
+  const handleCheckoutClick = () => {
+    if (!userInfo.email || !userInfo.phone || !userInfo.shippingAddress) {
+      toast.error('Vui lòng cập nhật thông tin cần thiết để đặt hàng');
+    } else {
+      handleCheckout();
+    }
+  };
 
   return (
-    <div className="container wrapper-cart">
+    <div className=" wrapper-cart">
       <h1 className="title-page-user">Giỏ hàng của bạn</h1>
       {products.length > 0 ? (
-        <div className="wrapper-cart-layout">
+        <div className="container wrapper-cart-layout">
           <div className="wrapper-cart-layout-flex">
             {products?.map((product, index) => (
               <div className="wrapper-cart-layout-flex-products" key={index}>
@@ -300,6 +309,20 @@ const CartPage = () => {
             ))}
           </div>
           <div className="wrapper-cart-layout-payment">
+            <div className="wrapper-cart-layout-payment-info">
+              <h2>delivery information</h2>
+              <p>Name : {userInfo.fullName} </p>
+              <p>Email : {userInfo.email}</p>
+              <p>Phone : {userInfo.phone}</p>
+              <p>Address : {userInfo.shippingAddress}</p>
+              <button
+                onClick={() => {
+                  window.location.href = '/profile/3';
+                }}
+              >
+                Change order information
+              </button>
+            </div>
             <div className="wrapper-cart-layout-payment-body">
               <h2>order summary</h2>
               <p>
@@ -313,7 +336,7 @@ const CartPage = () => {
               <p>
                 Total <span>{new Intl.NumberFormat().format(total)}đ</span>
               </p>
-              <button onClick={handleCheckout}>proceed to checkout</button>
+              <button onClick={handleCheckoutClick}>proceed to checkout</button>
               <Divider />
               <p className="estimated_time">
                 estimated delivery by {formattedFutureDate}
@@ -324,7 +347,7 @@ const CartPage = () => {
       ) : (
         <div className="wrapper-not-favorite">
           <NotCartIcon />
-          <p>Chưa có sản phẩm nào trong danh sách yêu thích</p>
+          <p>Chưa có sản phẩm nào trong danh sách giỏ hàng</p>
           <Link to="/">Mua sắm ngay</Link>
         </div>
       )}
@@ -407,15 +430,25 @@ function ShowProduct({ id }) {
         </h1>
         <p className="trademark">Chungduc_MO</p>
         <div className="price">
-          <span className="price_basic">
-            {new Intl.NumberFormat().format(product.price)}đ
-          </span>
-          <span className="price_discount">
-            {new Intl.NumberFormat().format(
-              (product.price * (1 - product.discount / 100)).toFixed(2)
-            )}
-            đ{' '}
-          </span>
+          {product.discount ? (
+            <>
+              <span className="price_basic">
+                {' '}
+                {new Intl.NumberFormat().format(product.price)}đ
+              </span>
+              <span className="price_discount">
+                {new Intl.NumberFormat().format(
+                  (product.price * (1 - product.discount / 100)).toFixed(2)
+                )}
+                đ{' '}
+              </span>
+            </>
+          ) : (
+            <span className="price_initial">
+              {' '}
+              {new Intl.NumberFormat().format(product.price)}đ
+            </span>
+          )}
         </div>
         <p className="description-product">{product.description}</p>
         <Divider />

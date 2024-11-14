@@ -120,118 +120,54 @@ const HomePage = () => {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-01.jpg',
       title: 'Thiết bị điện tử',
+      link: '/products?category=Thiết bị điện tử',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-03.jpg',
       title: 'TV & Home Appliances',
+      link: '/products?category=TV Home Appliances',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-04.jpg',
       title: 'Health & Beauty',
+      link: '/products?category=Health Beauty',
     },
-
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-06.jpg',
       title: 'Home & Kitchen',
+      link: '/products?category=Home Kitchen',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-07.jpg',
       title: 'Sports & Travel',
+      link: '/products?category=Sports Travel',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-08.jpg',
       title: 'Book & Audible',
+      link: '/products?category=Book Audible',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-10.jpg',
       title: 'Game & Toys',
+      link: '/products?category=Game Toys',
     },
     {
       image:
         'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-12.jpg',
       title: 'Pet Supplies',
+      link: '/products?category=Pet Supplies',
     },
   ];
   return (
     <div className="wrapper-home">
       <div className="container wrapper-home-header">
-        {/* <div className="wrapper-home-header-menu">
-          <ul>
-            <li>
-              <Link to="/products">
-                <MobileOutlined />
-                Thiết bị điện tử
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <CiCircleOutlined />
-                Fashion & Clothing
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <BookOutlined />
-                Book & Audible
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <CustomerServiceOutlined />
-                Accessories
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <VideoCameraAddOutlined />
-                TV & Home Appliances
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <CrownOutlined />
-                Heath & Beauty
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <RedditOutlined />
-                Babies & Toys
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <HomeOutlined />
-                Home & Kitchen
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <DribbbleSquareOutlined />
-                Sport & Travel
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/products">
-                <GiftOutlined />
-                Garden
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <PlayCircleOutlined />
-                Home Audio
-              </Link>
-            </li>
-          </ul>
-        </div> */}
         <div className="wrapper-home-header-menu">
           <ul>
             <li>
@@ -340,12 +276,12 @@ const HomePage = () => {
         <h2 className="title-outstanding">danh mục nổi bật</h2>
         <div className="form-outstanding">
           {mockDataOutstanding?.map((item, index) => (
-            <div className="render_outstanding" key={index}>
+            <Link to={item.link} key={index} className="render_outstanding">
               <div className="image">
                 <Image src={item.image} preview={false} />
               </div>
               <p className="title">{item.title}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

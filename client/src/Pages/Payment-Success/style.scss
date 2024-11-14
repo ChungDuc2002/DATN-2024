@@ -1,0 +1,17 @@
+@import '../../Styles/responsive.scss';
+
+.wrapper-payment-success {
+  position: relative;
+  height: 100vh;
+  .ant-result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @media (max-width: $xs-max-width) {
+      position: initial;
+      transform: none;
+      margin-top: 50px;
+    }
+  }
+}

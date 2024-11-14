@@ -135,7 +135,7 @@ const CardComponent = ({ product }) => {
           </div>
         </Space>
         <Space wrap>
-          {product.discount ? (
+          {product.discount && product.inventory_quantity > 0 ? (
             <div className="price-discount">
               <p>
                 <span
@@ -151,12 +151,14 @@ const CardComponent = ({ product }) => {
                 đ
               </p>
             </div>
-          ) : (
+          ) : product.inventory_quantity > 0 ? (
             <p>
               <span style={{ color: '#e4003a' }}>
                 {new Intl.NumberFormat().format(product.price)}đ
               </span>
             </p>
+          ) : (
+            <p>Hết hàng</p>
           )}
         </Space>
         <Space wrap>
@@ -293,16 +295,25 @@ function ShowProduct({ id, userId }) {
           <p> {product.comments?.length || 0} khách hàng đánh giá</p>
         </div>
         <div className="price">
-          <span className="price_basic">
-            {' '}
-            {new Intl.NumberFormat().format(product.price)}đ
-          </span>
-          <span className="price_discount">
-            {new Intl.NumberFormat().format(
-              (product.price * (1 - product.discount / 100)).toFixed(2)
-            )}
-            đ{' '}
-          </span>
+          {product.discount ? (
+            <>
+              <span className="price_basic">
+                {' '}
+                {new Intl.NumberFormat().format(product.price)}đ
+              </span>
+              <span className="price_discount">
+                {new Intl.NumberFormat().format(
+                  (product.price * (1 - product.discount / 100)).toFixed(2)
+                )}
+                đ{' '}
+              </span>
+            </>
+          ) : (
+            <span className="price_initial">
+              {' '}
+              {new Intl.NumberFormat().format(product.price)}đ
+            </span>
+          )}
         </div>
         <p className="description-product">{product.description}</p>
         <Divider />

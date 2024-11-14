@@ -24,7 +24,6 @@
       display: flex;
       column-gap: 20px;
       border-bottom: 1px solid #3333;
-      margin-bottom: 15px;
       .image-product {
         width: 110px;
         height: 120px;
@@ -62,70 +61,6 @@
               background-color: #000;
             }
           }
-        }
-      }
-    }
-  }
-}
-.wrapper-order-item {
-  display: flex;
-  column-gap: 20px;
-  .image {
-    width: 450px;
-    height: 450px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  .order-item {
-    .order-item__header {
-      .title-order {
-        font-size: 1.5rem;
-        font-weight: 500;
-        margin-bottom: 10px;
-      }
-      p {
-        font-size: 1rem;
-        font-weight: 400;
-        padding: 5px 0;
-      }
-    }
-    .order-item__body {
-      p {
-        font-size: 1rem;
-        font-weight: 400;
-        padding: 5px 0;
-        .status-pending,
-        .status-processing,
-        .status-completed,
-        .status-shipped,
-        .status-delivered {
-          padding: 3px 15px;
-          border-radius: 10px;
-          font-size: 0.9rem;
-        }
-
-        .status-pending {
-          background-color: blue;
-          color: #fff;
-        }
-        .status-processing {
-          background-color: #f0ad4e;
-          color: #fff;
-        }
-        .status-completed {
-          background-color: #5cb85c;
-          color: #fff;
-        }
-        .status-shipped {
-          background-color: #5bc0de;
-          color: #fff;
-        }
-        .status-delivered {
-          background-color: #d9534f;
-          color: #fff;
         }
       }
     }

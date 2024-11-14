@@ -28,6 +28,7 @@ import SearchPage from '../Pages/Search';
 import StatisticalManager from '../Pages/Admin/Statistical';
 import PaymentPage from '../Pages/Payment';
 import PaymentSuccess from '../Pages/Payment-Success';
+import PaymentWaiting from '../Pages/Profile/waiting-payment';
 
 const InitRouter = [
   {
@@ -47,7 +48,7 @@ const InitRouter = [
         element: <AboutPage />,
       },
       {
-        path: '/profile',
+        path: '/profile/:tabKey',
         element: <ProfilePage />,
       },
       {
@@ -57,6 +58,10 @@ const InitRouter = [
       {
         path: '/profile',
         element: <OrderPage />,
+      },
+      {
+        path: '/profile',
+        element: <PaymentWaiting />,
       },
       {
         path: '/favorite',

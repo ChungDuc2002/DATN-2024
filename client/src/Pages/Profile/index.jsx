@@ -3,8 +3,12 @@ import { Divider, Tabs } from 'antd';
 import './style.scss';
 import InformationProfile from './information';
 import OrderPage from './order';
+import PaymentWaiting from './waiting-payment';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ProfilePage = () => {
+  const { tabKey } = useParams();
+  const navigate = useNavigate();
   const items = [
     {
       key: '1',
@@ -13,8 +17,8 @@ const ProfilePage = () => {
     },
     {
       key: '2',
-      label: 'Yêu cầu đổi trả',
-      children: 'Content of Tab Pane 2',
+      label: 'Chờ thanh toán',
+      children: <PaymentWaiting />,
     },
     {
       key: '3',
@@ -43,13 +47,23 @@ const ProfilePage = () => {
     document.title = selectedLabel;
   }, [selectedLabel]);
 
+  useEffect(() => {
+    // Cập nhật selectedLabel và activeKey khi tabKey thay đổi
+    const selectedTab = items.find((item) => item.key === tabKey);
+    if (selectedTab) {
+      setSelectedLabel(selectedTab.label);
+    }
+  }, [tabKey, items]);
+
   const handleTabChange = (key) => {
     // Xử lý sự thay đổi tab và cập nhật selectedLabel
     const selectedTab = items.find((item) => item.key === key);
     if (selectedTab) {
       setSelectedLabel(selectedTab.label);
+      navigate(`/profile/${key}`);
     }
   };
+
   return (
     <div className="wrapper-profile">
       <div className="container">
@@ -59,7 +73,9 @@ const ProfilePage = () => {
           tabPosition={'left'}
           items={items}
           onChange={handleTabChange}
-          activeKey={items.find((item) => item.label === selectedLabel)?.key}
+          activeKey={
+            tabKey || items.find((item) => item.label === selectedLabel)?.key
+          }
         />
       </div>
     </div>

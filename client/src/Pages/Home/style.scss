@@ -167,6 +167,11 @@
       grid-gap: 30px; // Khoảng cách giữa các phần tử
       // Chia thành 2 hàng
       grid-template-rows: auto auto;
+      a {
+        text-decoration: none;
+        list-style: none;
+        color: #000;
+      }
       @media (max-width: $xs-max-width) {
       }
       .render_outstanding {
@@ -177,12 +182,12 @@
         @media (max-width: $xs-max-width) {
         }
         .image {
-          width: 100px;
-          height: 100px;
+          width: 110px;
+          height: 110px;
         }
         .title {
           margin-top: 10px;
-          font-size: 0.9rem;
+          font-size: 1rem;
           opacity: 0.8;
           &:hover {
             cursor: pointer;

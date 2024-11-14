@@ -22,11 +22,11 @@ export async function createPaymentLink(req, res) {
     const {
       amount,
       currency,
-      //   orderId,
       description,
       customerEmail,
       customerPhone,
       userId,
+      userInfo,
       products,
     } = req.body;
 
@@ -41,6 +41,7 @@ export async function createPaymentLink(req, res) {
       customerEmail,
       customerPhone,
       userId,
+      userInfo,
       products,
     });
 
@@ -62,11 +63,14 @@ export async function createPaymentLink(req, res) {
       _id: new mongoose.Types.ObjectId(),
       userId,
       products,
+      userInfo,
       totalAmount: amount,
-      status: 'Pending',
+      status_payment: 'Pending',
+      status_order: 'Pending',
       orderCode,
     });
     await newOrder.save();
+
     return res.json({
       checkoutUrl: payment.checkoutUrl,
       orderId: newOrder._id.toString(),
@@ -103,11 +107,59 @@ export async function paymentSuccess(req, res) {
     await Cart.updateOne({ userId }, { $set: { products: [] } });
 
     // Cập nhật trạng thái đơn hàng
-    await Order.updateOne({ _id: orderId }, { $set: { status: 'Completed' } });
+    await Order.updateOne(
+      { _id: orderId },
+      { $set: { status_payment: 'Completed' } }
+    );
 
-    res.status(200).json({ message: 'Payment success and inventory updated' });
+    return res
+      .status(200)
+      .json({ message: 'Payment success and inventory updated' });
   } catch (error) {
     console.error('Error processing payment success:', error);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function reactivatePayment(req, res) {
+  try {
+    const { orderId } = req.body;
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    if (order.status_payment !== 'Pending') {
+      return res.status(400).json({ message: 'Order is not pending' });
+    }
+    console.log('Order Code:', order.orderCode);
+
+    try {
+      const orderCode = generateOrderCode();
+
+      const payment = await payos.createPaymentLink({
+        amount: order.totalAmount,
+        currency: 'VND',
+        orderCode: orderCode,
+        description: 'Payment for order',
+        customerEmail: order.userInfo.email,
+        customerPhone: order.userInfo.phone,
+        returnUrl: 'http://localhost:3000/payment-success',
+        cancelUrl: 'http://localhost:3000/',
+      });
+
+      // Log kết quả trả về từ PayOS
+      console.log('Payment Response:', payment);
+
+      return res.json({ checkoutUrl: payment.checkoutUrl });
+    } catch (payosError) {
+      console.error('Error from PayOS:', payosError);
+      return res.status(500).json({ message: 'Error creating payment link' });
+    }
+  } catch (error) {
+    console.error('Error reactivating payment:', error);
+    return res.status(500).json({ message: error.message });
   }
 }

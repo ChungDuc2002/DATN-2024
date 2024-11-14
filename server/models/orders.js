@@ -18,8 +18,15 @@ const orderSchema = mongoose.Schema(
         price: { type: Number },
       },
     ],
+    userInfo: { type: Object },
+    orderCode: { type: String },
     totalAmount: { type: Number },
-    status: { type: String, default: 'Pending' },
+    status_payment: { type: String, default: 'Pending' },
+    status_order: {
+      type: String,
+      enum: ['Pending', 'Processing', 'Completed', 'Shipped', 'Cancelled'],
+      default: 'Pending',
+    },
   },
   { timestamps: true }
 );

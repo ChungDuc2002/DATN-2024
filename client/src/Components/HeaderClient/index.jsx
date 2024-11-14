@@ -28,8 +28,15 @@ const HeaderClient = () => {
 
   // !  get last name from full name
   const userName = localStorage.getItem('fullName');
-  const newName = userName.split(' ');
-  const lastWord = newName[newName.length - 1];
+  let lastWord = '';
+  if (userName) {
+    const newName = userName.split(' ');
+    lastWord = newName[newName.length - 1];
+  }
+
+  const [products, setProducts] = useState([]);
+  const [favorite, setFavorite] = useState();
+  const [userId, setUserId] = useState('');
 
   //* LOGIC - Call api get name
 
@@ -55,8 +62,26 @@ const HeaderClient = () => {
     resName();
   }, []);
 
-  const [products, setProducts] = useState([]);
-  const [userId, setUserId] = useState('');
+  const fetchFavorite = async () => {
+    if (userId) {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/favorites/getFavorites/${userId}`
+        );
+        setFavorite(response.data.length);
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchFavorite();
+    const interval = setInterval(() => {
+      fetchFavorite();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [userId]);
 
   const fetchCart = async () => {
     if (userId) {
@@ -154,7 +179,7 @@ const HeaderClient = () => {
               <Link>tin tức</Link>
             </li>
             <li className="show-modal">
-              <Link to="/products">cửa hàng</Link>
+              <Link to="/products?category=Thiết bị điện tử">cửa hàng</Link>
             </li>
             <li>
               <Link to="/contact">liên hệ</Link>
@@ -178,7 +203,7 @@ const HeaderClient = () => {
             </li>
             <li className="favorites">
               <Link to="/favorite">
-                <Badge count={1}>
+                <Badge count={favorite}>
                   <HeartIcon />
                 </Badge>
               </Link>
@@ -192,13 +217,13 @@ const HeaderClient = () => {
                   </h1>
                   <Divider />
                   <p>
-                    <Link to="/profile">Đơn hàng của tôi</Link>
+                    <Link to="/profile/1">Đơn hàng của tôi</Link>
                   </p>
                   <p>
                     <Link to="/">Yêu cầu đổi trả</Link>
                   </p>
                   <p>
-                    <Link to="/profile">Thông tin cá nhân</Link>
+                    <Link to="/profile/3">Thông tin cá nhân</Link>
                   </p>
                   <Divider />
                   <Button

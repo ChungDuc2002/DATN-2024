@@ -1,5 +1,13 @@
+@import '../../Styles/responsive.scss';
+
 .wrapper-favorite {
   margin: 50px 0;
+  .container {
+    background-color: #f5f5f5f5 !important;
+    @media (max-width: $xs-max-width) {
+      width: 90%;
+    }
+  }
   .wrapper-not-login {
     text-align: center;
     margin: 100px 0;
@@ -17,22 +25,76 @@
       text-transform: uppercase;
     }
   }
-  .wrapper-favorite {
+  &-body {
     text-align: center;
-    .wrapper-list-favorite {
-      margin: 100px 0;
-      p {
-        font-size: 1.2rem;
-        font-weight: 400;
-        margin: 10px 0;
+    .title-page-user {
+      @media (max-width: $xs-max-width) {
+        font-size: 1.5rem;
       }
-      a {
-        color: #000;
-        font-size: 1rem;
-        font-weight: 400;
-        text-decoration: underline;
-        padding-bottom: 5px;
-        text-transform: uppercase;
+    }
+    .wrapper-list-favorite {
+      margin-top: 25px;
+      .item-favorite {
+        position: relative;
+        box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        .icon-favorite {
+          color: #e22929;
+          font-size: 2rem;
+          position: absolute;
+          right: 20px;
+          top: 10px;
+          cursor: pointer;
+          transition: all 0.3s;
+          &:hover {
+            scale: 1.1;
+          }
+        }
+        .img {
+          img {
+            width: 200px;
+            height: 200px;
+            mix-blend-mode: darken;
+          }
+        }
+        .title-products {
+          width: 80%;
+          margin: 0 auto;
+          font-size: 1rem;
+          white-space: normal !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .price-discount {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          column-gap: 5px;
+        }
+        .trademark {
+          font-size: 0.9rem;
+          opacity: 0.7;
+          padding: 5px 0;
+          color: #000;
+        }
+        button {
+          background-color: #000;
+          color: #fff;
+          border: none;
+          padding: 5px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.3s;
+          margin-bottom: 8px;
+          &:hover {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000;
+          }
+        }
       }
     }
   }

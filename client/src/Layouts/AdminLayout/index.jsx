@@ -41,7 +41,7 @@ const AdminPage = () => {
       icon: <StockOutlined />,
       children: [
         {
-          key: '/admin/statistical',
+          key: '/admin',
           label: 'Thống kê tổng quan',
         },
       ],

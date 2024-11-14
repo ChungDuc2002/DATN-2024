@@ -18,7 +18,7 @@ const RegisterPage = () => {
       if (res.status === 200) {
         const token = res.data;
         localStorage.setItem('auth', JSON.stringify(token));
-        navigate('/');
+        navigate('/login');
       }
     } catch (err) {
       console.log(err);

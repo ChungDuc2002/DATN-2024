@@ -1,7 +1,7 @@
 @import '../../Styles/responsive.scss';
 
 .wrapper-profile {
-  margin-top: 150px;
+  margin-top: 100px;
   @media (max-width: $xs-max-width) {
     margin-top: 0px;
   }
