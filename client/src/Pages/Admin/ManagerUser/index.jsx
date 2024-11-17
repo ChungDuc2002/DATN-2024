@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Table, Button, Pagination, Modal } from 'antd';
+import { Table, Button, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import './style.scss';
 import toast from 'react-hot-toast';
@@ -9,8 +9,8 @@ import { debounce } from 'lodash';
 
 const ManagerUsers = () => {
   const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 7;
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filterRole, setFilterRole] = useState('all');
 
   //* LOGIC GET ALL USERS---------------
   useEffect(() => {
@@ -25,6 +25,7 @@ const ManagerUsers = () => {
           },
         });
         setUsers(res.data);
+        setFilteredUsers(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -32,16 +33,14 @@ const ManagerUsers = () => {
     fetchUser();
   }, []);
 
-  //* LOGIC PAGINATION---------------
-  // Tính toán chỉ mục bắt đầu và kết thúc của người dùng trên trang hiện tại
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
-  // Xử lý sự kiện chuyển trang
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  useEffect(() => {
+    if (filterRole === 'all') {
+      setFilteredUsers(users);
+    } else {
+      const isAdmin = filterRole === 'admin';
+      setFilteredUsers(users.filter((user) => user.isAdmin === isAdmin));
+    }
+  }, [filterRole, users]);
 
   //* LOGIC TABLE USERS---------------
   const columns = [
@@ -162,6 +161,10 @@ const ManagerUsers = () => {
     handleSearch(value);
   };
 
+  const handleFilterChange = (e) => {
+    setFilterRole(e.target.value);
+  };
+
   return (
     <div className="wrapper-manager-user">
       <div className="group-btn">
@@ -174,25 +177,26 @@ const ManagerUsers = () => {
           onChange={handleInputChange}
           onBlur={() => handleSearch(search)}
         />
-        <Button
-          className="btn-add-user"
-          onClick={() => {
-            setModalAddNewUser(!modalAddNewUser);
-          }}
-        >
-          Thêm mới người dùng
-        </Button>
+        <div className="action">
+          <select name="" id="" onChange={handleFilterChange}>
+            <option value="all">Tất cả</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+          <Button
+            className="btn-add-user"
+            onClick={() => {
+              setModalAddNewUser(!modalAddNewUser);
+            }}
+          >
+            Thêm mới người dùng
+          </Button>
+        </div>
       </div>
       <Table
         columns={columns}
-        dataSource={searchResult.length > 0 ? searchResult : currentUsers}
-        pagination={false}
-      />
-      <Pagination
-        current={currentPage}
-        pageSize={usersPerPage}
-        total={users.length}
-        onChange={handlePageChange}
+        dataSource={searchResult.length > 0 ? searchResult : filteredUsers}
+        pagination={{ pageSize: 7 }}
       />
       <Modal
         open={open}

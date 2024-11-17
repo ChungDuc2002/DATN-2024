@@ -1,0 +1,113 @@
+.wrapper-manager-order {
+  // căn giữa các cột trong bảng
+  .ant-table-thead {
+    tr {
+      .ant-table-cell {
+        padding: 14px 16px;
+        text-align: center;
+      }
+    }
+  }
+  .ant-table-tbody {
+    .ant-table-row {
+      .ant-table-cell {
+        text-align: center;
+      }
+    }
+  }
+  // căn giữa các dòng trong bảng
+  .ant-table-cell {
+    text-align: center;
+  }
+  .ant-pagination {
+    margin-top: 10px;
+    text-align: end;
+  }
+  &-header {
+    display: flex;
+    column-gap: 50px;
+    .group-select {
+      select {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+.status-pending,
+.status-processing,
+.status-completed,
+.status-shipped,
+.status-cancelled {
+  display: block;
+  width: 85px;
+  text-transform: capitalize;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.status-pending {
+  background-color: #2969f1;
+}
+.status-processing {
+  background-color: #f0ad4e;
+}
+.status-completed {
+  background-color: #5cb85c;
+}
+.status-shipped {
+  background-color: #5bc0de;
+}
+.status-cancelled {
+  background-color: #d9534f;
+}
+
+.wrapper-change-status-order {
+  form {
+    width: 100%;
+    display: flex;
+    column-gap: 50px;
+    .image {
+      width: 400px;
+      height: 400px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .order-item {
+      width: 50%;
+      .order-item__header {
+        .title-order {
+          font-size: 1.3rem;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+        p {
+          font-size: 1rem;
+          font-weight: 400;
+          padding: 5px 0;
+        }
+      }
+      .order-item__body {
+        p {
+          font-size: 1rem;
+          font-weight: 400;
+          padding: 5px 0;
+          .ant-radio-group {
+            column-gap: 10px !important;
+            padding-top: 5px;
+            span {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

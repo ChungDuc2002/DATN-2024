@@ -72,6 +72,7 @@ const OrderPage = () => {
 
     setShowOrderModal(true);
   };
+
   return (
     <div className="wrapper-order">
       {order.length === 0 && (
@@ -136,7 +137,7 @@ function OrderItem({ orderId, userId }) {
     const getOrderDetail = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/orders/getOrderById/${userId}/${orderId}`
+          `http://localhost:5000/orders/getOrdersByUserIdAndId/${userId}/${orderId}`
         );
 
         setOrderDetail(res.data);
@@ -145,7 +146,7 @@ function OrderItem({ orderId, userId }) {
       }
     };
     getOrderDetail();
-  }, []);
+  }, [orderId, userId]);
 
   useEffect(() => {
     console.log('order detail', orderDetail);

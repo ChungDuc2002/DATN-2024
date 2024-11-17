@@ -71,17 +71,11 @@ const ElectronicsPage = () => {
       dataIndex: 'inventory_quantity',
       key: 'inventory_quantityinventory_quantity',
     },
-
     {
       title: 'Color',
       dataIndex: 'color',
       key: 'color',
     },
-    // {
-    //   title: 'Size',
-    //   dataIndex: 'sizes',
-    //   key: 'sizes',
-    // },
     {
       title: 'Material',
       dataIndex: 'material',
@@ -144,10 +138,10 @@ const ElectronicsPage = () => {
         if (result.status === 200) {
           const newBanner = products.filter((item) => item._id !== record._id);
           setProducts(newBanner);
-          toast.success('Delete banner success');
+          toast.success('Delete Electronic product success');
         }
       } catch (error) {
-        toast.error('Delete banner fail');
+        toast.error('Delete Electronic product fail');
       }
     }
   };

@@ -29,6 +29,7 @@ import StatisticalManager from '../Pages/Admin/Statistical';
 import PaymentPage from '../Pages/Payment';
 import PaymentSuccess from '../Pages/Payment-Success';
 import PaymentWaiting from '../Pages/Profile/waiting-payment';
+import AllProductsPage from '../Pages/Admin/Products/All-Products';
 
 const InitRouter = [
   {
@@ -132,6 +133,10 @@ const InitRouter = [
       {
         path: '/admin/manager-comments',
         element: <ManagerComments />,
+      },
+      {
+        path: '/admin/all-products',
+        element: <AllProductsPage />,
       },
     ],
   },

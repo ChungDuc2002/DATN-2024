@@ -27,13 +27,32 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-    .btn-add-user {
-      background-color: blue !important;
-      border: none;
-      color: #fff;
-      &:hover {
+    .action {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      select {
+        width: 150px;
+        height: 30px;
+        border-radius: 5px;
+        padding: 0 5px;
+        font-size: 0.9rem;
+        option {
+          font-size: 0.9rem;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+      .btn-add-user {
+        height: 30px;
+        background-color: blue !important;
+        border: none;
         color: #fff;
-        scale: 1.1 !important;
+        &:hover {
+          color: #fff;
+          scale: 1.1 !important;
+        }
       }
     }
     .search-user {

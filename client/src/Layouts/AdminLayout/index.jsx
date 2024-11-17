@@ -110,7 +110,7 @@ const AdminPage = () => {
           label: 'Sách Văn Phòng Phẩm',
         },
         {
-          key: '8',
+          key: '/admin/all-products',
           label: 'Tất cả',
         },
       ],
@@ -132,10 +132,6 @@ const AdminPage = () => {
       label: 'Khác',
       icon: <FilterOutlined />,
       children: [
-        {
-          key: '9',
-          label: 'Thay đổi màu nền',
-        },
         {
           key: '/login',
           label: 'Đăng xuất',
@@ -231,11 +227,7 @@ const AdminPage = () => {
       {authAdmin ? (
         <div className="wrapper-admin-layout">
           <Menu
-            style={{
-              width: 256,
-            }}
             defaultSelectedKeys={selectedKeys}
-            // defaultOpenKeys={            }
             selectedKeys={selectedKeys}
             mode="inline"
             theme="dark"

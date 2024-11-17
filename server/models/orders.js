@@ -5,14 +5,12 @@ const orderSchema = mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      //   required: true,
     },
     products: [
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Product',
-          //   required: true,
         },
         quantity: { type: Number },
         price: { type: Number },
@@ -24,7 +22,7 @@ const orderSchema = mongoose.Schema(
     status_payment: { type: String, default: 'Pending' },
     status_order: {
       type: String,
-      enum: ['Pending', 'Processing', 'Completed', 'Shipped', 'Cancelled'],
+      enum: ['Pending', 'Processing', 'Shipped', 'Completed', 'Cancelled'],
       default: 'Pending',
     },
   },
