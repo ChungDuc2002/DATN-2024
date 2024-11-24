@@ -1,5 +1,4 @@
 .wrapper-manager-order {
-  // căn giữa các cột trong bảng
   .ant-table-thead {
     tr {
       .ant-table-cell {
@@ -39,7 +38,7 @@
 .status-pending,
 .status-processing,
 .status-completed,
-.status-shipped,
+.status-shipping,
 .status-cancelled {
   display: block;
   width: 85px;
@@ -59,7 +58,7 @@
 .status-completed {
   background-color: #5cb85c;
 }
-.status-shipped {
+.status-shipping {
   background-color: #5bc0de;
 }
 .status-cancelled {

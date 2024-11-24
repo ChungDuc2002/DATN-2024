@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Image, Input, Modal, Radio, Table } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -50,6 +50,10 @@ const ManagerOrder = () => {
     }
   }, [filterStatus, orders]);
 
+  useEffect(() => {
+    console.log(filteredOrders);
+  }, [filteredOrders]);
+
   const getStatusClassName = (status) => {
     switch (status) {
       case 'Pending':
@@ -58,8 +62,8 @@ const ManagerOrder = () => {
         return 'status-processing';
       case 'Completed':
         return 'status-completed';
-      case 'Shipped':
-        return 'status-shipped';
+      case 'Shipping':
+        return 'status-shipping';
       case 'Cancelled':
         return 'status-cancelled';
       default:
@@ -117,14 +121,6 @@ const ManagerOrder = () => {
             className="btn-action"
           >
             <EditOutlined />
-          </Button>
-          <Button
-            // onClick={() => {
-            //   handleDelete(record);
-            // }}
-            className="btn-action"
-          >
-            <DeleteOutlined />
           </Button>
         </div>
       ),
@@ -187,7 +183,7 @@ const ManagerOrder = () => {
             <option value="all">Filter</option>
             <option value="Pending">Pending</option>
             <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
+            <option value="Shipping">Shipping</option>
             <option value="Completed">Completed</option>
             <option value="Cancelled">Cancelled</option>
           </select>
@@ -196,7 +192,6 @@ const ManagerOrder = () => {
       <div className="wrapper-manager-order-body">
         <Table
           columns={columns}
-          // dataSource={filterStatus === 'all' ? orders : filteredOrders}
           dataSource={filteredOrders}
           pagination={{ pageSize: 7 }}
         />
@@ -240,7 +235,7 @@ function ChangeStatusOrder({ id, onCancel }) {
   const optionStatusOrder = [
     { value: 'Pending', label: 'Pending' },
     { value: 'Processing', label: 'Processing' },
-    { value: 'Shipped', label: 'Shipped' },
+    { value: 'Shipping', label: 'Shipping' },
     { value: 'Completed', label: 'Completed' },
     { value: 'Cancelled', label: 'Cancelled' },
   ];

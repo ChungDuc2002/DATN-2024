@@ -1,6 +1,6 @@
 @import '../../../Styles/responsive.scss';
 
-.wrapper-order {
+.wrapper-order-success {
   height: auto;
   @media (max-width: $xs-max-width) {
     margin-top: 25px;
@@ -36,7 +36,7 @@
         height: 120px;
         @media (max-width: $xs-max-width) {
           width: 100px;
-          height: 90px;
+          height: 100px;
         }
         img {
           width: 100%;
@@ -53,6 +53,13 @@
           flex-direction: column;
         }
         .info {
+          .trademark {
+            opacity: 0.7;
+            padding: 5px 0;
+            @media (max-width: $xs-max-width) {
+              display: none;
+            }
+          }
           p {
             font-size: 1rem;
             font-weight: 400;
@@ -63,6 +70,16 @@
           }
         }
         .action {
+          p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            @media (max-width: $xs-max-width) {
+              margin-bottom: 0;
+              padding: 2px 0;
+            }
+          }
           button {
             background-color: #fff;
             color: #000;
@@ -82,71 +99,6 @@
             }
           }
         }
-      }
-    }
-  }
-}
-.wrapper-order-item {
-  display: flex;
-  column-gap: 20px;
-  .image {
-    width: 450px;
-    height: 450px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  .order-item {
-    .order-item__header {
-      .title-order {
-        font-size: 1.5rem;
-        font-weight: 500;
-        margin-bottom: 10px;
-      }
-      p {
-        font-size: 1rem;
-        font-weight: 400;
-        padding: 5px 0;
-      }
-    }
-    .order-item__body {
-      p {
-        font-size: 1rem;
-        font-weight: 400;
-        padding: 5px 0;
-        .status-pending,
-        .status-processing,
-        .status-completed,
-        .status-shipping,
-        .status-cancelled {
-          display: inline-block;
-          width: auto;
-          text-transform: capitalize;
-          color: #000;
-          padding: 2px 10px;
-          border-radius: 10px;
-          background-color: transparent;
-          font-size: 1rem;
-          margin-top: 5px;
-        }
-
-        // .status-pending {
-        //   background-color: #2969f1;
-        // }
-        // .status-processing {
-        //   background-color: #f0ad4e;
-        // }
-        // .status-completed {
-        //   background-color: #5cb85c;
-        // }
-        // .status-shipped {
-        //   background-color: #5bc0de;
-        // }
-        // .status-cancelled {
-        //   background-color: #d9534f;
-        // }
       }
     }
   }

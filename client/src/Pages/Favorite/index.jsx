@@ -13,6 +13,10 @@ const FavoritePage = () => {
   const auth = localStorage.getItem('auth');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const getIdUser = async () => {
       const token = JSON.parse(localStorage.getItem('auth'));
       if (token) {
@@ -33,10 +37,6 @@ const FavoritePage = () => {
 
     getIdUser();
   }, []);
-
-  useEffect(() => {
-    console.log('favorite', favorite);
-  }, [favorite]);
 
   useEffect(() => {
     const getFavorite = async () => {
@@ -112,7 +112,7 @@ const FavoritePage = () => {
                     sm={24}
                     md={12}
                     lg={12}
-                    xl={6}
+                    xl={5}
                   >
                     <div className="icon-favorite">
                       <HeartFilled
@@ -127,7 +127,14 @@ const FavoritePage = () => {
                         preview={false}
                       />
                     </div>
-                    <p className="title-products">{item.productId.name}</p>
+                    <p
+                      className="title-products"
+                      onClick={() => {
+                        window.location.href = `/product/${item.productId._id}`;
+                      }}
+                    >
+                      {item.productId.name}
+                    </p>
                     {item.productId.discount ? (
                       <div className="price-discount">
                         <p>

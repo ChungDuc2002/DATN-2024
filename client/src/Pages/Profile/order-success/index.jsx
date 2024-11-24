@@ -1,11 +1,11 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
+import './style.scss';
+import axios from 'axios';
+import { Image } from 'antd';
 import NotCartIcon from '../../../Components/Icons/NotCartIcon';
 import { Link } from 'react-router-dom';
-import { Image } from 'antd';
-import { toast } from 'react-hot-toast';
 
-const PaymentWaiting = () => {
+const OrderSuccessPage = () => {
   const [userId, setUserId] = React.useState('');
   const [order, setOrder] = React.useState([]);
 
@@ -33,10 +33,11 @@ const PaymentWaiting = () => {
       try {
         if (!userId) return;
         const res = await axios.get(
-          `http://localhost:5000/orders/getOrderIsPending/${userId}`,
+          `http://localhost:5000/orders/getSuccessOrders/${userId}`,
           {
             params: {
-              status_payment: 'Pending',
+              status_payment: 'Completed',
+              status_order: ['Completed'],
             },
           }
         );
@@ -49,37 +50,14 @@ const PaymentWaiting = () => {
     };
     getOrderAccount();
   }, [userId]);
-
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
-
-  const handlePayment = async (orderId) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:5000/api/payos/reactivate-payment',
-        { orderId }
-      );
-      const { checkoutUrl } = response.data;
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        throw new Error('Payment URL is not defined');
-      }
-    } catch (err) {
-      console.log(err);
-      toast.error('Có lỗi xảy ra khi tái kích hoạt thanh toán');
-    }
-  };
-
   return (
-    <div className="wrapper-order">
+    <div className="wrapper-order-success">
       {order.length === 0 && (
         <div className="empty-order">
           <p>
             <NotCartIcon />
           </p>
-          <h3>Chưa có đơn hàng chờ thanh toán nào</h3>
+          <h3>Bạn chưa có đơn hàng nào</h3>
           <p>
             <Link to="/">bắt đầu mua sắm</Link>
           </p>
@@ -98,15 +76,21 @@ const PaymentWaiting = () => {
               <div className="info-product">
                 <div className="info">
                   <p>{product?.productId?.name}</p>
-                  <p>Số lượng: {product?.quantity}</p>
+                  <p className="trademark">Chungduc_MO</p>
                   <p>
-                    {' '}
-                    Giá : {new Intl.NumberFormat().format(item.totalAmount)}đ
+                    Giá: {new Intl.NumberFormat().format(item.totalAmount)}đ
                   </p>
                 </div>
                 <div className="action">
-                  <button onClick={() => handlePayment(item._id)}>
-                    Thanh toán
+                  <p>Hoàn thành</p>
+                  <button
+                    onClick={() =>
+                      window.location.replace(
+                        `/product/${product?.productId?._id}`
+                      )
+                    }
+                  >
+                    Mua lại
                   </button>
                 </div>
               </div>
@@ -118,4 +102,4 @@ const PaymentWaiting = () => {
   );
 };
 
-export default PaymentWaiting;
+export default OrderSuccessPage;

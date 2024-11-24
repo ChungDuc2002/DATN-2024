@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
+  BellOutlined,
   CloseOutlined,
   DoubleLeftOutlined,
   DoubleRightOutlined,
+  ExclamationCircleOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
 import { Image, Button, Divider, Input, Drawer, Badge } from 'antd';
@@ -37,6 +39,7 @@ const HeaderClient = () => {
   const [products, setProducts] = useState([]);
   const [favorite, setFavorite] = useState();
   const [userId, setUserId] = useState('');
+  const [notifications, setNotifications] = useState([]);
 
   //* LOGIC - Call api get name
 
@@ -160,6 +163,30 @@ const HeaderClient = () => {
   const onClose = () => {
     setOpenDrawer(false);
   };
+
+  const fetchNotifications = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/orders/notifications/${userId}`
+      );
+      const sortedNotifications = res.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setNotifications(sortedNotifications);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [userId]);
+
   return (
     <>
       <header className="wrapper-header">
@@ -220,7 +247,10 @@ const HeaderClient = () => {
                     <Link to="/profile/1">Đơn hàng của tôi</Link>
                   </p>
                   <p>
-                    <Link to="/">Yêu cầu đổi trả</Link>
+                    <Link to="/profile/2">Chờ thanh toán</Link>
+                  </p>
+                  <p>
+                    <Link to="/profile/4">Đơn hàng đã giao</Link>
                   </p>
                   <p>
                     <Link to="/profile/3">Thông tin cá nhân</Link>
@@ -253,6 +283,44 @@ const HeaderClient = () => {
                   </Button>
                 </div>
               )}
+            </li>
+            <li className="modal-notification">
+              <Badge count={notifications.length}>
+                <BellOutlined
+                  style={{
+                    fontSize: '20px',
+                    color: '#777777',
+                  }}
+                />
+              </Badge>
+              <div className="notifications-dropdown">
+                {notifications.length > 0 ? (
+                  notifications.map((notification, index) => (
+                    <div key={index} className="notification-item">
+                      {notification.products.map((product, idx) => (
+                        <div key={idx} className="product-info">
+                          <div className="image">
+                            <img
+                              src={`http://localhost:5000/uploads/${product.productId.images[0]}`}
+                              alt={product.productId.name}
+                              className="product-image"
+                            />
+                          </div>
+                          <div className="render-notification">
+                            <p>{product.productId.name}</p>
+                            <p>{notification.message}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))
+                ) : (
+                  <div className="not-notification-item">
+                    <ExclamationCircleOutlined />
+                    <p>No notifications</p>
+                  </div>
+                )}
+              </div>
             </li>
             <li>
               <Link to="/cart">
@@ -373,7 +441,7 @@ const HeaderClient = () => {
             </li>
             {auth ? (
               <li>
-                <Link to="/profile">tài khoản của tôi</Link>
+                <Link to="/profile/3">tài khoản của tôi</Link>
               </li>
             ) : (
               ''

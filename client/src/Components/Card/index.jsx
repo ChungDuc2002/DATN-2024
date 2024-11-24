@@ -65,37 +65,43 @@ const CardComponent = ({ product }) => {
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
-    if (!auth) {
+    // if (!auth) {
+    //   toast.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+    // }
+    if (auth) {
+      try {
+        const data = {
+          userId,
+          productId: product._id,
+          quantity: 1,
+        };
+        await axios.post('http://localhost:5000/carts/addToCart', data);
+        toast.success('Thêm vào giỏ hàng thành công !');
+      } catch (err) {
+        toast.error('Bạn đã thêm quá số lượng tồn kho của mặt hàng !');
+      }
+    } else {
       toast.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
-    }
-
-    try {
-      const data = {
-        userId,
-        productId: product._id,
-        quantity: 1,
-      };
-      await axios.post('http://localhost:5000/carts/addToCart', data);
-      toast.success('Thêm vào giỏ hàng thành công !');
-    } catch (err) {
-      toast.error('Bạn đã thêm quá số lượng tồn kho của mặt hàng !');
     }
   };
 
   const handleAddFavorite = async () => {
-    if (!auth) {
+    // if (!auth) {
+    //   toast.error('Vui lòng đăng nhập để thêm sản phẩm vào yêu thích');
+    // }
+    if (auth) {
+      try {
+        const data = {
+          userId,
+          productId: product._id,
+        };
+        await axios.post('http://localhost:5000/favorites/addToFavorite', data);
+        toast.success('Thêm vào yêu thích thành công !');
+      } catch (err) {
+        toast.error('Sản phẩm đã có trong danh sách yêu thích !');
+      }
+    } else {
       toast.error('Vui lòng đăng nhập để thêm sản phẩm vào yêu thích');
-    }
-
-    try {
-      const data = {
-        userId,
-        productId: product._id,
-      };
-      await axios.post('http://localhost:5000/favorites/addToFavorite', data);
-      toast.success('Thêm vào yêu thích thành công !');
-    } catch (err) {
-      toast.error('Sản phẩm đã có trong danh sách yêu thích !');
     }
   };
 

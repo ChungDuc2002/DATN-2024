@@ -36,7 +36,11 @@
     position: absolute;
     right: 10%;
     z-index: 999;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
     @media (max-width: $xs-max-width) {
+      background-color: transparent;
       margin: 0 10px;
       width: 90%;
       left: 2%;
@@ -51,7 +55,17 @@
         left: 0;
       }
       .header-logo {
-        width: 100px;
+        width: 100%;
+        .logo {
+          display: flex;
+          justify-content: center;
+          img {
+            width: 100px;
+            @media (max-width: $xs-max-width) {
+              width: 70px;
+            }
+          }
+        }
       }
       .ant-form-item {
         margin: 15px 0;
@@ -63,7 +77,7 @@
         text-transform: uppercase;
         position: relative;
       }
-      // Error message Login
+      //* Error message Login
       .error-message {
         background-color: #fff;
         display: flex;

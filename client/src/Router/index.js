@@ -30,6 +30,7 @@ import PaymentPage from '../Pages/Payment';
 import PaymentSuccess from '../Pages/Payment-Success';
 import PaymentWaiting from '../Pages/Profile/waiting-payment';
 import AllProductsPage from '../Pages/Admin/Products/All-Products';
+import OrderSuccessPage from './../Pages/Profile/order-success/index';
 
 const InitRouter = [
   {
@@ -59,6 +60,10 @@ const InitRouter = [
       {
         path: '/profile',
         element: <OrderPage />,
+      },
+      {
+        path: '/profile',
+        element: <OrderSuccessPage />,
       },
       {
         path: '/profile',

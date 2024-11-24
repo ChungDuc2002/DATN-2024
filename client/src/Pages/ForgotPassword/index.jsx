@@ -25,14 +25,16 @@ const ForgotPassword = () => {
     <div className="wrapper-forgot-password">
       {' '}
       <div className="header-login">
-        <h1>My Account</h1>
-        <div className="logo">
-          <Image preview={false} src={logo_school} />
-        </div>
+        <h1>Chungduc_MO</h1>
       </div>
       <div className="wrapper-forgot-password-form">
         <Form className="form" name="basic" autoComplete="off">
-          <h2>Quên mật khẩu</h2>
+          <div className="header-logo">
+            <div className="logo">
+              <Image preview={false} src={logo_school} />
+            </div>
+            <h2>Quên mật khẩu</h2>
+          </div>
 
           <Form.Item name="email">
             <Input

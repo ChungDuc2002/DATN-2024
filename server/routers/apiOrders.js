@@ -13,7 +13,12 @@ apiOrders.get('/searchOrderByCode', orderController.searchOrderByCode);
 
 apiOrders.get('/getAllOrders', orderController.getAllOrders);
 
-apiOrders.get('/getOrdersByUserId/:userId', orderController.getOrdersByUserId);
+apiOrders.get(
+  '/getWaitingOrdersByUserId/:userId',
+  orderController.getWaitingOrdersByUserId
+);
+
+apiOrders.get('/getSuccessOrders/:userId', orderController.getSuccessOrders);
 
 apiOrders.get('/getOrderIsPending/:userId', orderController.getOrderIsPending);
 
@@ -22,6 +27,11 @@ apiOrders.get('/getOrderById/:orderId', orderController.getOrderById);
 apiOrders.get(
   '/getOrdersByUserIdAndId/:userId/:orderId',
   orderController.getOrderByUserIdAndId
+);
+
+apiOrders.get(
+  '/notifications/:userId',
+  orderController.getNotificationsByUserId
 );
 
 //! POST API------------

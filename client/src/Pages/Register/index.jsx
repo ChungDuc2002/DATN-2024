@@ -27,14 +27,16 @@ const RegisterPage = () => {
   return (
     <div className="wrapper-auth">
       <div className="header-login">
-        <h1>My Account</h1>
-        <div className="logo">
-          <Image preview={false} src={logo_school} />
-        </div>
+        <h1>Chungduc_MO</h1>
       </div>
       <div className="wrapper-auth-form">
         <Form className="form" onFinish={onFinish}>
-          <h2>Đăng ký</h2>
+          <div className="header-logo">
+            <div className="logo">
+              <Image preview={false} src={logo_school} />
+            </div>
+            <h2>Đăng ký</h2>
+          </div>
           <Form.Item
             name="fullName"
             rules={[

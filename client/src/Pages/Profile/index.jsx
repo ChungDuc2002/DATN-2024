@@ -4,6 +4,7 @@ import './style.scss';
 import InformationProfile from './information';
 import OrderPage from './order';
 import PaymentWaiting from './waiting-payment';
+import OrderSuccess from './order-success';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ProfilePage = () => {
@@ -19,6 +20,11 @@ const ProfilePage = () => {
       key: '2',
       label: 'Chờ thanh toán',
       children: <PaymentWaiting />,
+    },
+    {
+      key: '4',
+      label: 'Đơn hàng đã giao',
+      children: <OrderSuccess />,
     },
     {
       key: '3',

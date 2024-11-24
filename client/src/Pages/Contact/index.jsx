@@ -19,6 +19,7 @@ const ContactPage = () => {
 
   useEffect(() => {
     document.title = 'Liên hệ - Chungduc_MO';
+    window.scrollTo(0, 0);
   }, []);
 
   const handleSubmit = async (e) => {

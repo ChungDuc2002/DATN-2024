@@ -41,10 +41,11 @@ const OrderPage = () => {
       try {
         if (!userId) return;
         const res = await axios.get(
-          `http://localhost:5000/orders/getOrdersByUserId/${userId}`,
+          `http://localhost:5000/orders/getWaitingOrdersByUserId/${userId}`,
           {
             params: {
               status_payment: 'Completed',
+              status_order: ['Pending', 'Processing', 'Shipping'],
             },
           }
         );
@@ -57,10 +58,6 @@ const OrderPage = () => {
     };
     getOrderAccount();
   }, [userId]);
-
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
 
   const handleCancel = () => {
     setShowOrderModal(false);
@@ -100,7 +97,9 @@ const OrderPage = () => {
                 <div className="info">
                   <p>{product?.productId?.name}</p>
                   <p>Số lượng: {product?.quantity}</p>
-                  <p>Giá: {item.totalAmount} đ</p>
+                  <p>
+                    Giá: {new Intl.NumberFormat().format(item.totalAmount)}đ
+                  </p>
                 </div>
                 <div className="action">
                   <button
@@ -148,10 +147,6 @@ function OrderItem({ orderId, userId }) {
     getOrderDetail();
   }, [orderId, userId]);
 
-  useEffect(() => {
-    console.log('order detail', orderDetail);
-  }, [orderDetail]);
-
   const createdAt = new Date(orderDetail.createdAt);
   const estimatedDeliveryDate = new Date(createdAt);
   estimatedDeliveryDate.setDate(createdAt.getDate() + 4);
@@ -164,8 +159,8 @@ function OrderItem({ orderId, userId }) {
         return 'status-processing';
       case 'Completed':
         return 'status-completed';
-      case 'Shipped':
-        return 'status-shipped';
+      case 'Shipping':
+        return 'status-shipping';
       case 'Delivered':
         return 'status-delivered';
       default:
@@ -217,8 +212,18 @@ function OrderItem({ orderId, userId }) {
             </p>
           ))}
           <p>
-            Ngày đặt hàng :{' '}
-            {new Date(orderDetail.createdAt).toLocaleDateString('vi-VN')}
+            Ngày đặt hàng:{' '}
+            {new Date(orderDetail.createdAt).toLocaleString('vi-VN', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            })}{' '}
+            -{' '}
+            {new Date(orderDetail.createdAt).toLocaleDateString('vi-VN', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
           </p>
           <p>
             Dự kiến ngày nhận hàng :{' '}
@@ -227,7 +232,7 @@ function OrderItem({ orderId, userId }) {
         </div>
         <div className="order-item__body">
           <p>Địa chỉ nhận hàng : {orderDetail?.userInfo?.shippingAddress}</p>
-          <p>Tổng tiền: {orderDetail.totalAmount} đ</p>
+          <p>Giá: {new Intl.NumberFormat().format(orderDetail.totalAmount)}đ</p>
           <p>
             Trạng thái đơn hàng :{' '}
             <span className={getStatusClassName(orderDetail.status_order)}>

@@ -42,7 +42,7 @@ const LoginPage = () => {
   return (
     <div className="wrapper-auth">
       <div className="header-login">
-        <h1>My Account</h1>
+        <h1>Chungduc_MO</h1>
       </div>
       <div className="wrapper-auth-form">
         <Form
