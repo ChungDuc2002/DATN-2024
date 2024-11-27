@@ -332,6 +332,7 @@ const ProductDetail = () => {
                   <p className="name">
                     {comment?.user?.fullName || 'Unknown User'}
                   </p>
+                  {'-'}
                   <p className="date">
                     {new Date(comment.createdAt).toLocaleDateString()}
                   </p>

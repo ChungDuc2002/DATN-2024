@@ -8,6 +8,19 @@ import {
   ExclamationCircleOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
+import {
+  BookOutlined,
+  CiCircleOutlined,
+  CrownOutlined,
+  CustomerServiceOutlined,
+  DribbbleSquareOutlined,
+  GiftOutlined,
+  HomeOutlined,
+  MobileOutlined,
+  PlayCircleOutlined,
+  RedditOutlined,
+  VideoCameraAddOutlined,
+} from '@ant-design/icons';
 import { Image, Button, Divider, Input, Drawer, Badge } from 'antd';
 import axios from 'axios';
 import logo from '../../Assets/logo.png';
@@ -202,11 +215,86 @@ const HeaderClient = () => {
             <li>
               <Link to="/about">về chúng tôi</Link>
             </li>
-            <li>
-              <Link>tin tức</Link>
-            </li>
+
             <li className="show-modal">
               <Link to="/products?category=Thiết bị điện tử">cửa hàng</Link>
+              <div className="modal-category">
+                <Image src={logo} preview={false} />
+                <h1>Danh mục sản phẩm </h1>
+                <Divider />
+                <div className="list-category">
+                  <ul>
+                    <li>
+                      <Link to="/products?category=Thiết bị điện tử">
+                        <MobileOutlined />
+                        Thiết bị điện tử
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Fashion Clothing">
+                        <CiCircleOutlined />
+                        Fashion & Clothing
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Book Audible">
+                        <BookOutlined />
+                        Book & Audible
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Accessories">
+                        <CustomerServiceOutlined />
+                        Accessories
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=TV Home Appliances">
+                        <VideoCameraAddOutlined />
+                        TV & Home Appliances
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Babies Toys">
+                        <RedditOutlined />
+                        Babies & Toys
+                      </Link>
+                    </li>
+                  </ul>
+                  <ul>
+                    <li>
+                      <Link to="/products?category=Home Kitchen">
+                        <HomeOutlined />
+                        Home & Kitchen
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Sport Travel">
+                        <DribbbleSquareOutlined />
+                        Sport & Travel
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=Home Audio">
+                        <PlayCircleOutlined />
+                        Home Audio
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=garden">
+                        <GiftOutlined />
+                        Garden
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/products?category=health-beauty">
+                        <CrownOutlined />
+                        Heath & Beauty
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </li>
             <li>
               <Link to="/contact">liên hệ</Link>

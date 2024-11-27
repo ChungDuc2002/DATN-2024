@@ -4,8 +4,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: blue;
-    color: white;
+    color: #333;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     .total-user,
@@ -37,12 +36,12 @@
         font-size: 1.5rem;
         font-weight: 400;
         text-transform: uppercase;
-        padding: 10px 0;
+        // padding: 10px 0;
       }
       p {
         font-size: 1rem;
         font-weight: 400;
-        padding: 5px 0;
+        // padding: 5px 0;
         opacity: 0.8;
         font-style: italic;
       }
@@ -53,11 +52,17 @@
         font-weight: 500;
         text-align: center;
         text-transform: uppercase;
-        padding: 10px 0;
+        // padding: 10px 0;
       }
     }
   }
 }
 .chart-container {
   width: 100% !important;
+  // height: 400px !important;
+  canvas {
+    width: 100% !important;
+    height: 450px !important;
+    margin: 0 auto;
+  }
 }

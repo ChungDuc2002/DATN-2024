@@ -95,10 +95,13 @@
         &-action {
           .anticon {
             font-size: 18px;
-            opacity: 0.7;
+            background-color: #ee4e4e;
+            padding: 7px;
+            border-radius: 5px;
+            color: #fff;
             &:hover {
               cursor: pointer;
-              opacity: 1;
+              scale: 1.1;
             }
           }
         }
