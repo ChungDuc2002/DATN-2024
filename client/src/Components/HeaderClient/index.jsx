@@ -53,6 +53,7 @@ const HeaderClient = () => {
   const [favorite, setFavorite] = useState();
   const [userId, setUserId] = useState('');
   const [notifications, setNotifications] = useState([]);
+  const [createdAt, setCreatedAt] = useState('');
 
   //* LOGIC - Call api get name
 
@@ -69,6 +70,7 @@ const HeaderClient = () => {
           if (result.status === 200) {
             localStorage.setItem('fullName', result.data.fullName);
             setUserId(result.data._id);
+            setCreatedAt(result.data.createdAt);
           }
         } catch (err) {
           console.log(err);
@@ -136,6 +138,16 @@ const HeaderClient = () => {
       setGreeting('Chào buổi chiều');
     }
   }, []);
+
+  //* Tính toán số ngày từ ngày tạo tài khoản đến thời điểm hiện tại
+  const calculateDaysSinceCreation = () => {
+    if (!createdAt) return 0;
+    const createdDate = new Date(createdAt);
+    const currentDate = new Date();
+    const timeDifference = currentDate - createdDate;
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysDifference;
+  };
 
   //* LOGIC - Tìm kiếm
 
@@ -330,6 +342,10 @@ const HeaderClient = () => {
                   <h1>
                     {greeting},{lastWord}{' '}
                   </h1>
+                  <p className="time">
+                    Chúng ta đã đồng hành cùng nhau trong{' '}
+                    {calculateDaysSinceCreation()} ngày
+                  </p>
                   <Divider />
                   <p>
                     <Link to="/profile/1">Đơn hàng của tôi</Link>

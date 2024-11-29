@@ -5,12 +5,32 @@ import jwt from 'jsonwebtoken';
 
 export async function getUserCountOverTime(req, res) {
   try {
+    const { filter } = req.query;
+    let dateFormat;
+
+    switch (filter) {
+      case 'day':
+        dateFormat = '%Y-%m-%d';
+        break;
+      case 'week':
+        dateFormat = '%Y-%U'; // Week number of the year
+        break;
+      case 'month':
+        dateFormat = '%Y-%m';
+        break;
+      case 'year':
+        dateFormat = '%Y';
+        break;
+      default:
+        dateFormat = '%Y-%m-%d';
+    }
+
     const user = await users.aggregate([
       {
         $project: {
           date: {
             $dateToString: {
-              format: '%Y-%m-%d',
+              format: dateFormat,
               date: '$createdAt',
             },
           },

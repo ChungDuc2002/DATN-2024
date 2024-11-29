@@ -1,31 +1,48 @@
 .wrapper-manager-statistical {
   &-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    color: #333;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    .total-user,
-    .total-product,
-    .total-order,
-    .total-price {
+    .select {
       display: flex;
-      align-items: center;
-      column-gap: 10px;
-      padding: 20px;
-      .icon {
-        font-size: 1.5rem;
+      justify-content: end;
+      select {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
         margin-right: 10px;
-        .anticon {
-          font-size: 3rem;
+        cursor: pointer;
+        option {
+          outline: none;
         }
       }
-      .render {
-        p {
-          font-size: 1.1rem;
-          font-weight: 400;
+    }
+    .content {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #333;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      .total-user,
+      .total-product,
+      .total-order,
+      .total-price {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        padding: 20px;
+        .icon {
+          font-size: 1.5rem;
+          margin-right: 10px;
+          .anticon {
+            font-size: 3rem;
+          }
+        }
+        .render {
+          p {
+            font-size: 1.1rem;
+            font-weight: 400;
+          }
         }
       }
     }
@@ -62,7 +79,6 @@
   // height: 400px !important;
   canvas {
     width: 100% !important;
-    height: 450px !important;
     margin: 0 auto;
   }
 }

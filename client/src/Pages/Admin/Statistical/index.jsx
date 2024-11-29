@@ -41,6 +41,7 @@ const Statistical = () => {
   const [totalProductCount, setTotalProductCount] = useState(0);
   const [totalOrderCount, setTotalOrderCount] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [filter, setFilter] = useState('day');
 
   useEffect(() => {
     document.title = 'Statistical Page';
@@ -50,16 +51,16 @@ const Statistical = () => {
     const fetchData = async () => {
       try {
         const userResponse = await axios.get(
-          'http://localhost:5000/user-count-over-time'
+          `http://localhost:5000/user-count-over-time?filter=${filter}`
         );
         const productResponse = await axios.get(
-          'http://localhost:5000/products/product-count-over-time'
+          `http://localhost:5000/products/product-count-over-time?filter=${filter}`
         );
         const orderResponse = await axios.get(
-          'http://localhost:5000/orders/order-count-over-time'
+          `http://localhost:5000/orders/order-count-over-time?filter=${filter}`
         );
         const revenueResponse = await axios.get(
-          'http://localhost:5000/orders/total-revenue'
+          `http://localhost:5000/orders/total-revenue?filter=${filter}`
         );
 
         if (
@@ -166,54 +167,68 @@ const Statistical = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     console.log('Chart data:', chartData);
   }, [chartData]);
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
   return (
     <div className="wrapper-manager-statistical">
       <div className="wrapper-manager-statistical-header">
-        <div className="total-user">
-          <div className="icon">
-            <UserOutlined />
-          </div>
-          <div className="render">
-            <p>Tổng số người dùng</p>
-            <p>{totalUserCount}</p>
-          </div>
+        <div className="select">
+          <select onChange={handleFilterChange}>
+            <option value="day">Ngày</option>
+            <option value="week">Tuần</option>
+            <option value="month">Tháng</option>
+            <option value="year">Năm</option>
+          </select>
         </div>
-        <div className="total-product">
-          <div className="icon">
-            <ProductOutlined />
+        <div className="content">
+          <div className="total-user">
+            <div className="icon">
+              <UserOutlined />
+            </div>
+            <div className="render">
+              <p>Tổng số người dùng</p>
+              <p>{totalUserCount}</p>
+            </div>
           </div>
-          <div className="render">
-            <p>Tổng số sản phẩm</p>
-            <p>{totalProductCount}</p>
+          <div className="total-product">
+            <div className="icon">
+              <ProductOutlined />
+            </div>
+            <div className="render">
+              <p>Tổng số sản phẩm</p>
+              <p>{totalProductCount}</p>
+            </div>
           </div>
-        </div>
-        <div className="total-order">
-          <div className="icon">
-            <ShoppingCartOutlined />
+          <div className="total-order">
+            <div className="icon">
+              <ShoppingCartOutlined />
+            </div>
+            <div className="render">
+              <p>Tổng số đơn hàng</p>
+              <p>{totalOrderCount}</p>
+            </div>
           </div>
-          <div className="render">
-            <p>Tổng số đơn hàng</p>
-            <p>{totalOrderCount}</p>
-          </div>
-        </div>
-        <div className="total-price">
-          <div className="icon">
-            <MoneyCollectOutlined />
-          </div>
-          <div className="render">
-            <p>Tổng doanh thu</p>
-            <p>
-              {totalRevenue.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              })}
-            </p>
+          <div className="total-price">
+            <div className="icon">
+              <MoneyCollectOutlined />
+            </div>
+            <div className="render">
+              <p>Tổng doanh thu</p>
+              <p>
+                {totalRevenue.toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                })}
+              </p>
+            </div>
           </div>
         </div>
       </div>

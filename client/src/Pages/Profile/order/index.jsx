@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import NotCartIcon from '../../../Components/Icons/NotCartIcon';
-import { Image, Modal } from 'antd';
+import { Divider, Image, Modal } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css/navigation';
@@ -211,8 +211,10 @@ function OrderItem({ orderId, userId }) {
               Đơn hàng : {product.productId.name}
             </p>
           ))}
+          <p className="trademark">Chungduc_MO</p>
+          <Divider />
           <p>
-            Ngày đặt hàng:{' '}
+            Thời gian đặt hàng :{' '}
             {new Date(orderDetail.createdAt).toLocaleString('vi-VN', {
               hour: '2-digit',
               minute: '2-digit',
@@ -233,7 +235,7 @@ function OrderItem({ orderId, userId }) {
         <div className="order-item__body">
           <p>Địa chỉ nhận hàng : {orderDetail?.userInfo?.shippingAddress}</p>
           <p>Giá: {new Intl.NumberFormat().format(orderDetail.totalAmount)}đ</p>
-          <p>
+          <p className="status_order">
             Trạng thái đơn hàng :{' '}
             <span className={getStatusClassName(orderDetail.status_order)}>
               {orderDetail.status_order}

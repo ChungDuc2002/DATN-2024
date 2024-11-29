@@ -6,24 +6,117 @@ import OrderPage from './order';
 import PaymentWaiting from './waiting-payment';
 import OrderSuccess from './order-success';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ProfilePage = () => {
   const { tabKey } = useParams();
   const navigate = useNavigate();
+  const [userId, setUserId] = useState('');
+  const [order, setOrder] = useState([]);
+  const [waitingPayment, setWaitingPayment] = useState([]);
+  const [orderSuccess, setOrderSuccess] = useState([]);
+
+  useEffect(() => {
+    const getIdUser = async () => {
+      const token = JSON.parse(localStorage.getItem('auth'));
+      try {
+        const result = await axios.get('http://localhost:5000/info', {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        });
+        if (result.status === 200) {
+          setUserId(result.data._id);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getIdUser();
+  }, []);
+
+  useEffect(() => {
+    const getOrderAccount = async () => {
+      try {
+        if (!userId) return;
+        const res = await axios.get(
+          `http://localhost:5000/orders/getWaitingOrdersByUserId/${userId}`,
+          {
+            params: {
+              status_payment: 'Completed',
+              status_order: ['Pending', 'Processing', 'Shipping'],
+            },
+          }
+        );
+        if (res.data) {
+          setOrder(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getOrderAccount();
+  }, [userId]);
+
+  useEffect(() => {
+    const getOrderAccount = async () => {
+      try {
+        if (!userId) return;
+        const res = await axios.get(
+          `http://localhost:5000/orders/getOrderIsPending/${userId}`,
+          {
+            params: {
+              status_payment: 'Pending',
+            },
+          }
+        );
+        if (res.data) {
+          setWaitingPayment(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getOrderAccount();
+  }, [userId]);
+
+  useEffect(() => {
+    const getOrderAccount = async () => {
+      try {
+        if (!userId) return;
+        const res = await axios.get(
+          `http://localhost:5000/orders/getSuccessOrders/${userId}`,
+          {
+            params: {
+              status_payment: 'Completed',
+              status_order: ['Completed'],
+            },
+          }
+        );
+        if (res.data) {
+          setOrderSuccess(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getOrderAccount();
+  }, [userId]);
+
   const items = [
     {
       key: '1',
-      label: 'Đơn hàng của tôi',
+      label: `Đơn hàng của tôi (${order.length})`,
       children: <OrderPage />,
     },
     {
       key: '2',
-      label: 'Chờ thanh toán',
+      label: `Chờ thanh toán (${waitingPayment.length})`,
       children: <PaymentWaiting />,
     },
     {
       key: '4',
-      label: 'Đơn hàng đã giao',
+      label: `Đơn hàng đã giao (${orderSuccess.length})`,
       children: <OrderSuccess />,
     },
     {
@@ -32,7 +125,6 @@ const ProfilePage = () => {
       children: <InformationProfile />,
     },
   ];
-
   const [selectedLabel, setSelectedLabel] = useState('');
   const [shouldRestoreLabel, setShouldRestoreLabel] = useState(true);
 

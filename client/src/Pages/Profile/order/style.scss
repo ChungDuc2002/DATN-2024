@@ -105,6 +105,13 @@
         font-weight: 500;
         margin-bottom: 10px;
       }
+      .trademark {
+        font-size: 1.2rem;
+        opacity: 0.8;
+      }
+      .ant-divider {
+        margin: 12px 0;
+      }
       p {
         font-size: 1rem;
         font-weight: 400;
@@ -131,22 +138,18 @@
           font-size: 1rem;
           margin-top: 5px;
         }
-
-        // .status-pending {
-        //   background-color: #2969f1;
-        // }
-        // .status-processing {
-        //   background-color: #f0ad4e;
-        // }
-        // .status-completed {
-        //   background-color: #5cb85c;
-        // }
-        // .status-shipped {
-        //   background-color: #5bc0de;
-        // }
-        // .status-cancelled {
-        //   background-color: #d9534f;
-        // }
+      }
+    }
+    .status_order {
+      border: 1px solid #000;
+      border-radius: 5px;
+      display: inline-block;
+      padding: 0px 5px !important;
+      margin-top: 10px;
+      opacity: 0.7;
+      font-size: 0.9rem !important;
+      span {
+        font-size: 0.9rem !important;
       }
     }
   }
