@@ -1,22 +1,61 @@
 @import '../../Styles/responsive.scss';
 
+.container {
+  @media (max-width: $xs-max-width) {
+    width: 90% !important;
+  }
+}
 .wrapper-search {
-  .container {
-    background-color: #f5f5f5 !important;
+  display: flex;
+  column-gap: 20px;
+  width: 100%;
+  padding: 20px;
+  @media (max-width: $xs-max-width) {
+    flex-direction: column;
+  }
+  .filter-search {
+    width: 20%;
+    margin-top: 50px;
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .filter-item {
+      h3 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 5px;
+        text-decoration: underline;
+      }
+      ul {
+        li {
+          padding: 2px 0;
+          display: flex;
+          column-gap: 5px;
+        }
+      }
+    }
     @media (max-width: $xs-max-width) {
-      width: 90%;
+      width: 100%;
+      margin-top: 0;
     }
   }
   .search-results {
+    width: 80%;
     margin-top: 50px;
     @media (max-width: $xs-max-width) {
       margin-top: 25px;
+      width: 100%;
     }
     &-header {
       display: flex;
       justify-content: space-between;
       @media (max-width: $xs-max-width) {
         display: block;
+        width: 100%;
       }
       h1 {
         font-size: 1.1rem;
@@ -47,6 +86,9 @@
           }
         }
       }
+    }
+    .ant-divider {
+      margin: 5px 0 !important;
     }
   }
 }

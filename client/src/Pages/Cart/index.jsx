@@ -331,7 +331,11 @@ const CartPage = () => {
               </p>
               <p>
                 Discount{' '}
-                <span>{new Intl.NumberFormat().format(discount)}đ</span>
+                <span
+                  style={{ textDecoration: 'line-through', opacity: '0.7' }}
+                >
+                  {new Intl.NumberFormat().format(discount)}đ
+                </span>
               </p>
               <p>
                 Total <span>{new Intl.NumberFormat().format(total)}đ</span>

@@ -31,7 +31,8 @@ import PaymentSuccess from '../Pages/Payment-Success';
 import PaymentWaiting from '../Pages/Profile/waiting-payment';
 import AllProductsPage from '../Pages/Admin/Products/All-Products';
 import OrderSuccessPage from './../Pages/Profile/order-success/index';
-
+import ManagerFeaturedCategory from '../Pages/Admin/Trang-Chu/ManagerFeaturedCategory';
+import ChatPage from '../Pages/Admin/ChatBox/Chat';
 const InitRouter = [
   {
     path: '/',
@@ -142,6 +143,14 @@ const InitRouter = [
       {
         path: '/admin/all-products',
         element: <AllProductsPage />,
+      },
+      {
+        path: '/admin/manager-featured-category',
+        element: <ManagerFeaturedCategory />,
+      },
+      {
+        path: '/admin/chat',
+        element: <ChatPage />,
       },
     ],
   },

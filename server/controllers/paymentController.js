@@ -121,6 +121,7 @@ export async function paymentSuccess(req, res) {
   }
 }
 
+// Thanh toán lai cho đơn hàng đã hủy
 export async function reactivatePayment(req, res) {
   try {
     const { orderId } = req.body;

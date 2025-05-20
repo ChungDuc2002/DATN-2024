@@ -232,7 +232,7 @@ const HeaderClient = () => {
               <Link to="/products?category=Thiết bị điện tử">cửa hàng</Link>
               <div className="modal-category">
                 <Image src={logo} preview={false} />
-                <h1>Danh mục sản phẩm </h1>
+                {/* <h1>Danh mục sản phẩm </h1> */}
                 <Divider />
                 <div className="list-category">
                   <ul>

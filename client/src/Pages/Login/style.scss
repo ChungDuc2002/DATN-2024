@@ -131,6 +131,11 @@
           width: 100%;
           border: none !important;
         }
+        .ant-input-suffix {
+          .anticon-eye-invisible {
+            color: #fff !important;
+          }
+        }
       }
       // Error message Register
       .ant-form-item-explain-error {

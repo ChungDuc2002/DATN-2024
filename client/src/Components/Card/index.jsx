@@ -345,7 +345,9 @@ function ShowProduct({ id, userId }) {
           <button className="btn-action" onClick={handleAddCart}>
             Add To Cart
           </button>
-          <button className="btn-action">Mua Ngay</button>
+          <button className="btn-action" onClick={handleAddCart}>
+            Mua Ngay
+          </button>
         </div>
         <Divider />
         <p className="category">

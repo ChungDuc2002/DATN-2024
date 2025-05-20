@@ -6,6 +6,7 @@ import {
   StockOutlined,
   FilterOutlined,
   HomeOutlined,
+  WechatWorkOutlined,
 } from '@ant-design/icons';
 import './style.scss';
 import { Breadcrumb, Menu } from 'antd';
@@ -26,6 +27,7 @@ const AdminPage = () => {
       disabled: true,
       key: '/admin',
       label: 'Admin Panel',
+
       style: {
         fontSize: '2rem',
         borderBottom: '1px solid #333',
@@ -47,6 +49,17 @@ const AdminPage = () => {
       ],
     },
     {
+      key: 'sub3',
+      label: 'Chat Box',
+      icon: <WechatWorkOutlined />,
+      children: [
+        {
+          key: '/admin/chat',
+          label: 'Chat Box',
+        },
+      ],
+    },
+    {
       key: 'sub1',
       label: 'Trang chủ',
       icon: <HomeOutlined />,
@@ -62,6 +75,10 @@ const AdminPage = () => {
         {
           key: '/admin/manager-comments',
           label: 'Quản lý phản hồi',
+        },
+        {
+          key: '/admin/manager-featured-category',
+          label: 'Quản lý danh mục nổi bật',
         },
       ],
     },
@@ -108,10 +125,6 @@ const AdminPage = () => {
         {
           key: '/admin/manager-books',
           label: 'Sách Văn Phòng Phẩm',
-        },
-        {
-          key: '/admin/all-products',
-          label: 'Tất cả',
         },
       ],
     },

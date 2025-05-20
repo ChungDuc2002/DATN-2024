@@ -269,7 +269,9 @@ const ProductDetail = () => {
             <button className="btn-action" onClick={handleAddToCart}>
               Add To Cart
             </button>
-            <button className="btn-action">Mua Ngay</button>
+            <button className="btn-action" onClick={handleAddToCart}>
+              Mua Ngay
+            </button>
           </div>
           <Divider />
           <p className="category">
@@ -332,11 +334,21 @@ const ProductDetail = () => {
                   <p className="name">
                     {comment?.user?.fullName || 'Unknown User'}
                   </p>
-                  {'-'}
-                  <p className="date">
-                    {new Date(comment.createdAt).toLocaleDateString()}
-                  </p>
                 </div>
+                <p className="date">
+                  {new Date(comment.createdAt).toLocaleString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true,
+                  })}{' '}
+                  -{' '}
+                  {new Date(comment.createdAt).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </p>
                 <div className="rate-reviewed">
                   <Rate disabled value={comment.rate} />
                 </div>

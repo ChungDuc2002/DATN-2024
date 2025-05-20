@@ -6,6 +6,7 @@ import cartApi from './apiCarts.js';
 import paymentApi from './apiPayments.js';
 import favoriteApi from './apiFavorites.js';
 import orderApi from './apiOrders.js';
+import featured_categoriesApi from './apiFeatured_categories.js';
 
 export const InitRouters = (app) => {
   app.use('/', userApi);
@@ -16,4 +17,5 @@ export const InitRouters = (app) => {
   app.use('/api/payos', paymentApi);
   app.use('/favorites', favoriteApi);
   app.use('/orders', orderApi);
+  app.use('/featured_categories', featured_categoriesApi);
 };

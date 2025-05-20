@@ -78,8 +78,8 @@ export const searchOrderByCode = async (req, res) => {
 
     const order = await Order.findOne({
       orderCode: {
-        $regex: new RegExp(orderCode),
-        $options: 'i',
+        $regex: new RegExp(orderCode), // Tìm kiếm theo chuỗi con
+        $options: 'i', // Không phân biệt chữ hoa chữ thường
       },
     });
 
@@ -95,7 +95,9 @@ export const searchOrderByCode = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('products.productId');
+    const orders = await Order.find({
+      status_payment: 'Completed',
+    }).populate('products.productId');
 
     return res.status(200).json(orders);
   } catch (error) {
@@ -207,7 +209,6 @@ export const updateOrderStatus = async (req, res) => {
 
     await order.save();
 
-    //! Xóa thông báo sau 5 phút
     setTimeout(async () => {
       try {
         const updatedOrder = await Order.findOne({ _id: orderId });

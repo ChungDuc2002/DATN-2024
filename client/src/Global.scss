@@ -42,6 +42,7 @@ ul {
     font-size: 2.5rem;
   }
 }
+
 //* Button edit và xóa trong bảng quản lý
 .btn-action {
   color: #ffff;
@@ -63,7 +64,58 @@ ul {
     border: none !important;
   }
 }
-//* border của button backtop homepage
+//* border của button back top homepage
 .ant-float-btn {
   border: 1px solid #333 !important;
+}
+
+//* button message
+.icon-message {
+  position: fixed;
+  right: 25px;
+  bottom: 13%;
+  .chatBtn {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffe53b;
+    background-image: linear-gradient(147deg, #ffe53b, #ff2525, #ffe53b);
+    cursor: pointer;
+    padding-top: 3px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.164);
+    position: relative;
+    background-size: 300%;
+    background-position: left;
+    transition-duration: 1s;
+  }
+
+  .tooltip {
+    position: absolute;
+    top: -40px;
+    opacity: 0;
+    background-color: rgb(255, 180, 82);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.5s;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+  }
+
+  .chatBtn:hover .tooltip {
+    opacity: 1;
+    transition-duration: 0.5s;
+  }
+
+  .chatBtn:hover {
+    background-position: right;
+    transition-duration: 1s;
+  }
 }

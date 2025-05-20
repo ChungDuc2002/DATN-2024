@@ -30,7 +30,10 @@ const ManagerOrder = () => {
     const getAllOrders = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:5000/orders/getAllOrders'
+          'http://localhost:5000/orders/getAllOrders',
+          {
+            params: { status_payment: 'Completed' },
+          }
         );
         setOrders(res.data);
       } catch (error) {
@@ -64,8 +67,7 @@ const ManagerOrder = () => {
         return 'status-completed';
       case 'Shipping':
         return 'status-shipping';
-      case 'Cancelled':
-        return 'status-cancelled';
+
       default:
         return '';
     }
@@ -174,8 +176,6 @@ const ManagerOrder = () => {
         <Search
           placeholder="Search by order code ..."
           allowClear
-          // onChange={(e) => onSearch(e.target.value)}
-          // onSearch={handleSearch}
           onChange={handleSearchChange}
         />
         <div className="group-select" onChange={handleFilterChange}>
@@ -185,7 +185,7 @@ const ManagerOrder = () => {
             <option value="Processing">Processing</option>
             <option value="Shipping">Shipping</option>
             <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
+            {/* <option value="Cancelled">Cancelled</option> */}
           </select>
         </div>
       </div>
@@ -237,7 +237,7 @@ function ChangeStatusOrder({ id, onCancel }) {
     { value: 'Processing', label: 'Processing' },
     { value: 'Shipping', label: 'Shipping' },
     { value: 'Completed', label: 'Completed' },
-    { value: 'Cancelled', label: 'Cancelled' },
+    // { value: 'Cancelled', label: 'Cancelled' },
   ];
 
   const handleCancel = () => {

@@ -46,7 +46,7 @@ export async function getProductCountOverTime(req, res) {
 export async function getProductByComments(req, res) {
   try {
     const products = await Products.find({ 'comments.0': { $exists: true } })
-      .populate('comments.user', 'fullName') // Populate thông tin người dùng trong bình luận
+      .populate('comments.user', 'fullName')
       .exec();
 
     if (products.length === 0) {
@@ -64,9 +64,8 @@ export async function getProductByComments(req, res) {
 //* LOGIC SEARCH PRODUCT BY NAME
 export async function searchProductByName(req, res) {
   try {
-    const { name, sort } = req.query;
+    const { name, sort, categories, prices } = req.query;
     let sortOption = {};
-
     switch (sort) {
       case 'price-asc':
         sortOption = { price: 1 };
@@ -80,12 +79,28 @@ export async function searchProductByName(req, res) {
       default:
         sortOption = {};
     }
+
     const searchName = typeof name === 'string' ? name : '';
-
-    const products = await Products.find({
+    let filter = {
       name: { $regex: searchName, $options: 'i' },
-    }).sort(sortOption);
+    };
 
+    if (categories) {
+      filter.category = { $in: categories.split(',') };
+    }
+
+    if (prices) {
+      const priceRanges = prices.split(',').map((price) => {
+        const [min, max] = price.split('-').map(Number);
+        return { min, max: max || Infinity };
+      });
+
+      filter.$or = priceRanges.map((range) => ({
+        price: { $gte: range.min, $lte: range.max },
+      }));
+    }
+
+    const products = await Products.find(filter).sort(sortOption);
     return res.status(200).json(products);
   } catch (error) {
     return res.status(500).json({ message: error.message });

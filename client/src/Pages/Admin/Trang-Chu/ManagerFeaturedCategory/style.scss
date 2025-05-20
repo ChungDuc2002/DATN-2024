@@ -1,0 +1,29 @@
+.wrapper-manager-feature-category {
+  .group-btn {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+    .btn-add-feature-category {
+      background-color: blue !important;
+      color: #fff;
+      border: none;
+      &:hover {
+        color: #fff;
+        background-color: rgb(36, 36, 192) !important;
+        scale: initial !important;
+      }
+    }
+  }
+  // căn giữa các cột trong bảng
+  .ant-table-thead {
+    tr {
+      .ant-table-cell {
+        text-align: center;
+      }
+    }
+  }
+  // căn giữa các dòng trong bảng
+  .ant-table-cell {
+    text-align: center;
+  }
+}

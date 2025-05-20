@@ -27,6 +27,10 @@ import Card from '../../Components/Card';
 import Ribbon from 'antd/es/badge/Ribbon';
 
 const HomePage = () => {
+  //* Featured Categories
+
+  const [featuredCategories, setFeaturedCategories] = useState([]);
+
   //* Banner
   const [listBanner, setListBanner] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -107,6 +111,16 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
+    const getFeaturedCategories = async () => {
+      const res = await axios.get(
+        'http://localhost:5000/featured_categories/getAllFeaturedCategories'
+      );
+      setFeaturedCategories(res.data);
+    };
+    getFeaturedCategories();
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % listBanner.length);
     }, 5000);
@@ -115,56 +129,6 @@ const HomePage = () => {
     };
   }, [listBanner]);
 
-  const mockDataOutstanding = [
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-01.jpg',
-      title: 'Thiết bị điện tử',
-      link: '/products?category=Thiết bị điện tử',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-03.jpg',
-      title: 'TV & Home Appliances',
-      link: '/products?category=TV Home Appliances',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-04.jpg',
-      title: 'Health & Beauty',
-      link: '/products?category=Health Beauty',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-06.jpg',
-      title: 'Home & Kitchen',
-      link: '/products?category=Home Kitchen',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-07.jpg',
-      title: 'Sports & Travel',
-      link: '/products?category=Sports Travel',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-08.jpg',
-      title: 'Book & Audible',
-      link: '/products?category=Book Audible',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-10.jpg',
-      title: 'Game & Toys',
-      link: '/products?category=Game Toys',
-    },
-    {
-      image:
-        'https://office-sup.monamedia.net/wp-content/uploads/2021/06/cat-home2-12.jpg',
-      title: 'Pet Supplies',
-      link: '/products?category=Pet Supplies',
-    },
-  ];
   return (
     <div className="wrapper-home">
       <div className="container wrapper-home-header">
@@ -273,20 +237,31 @@ const HomePage = () => {
         </div>
       </div>
       <div className="container wrapper-home-outstanding-products">
-        <h2 className="title-outstanding">danh mục nổi bật</h2>
+        <div className="title">
+          <h2 className="title-outstanding">danh mục nổi bật</h2>
+        </div>
         <div className="form-outstanding">
-          {mockDataOutstanding?.map((item, index) => (
-            <Link to={item.link} key={index} className="render_outstanding">
+          {featuredCategories.map((item, index) => (
+            <Link
+              to={`/products?category=${item.link}`}
+              key={index}
+              className="render_outstanding"
+            >
               <div className="image">
-                <Image src={item.image} preview={false} />
+                <Image
+                  src={require(`../../../../server/uploads/${item.image}`)}
+                  preview={false}
+                />
               </div>
-              <p className="title">{item.title}</p>
+              <p className="title">{item.name}</p>
             </Link>
           ))}
         </div>
       </div>
       <div className="container wrapper-home-preferential-products">
-        <h2 className="title-preferential">sản phẩm giảm giá</h2>
+        <div className="title">
+          <h2 className="title-preferential">sản phẩm giảm giá</h2>
+        </div>
         <Swiper
           modules={[Pagination]}
           breakpoints={{
@@ -320,7 +295,11 @@ const HomePage = () => {
       <div className="container wrapper-home-fashion-products">
         <div className="title">
           <h2 className="title-products">Sản phẩm thời trang</h2>
-          <button>
+          <button
+            onClick={() => {
+              window.location.href = '/products?category=Fashion Clothing';
+            }}
+          >
             Xem tất cả <ArrowRightOutlined />
           </button>
         </div>
@@ -355,7 +334,11 @@ const HomePage = () => {
       <div className="container wrapper-home-electronics-products">
         <div className="title">
           <h2 className="title-products">Thiết bị điện tử</h2>
-          <button>
+          <button
+            onClick={() => {
+              window.location.href = '/products?category=Thiết bị điện tử';
+            }}
+          >
             Xem tất cả <ArrowRightOutlined />
           </button>
         </div>
@@ -390,7 +373,11 @@ const HomePage = () => {
       <div className="container wrapper-home-book-products">
         <div className="title">
           <h2 className="title-products">Sách & Âm thanh</h2>
-          <button>
+          <button
+            onClick={() => {
+              window.location.href = '/products?category=Book Audible';
+            }}
+          >
             Xem tất cả <ArrowRightOutlined />
           </button>
         </div>
